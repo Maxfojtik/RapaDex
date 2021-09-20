@@ -12,3 +12,12 @@
 .copiable {
 	cursor: pointer;
 }
+.work-table {
+	text-align: center;
+}
+.badge.badge-blue {
+   background-color: blue;
+} 
+.badge.badge-purple {
+   background-color: purple;
+} 
