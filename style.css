@@ -1,0 +1,14 @@
+#searchInput {
+	width: 25%;
+	margin-bottom: 10px;
+}
+#mainTitle {
+	margin-bottom: 20px;
+	margin-top: 20px;
+}
+.header-inline {
+	padding-right: 10px;
+}
+.copiable {
+	cursor: pointer;
+}
