@@ -15,15 +15,18 @@
 .work-table {
 	text-align: center;
 }
-.badge.badge-blue {
+.badge.badge-max {
    background-color: blue;
 } 
-.badge.badge-purple {
+.badge.badge-evan {
    background-color: purple;
 } 
-.badge.badge-pink {
+.badge.badge-chloe {
+   background-color: #ffdfed;
+} 
+.badge.badge-brennan {
    background-color: #aefad8;
 } 
-.badge.badge-teal {
-   background-color: teal;
+.badge.badge-todd {
+   background-color: #dd0000;
 } 
