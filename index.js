@@ -1,14 +1,24 @@
 //useful links
 //guess at safeware or fortegra
 
+function keyDownHandler(event)
+{
+	if(event.key=='Escape')
+	{
+		backToTable();
+	}
+	//console.log(event);
+}
+
 $( document ).ready(function() {
   $( "#searchInput" ).select();
+  document.addEventListener('keydown', keyDownHandler);
 });
 $(document).on('click', '.copiable', function () {
 	text = event.target.getAttribute("data-text");
 	copyTextToClipboard(text);
-	new bootstrap.Toast($('#liveToast')).show();
 	$('#toastText').text("Copied \""+text+"\" to clipboard");
+	new bootstrap.Toast($('#liveToast')).show();
 });
 
 function clickRow(rowNumber)
@@ -21,7 +31,10 @@ function backToTable()
 	$( "#mainTable" ).show();
 	$( "#repairForm" ).hide();
 }
-
+function addWork()
+{
+	new bootstrap.Toast($('#addWorkToast')).show();
+}
 function fallbackCopyTextToClipboard(text) {
   var textArea = document.createElement("textarea");
   textArea.value = text;
