@@ -33,6 +33,11 @@
 .workButton {
    width: 100%;
 } 
+.secondRowAddWork {
+	width: 625px;
+	margin-right: 10px;
+	margin-top: 10px;
+} 
 .backButton 
 {
   width: 100%;
@@ -44,6 +49,9 @@
 .backButton {
   z-index: 10;
 }
-.floatTopLeft {
-	
+.workSelector {
+	width: 250px;
+}
+.saveWorkCol {
+	padding-left: 0px;
 }

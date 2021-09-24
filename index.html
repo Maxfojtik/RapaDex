@@ -261,24 +261,36 @@
 			</div>
 		</div>
 		<div class="position-fixed top-50 start-50 translate-middle" style="z-index: 11">
-			<div class="toast align-items-center border-0" role="alert" id="addWorkToast" aria-live="assertive" aria-atomic="true" data-bs-autohide="false" style="width: 700px">
+			<div class="toast align-items-center border-0" role="alert" id="addWorkToast" aria-live="assertive" aria-atomic="true" data-bs-autohide="false" style="width: 650px">
 				<div class="toast-header">
 					<strong class="me-auto">Add Work</strong>
 					<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
 				</div>
 				<div class="toast-body" id="toastText">
 					<div class="row">
+						<div class="col-2" style="padding-top:6px; padding-left:15px; padding-right:150px;">
+							<input type="date" value="2018-07-22">
+						</div>
 						<div class="col">
-							<select class="form-select header-inline" aria-label="Default select example">
-								<option selected>Submitted Claim</option>
+							<select class="form-select header-inline workSelector" aria-label="Default select example">
+								<option value="0" selected>Submitted Claim</option>
 								<option value="1">Submitted RFA</option>
 								<option value="2">Ordered Parts</option>
+								<option value="2">Finished</option>
 								<option value="3">Note</option>
 							</select>
 						</div>
+						<div class="col saveWorkCol">
+							<button type="button" style="width: 100%" class="btn btn-primary header-inline" onclick="saveWork()">Save</button>		
+						</div>	
+						<div class="col saveWorkCol">
+							<button type="button" style="width: 100%" class="btn btn-primary header-inline" onclick="changeEmployee()">Save As</button>		
+						</div>		
+					</div>
+					<div class="row">
 						<div class="col">
-							<input type="email" class="form-control header-inline" id="exampleFormControlInput1" placeholder="notes">
-						</div>
+							<input type="notes" class="form-control header-inline secondRowAddWork" id="exampleFormControlInput1" placeholder="notes (optional)">
+						</div>					
 					</div>
 				</div>
 			</div>
