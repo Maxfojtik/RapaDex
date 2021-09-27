@@ -11,8 +11,12 @@ function keyDownHandler(event)
 }
 
 $( document ).ready(function() {
-  $( "#searchInput" ).select();
-  document.addEventListener('keydown', keyDownHandler);
+	$( "#searchInput" ).select();
+	document.addEventListener('keydown', keyDownHandler);
+	var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+	var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+	  return new bootstrap.Popover(popoverTriggerEl)
+	});
 });
 $(document).on('click', '.copiable', function () {
 	text = event.target.getAttribute("data-text");
@@ -20,7 +24,20 @@ $(document).on('click', '.copiable', function () {
 	$('#toastText').text("Copied \""+text+"\" to clipboard");
 	new bootstrap.Toast($('#liveToast')).show();
 });
+function closeSaveAsPopover()
+{
+	var popover = bootstrap.Popover.getInstance($('#saveAsButton'));
+	if(popover)
+	{
+		popover.hide();
+	}
+}
+function changeEmployee()
+{
+	//var elementEl = $("#saveAsButton");;
+	//var tooltip = new bootstrap.Tooltip(elementEl);
 
+}
 function clickRow(rowNumber)
 {
 	$( "#repairForm" ).show();

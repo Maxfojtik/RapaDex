@@ -6,7 +6,6 @@
 		<link href="style.css" rel="stylesheet">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
-		
 		<script src="backend.js"></script>
 		<script src="index.js"></script>
 		<title>RepaDex</title>
@@ -123,24 +122,10 @@
 						</div>
 					</div>-->
 					<div class="row">
-						<div class="col-2">
-							<h5 class="d-inline-flex header-inline text-muted">Employee</h5>
-						</div>
-						<div class="col-4">
-							<h5 class="d-inline-flex header-inline">MF</h5>
-						</div>
 						<div class="col">
 							<h5 class="d-inline-flex header-inline">Evan Lawrence</h5>
 							<h5 class="d-inline-flex header-inline text-muted copiable" data-text="lawrence.709@osu.edu">lawrence.709@osu.edu</h5>
 							<h5 class="d-inline-flex header-inline text-muted">(419) 508-2393</h5>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-2">
-							<h5 class="d-inline-flex header-inline text-muted copiable" data-text="4">Reference Number</h5>
-						</div>
-						<div class="col-4">
-							<h5 class="d-inline-flex header-inline copiable" data-text="4">4</h5>
 						</div>
 						<div class="col-2">
 							<h5 class="d-inline-flex header-inline text-muted">Serial Number</h5>
@@ -151,10 +136,10 @@
 					</div>
 					<div class="row">
 						<div class="col-2">
-							<h5 class="d-inline-flex header-inline text-muted">Start Date</h5>
+							<h5 class="d-inline-flex header-inline text-muted copiable" data-text="4">Reference Number</h5>
 						</div>
-						<div class="col">
-							<h5 class="d-inline-flex header-inline">9/17/2021</h5>
+						<div class="col-4">
+							<h5 class="d-inline-flex header-inline copiable" data-text="4">4</h5>
 						</div>
 						<div class="col-2">
 							<h5 class="d-inline-flex header-inline text-muted">Model</h5>
@@ -165,10 +150,10 @@
 					</div>
 					<div class="row">
 						<div class="col-2">
-							<h5 class="d-inline-flex header-inline text-muted">Last Touched</h5>
+							<h5 class="d-inline-flex header-inline text-muted">Start Date</h5>
 						</div>
 						<div class="col">
-							<h5 class="d-inline-flex header-inline">9/20/2021</h5>
+							<h5 class="d-inline-flex header-inline">9/17/2021</h5>
 						</div>
 						<div class="col-2">
 							<h5 class="d-inline-flex header-inline text-muted">Warranty</h5>
@@ -179,17 +164,25 @@
 					</div>
 					<div class="row">
 						<div class="col-2">
-							<h5 class="d-inline-flex header-inline text-muted">Accesories</h5>
+							<h5 class="d-inline-flex header-inline text-muted">Last Touched</h5>
 						</div>
 						<div class="col">
-							<h5 class="d-inline-flex header-inline">-</h5>
+							<h5 class="d-inline-flex header-inline">9/20/2021</h5>
 						</div>
 						<div class="col-2">
 							<h5 class="d-inline-flex header-inline text-muted">Loaner Computer</h5>
 						</div>
 						<div class="col-4">
-							<!--<button type="button" class="btn btn-primary btn-success" onclick="issueLoaner()">Goto Form</button>-->
-							<button type="button" class="btn btn-primary btn-danger" onclick="issueLoaner()">Issue Loaner</button>
+							<!--<button type="button" class="btn btn-primary btn-success loanerButton" onclick="issueLoaner()">Goto Form</button>-->
+							<button type="button" class="btn btn-primary btn-danger loanerButton" onclick="issueLoaner()">Issue Loaner</button>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-2">
+							<h5 class="d-inline-flex header-inline text-muted">Accesories</h5>
+						</div>
+						<div class="col">
+							<h5 class="d-inline-flex header-inline">-</h5>
 						</div>
 					</div>
 					<div class="row">
@@ -264,7 +257,7 @@
 			<div class="toast align-items-center border-0" role="alert" id="addWorkToast" aria-live="assertive" aria-atomic="true" data-bs-autohide="false" style="width: 650px">
 				<div class="toast-header">
 					<strong class="me-auto">Add Work</strong>
-					<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+					<button type="button" class="btn-close" data-bs-dismiss="toast" onclick="closeSaveAsPopover();" aria-label="Close"></button>
 				</div>
 				<div class="toast-body" id="toastText">
 					<div class="row">
@@ -284,7 +277,14 @@
 							<button type="button" style="width: 100%" class="btn btn-primary header-inline" onclick="saveWork()">Save</button>		
 						</div>	
 						<div class="col saveWorkCol">
-							<button type="button" style="width: 100%" class="btn btn-primary header-inline" onclick="changeEmployee()">Save As</button>		
+							<button type="button" id="saveAsButton" style="width: 100%" class="btn btn-primary header-inline" onclick="changeEmployee()" data-bs-toggle="popover" data-bs-html="true" title="Save As" data-bs-content='
+							<div class="overflow-auto insideSaveAs">
+							<span class="badge rounded-pill badge-todd badge-spaced">Todd</span>
+							<span class="badge rounded-pill badge-max badge-spaced">Max</span>
+							<span class="badge rounded-pill badge-evan badge-spaced">Evan</span>
+							<span class="badge rounded-pill badge-chloe text-dark badge-spaced">Chloe</span>
+							<span class="badge rounded-pill badge-brennan text-dark badge-spaced">Brennan</span>
+							</div>'>Save As</button>		
 						</div>		
 					</div>
 					<div class="row">
