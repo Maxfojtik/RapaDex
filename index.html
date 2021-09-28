@@ -21,9 +21,9 @@
 						<th scope="col">Name</th>
 						<th scope="col">Reference #</th>
 						<th scope="col">Device Name</th>
+						<th scope="col">Serial Number</th>
 						<th scope="col">Started</th>
 						<th scope="col">Status</th>
-						<th scope="col">Serial Number</th>
 					  </tr>
 					  </thead>
 					  <tbody>
@@ -31,41 +31,41 @@
 						<th scope="row">Maxwell Fojtik</th>
 						<td>1</td>
 						<td>iPad Air 4</td>
+						<td>DMPZ10ADQ16M</td>
 						<td>9/19/2021</td>
 						<td>Waiting on DEP</td>
-						<td>DMPZ10ADQ16M</td>
 					  </tr>
 					  <tr class="table-warning">
 						<th scope="row">Cory Saffle</th>
 						<td>2</td>
 						<td>2020 MacBook Pro 16"</td>
+						<td>C02Y71V7JV3Q</td>
 						<td>9/18/2021</td>
 						<td>Sent To Apple</td>
-						<td>C02Y71V7JV3Q</td>
 					  </tr>
 					  <tr class="table-danger">
 						<th scope="row">Chloe Degitz</th>
 						<td>3</td>
 						<td>2020 MacBook Air 13"</td>
+						<td>C02VJ210J1WL</td>
 						<td>9/15/2021</td>
 						<td>Emailed, waiting for response</td>
-						<td>C02VJ210J1WL</td>
 					  </tr>
 					  <tr class="table-success" onclick="clickRow(1)">
 						<th scope="row">Evan Lawrence</th>
 						<td>4</td>
 						<td>2018 MacBook Air 13"</td>
+						<td>HJVF39M7JKM9</td>
 						<td>9/17/2021</td>
 						<td>Parts Arrived</td>
-						<td>HJVF39M7JKM9</td>
 					  </tr>
 					  <tr class="table-info">
 						<th scope="row">Brennan Finley</th>
 						<td>5</td>
 						<td>2020 Dell XPS 15</td>
+						<td>FHIUAS</td>
 						<td>9/15/2021</td>
 						<td>Parts Ordered</td>
-						<td>FHIUAS</td>
 					  </tr>
 				</table>
 			</div>
@@ -265,12 +265,13 @@
 							<input type="date" value="2018-07-22">
 						</div>
 						<div class="col">
-							<select class="form-select header-inline workSelector" aria-label="Default select example">
+							<select class="form-select header-inline workSelector" aria-label="Select work completed">
 								<option value="0" selected>Submitted Claim</option>
-								<option value="1">Submitted RFA</option>
-								<option value="2">Ordered Parts</option>
-								<option value="2">Finished</option>
-								<option value="3">Note</option>
+								<option value="1">Diagnosed</option>
+								<option value="2">Submitted RFA</option>
+								<option value="3">Ordered Parts</option>
+								<option value="4">Finished</option>
+								<option value="5">Note</option>
 							</select>
 						</div>
 						<div class="col saveWorkCol">
