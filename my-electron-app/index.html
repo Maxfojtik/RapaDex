@@ -69,7 +69,7 @@
 					  </tr>
 				</table>
 			</div>
-			<div id="repairForm">
+			<div id="repairForm" style="display:none;">
 				<ul class="nav nav-tabs">
 					<li class="nav-item">
 						<button type="button" class="btn btn-secondary" onclick="backToTable()"><-</button>
@@ -85,42 +85,6 @@
 					</li>
 				</ul>
 				<div class="custom-info-table">
-					<!--<div class="row">
-						<div class="col">
-							<h5 class="d-inline-flex header-inline text-muted">Employee</h5>
-							<h2 class="d-inline-flex header-inline">MF</h2>
-							<h5 class="d-inline-flex header-inline text-muted copiable" data-text="4">Reference Number</h5>
-							<h2 class="d-inline-flex header-inline copiable" data-text="4">4</h2>
-						</div>
-						<div class="col">
-							<nav aria-label="Page navigation example">
-							  <ul class="pagination">
-								<li class="page-item"><a class="page-link" href="#">1</a></li>
-								<li class="page-item"><a class="page-link" href="#">2</a></li>
-								<li class="page-item active"><a class="page-link" href="#">3</a></li>
-							  </ul>
-							</nav>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col">
-							<h2 class="d-inline-flex header-inline">Evan Lawrence</h2>
-							<h5 class="d-inline-flex header-inline text-muted copiable" data-text="lawrence.709@osu.edu">lawrence.709@osu.edu</h5>
-							<h5 class="d-inline-flex header-inline text-muted">(419) 508-2393</h5>
-						</div>
-						<div class="col">
-							<h2 class="d-inline-flex header-inline copiable" data-text="HJVF39M7JKM9">HJVF39M7JKM9</h2>
-							<h5 class="d-inline-flex header-inline text-muted">MacBook Air 13"</h5>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col">
-						</div>
-						<div class="col">
-							<h5 class="d-inline-flex header-inline text-muted">Warranty</h5>
-							<h2 class="d-inline-flex header-inline copiable" data-text="HJVF39M7JKM9">Safeware</h2>
-						</div>
-					</div>-->
 					<div class="row">
 						<div class="col">
 							<h5 class="d-inline-flex header-inline">Evan Lawrence</h5>
@@ -242,6 +206,80 @@
 				  </tbody>
 				</table>
 				<button type="button" class="btn btn-success workButton" onclick="addWork()">+</button>
+			</div>
+			<div id="intakeForm" style="display:block">
+				<div class="row" style="width:50%">
+					<div class="col-1">
+						<button type="button" class="btn btn-secondary" onclick="backToTable()"><-</button> 
+					</div>
+					<div class="col">
+						<h2>Reference Number: 4</h2>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-group mb-3 col">
+						<span class="input-group-text" id="basic-addon1">Name.Number</span>
+						<input type="text" class="form-control" placeholder="buckeye.1" aria-label="Name.Number" aria-describedby="basic-addon1">
+					</div>
+					<div class="input-group mb-3 col">
+						<span class="input-group-text" id="basic-addon1">Serial Number</span>
+						<input type="text" class="form-control" placeholder="ABCDEFGHI" aria-label="ABCDEFGHI" aria-describedby="basic-addon1">
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-group mb-3 col">
+						<span class="input-group-text" id="basic-addon1">Customer Name</span>
+						<input type="text" class="form-control" placeholder="Brutus Buckeye" aria-label="Brutus Buckeye" aria-describedby="basic-addon1">
+					</div>
+					<div class="input-group mb-3 col">
+						<span class="input-group-text" id="basic-addon1">Make</span>
+						<select class="form-select" aria-label="Default select example">
+							<option selected>Apple</option>
+							<option value="1">Dell</option>
+							<option value="2">Microsoft</option>
+							<option value="3">Other</option>
+						</select>
+						<input type="text" class="form-control" placeholder="Specify" aria-label="Specify" aria-describedby="basic-addon1" style="display:none;">
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-group mb-3 col">
+						<span class="input-group-text" id="basic-addon1">Email</span>
+						<input type="text" class="form-control" placeholder="buckeye.1@osu.edu" aria-label="buckeye.1@osu.edu" aria-describedby="basic-addon1">
+					</div>
+					<div class="input-group mb-3 col">
+						<span class="input-group-text" id="basic-addon1">Model</span>
+						<select class="form-select" aria-label="Default select example">
+							<option selected>Macbook Pro 13"</option>
+							<option value="1">Macbook Pro 16"</option>
+							<option value="2">Macbook Air 13"</option>
+							<option value="3">Macbook</option>
+						</select>
+						<input type="text" class="form-control" placeholder="Specify" aria-label="Specify" aria-describedby="basic-addon1" style="display:none;">
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-group mb-3 col">
+						<span class="input-group-text" id="basic-addon1">Phone Number</span>
+						<input type="text" class="form-control" placeholder="614-292-8883" aria-label="614-292-8883" aria-describedby="basic-addon1">
+					</div>
+					<div class="input-group mb-3 col">
+						<span class="input-group-text" id="basic-addon1">Password</span>
+						<input type="text" class="form-control" placeholder="" aria-label="01-01-1870" aria-describedby="basic-addon1">
+					</div>
+				</div>
+				<div class="input-group mb-3 col">
+					<span class="input-group-text" id="basic-addon1">Accesories</span>
+					<input type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1">
+				</div>
+				<div class="input-group mb-3 col">
+					<span class="input-group-text" id="basic-addon1">Intake Notes</span>
+					<input type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1">
+				</div>
+				<div class="input-group mb-3 col">
+					<span class="input-group-text" id="basic-addon1">Problem</span>
+					<textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+				</div>
 			</div>
 		</div>
 		<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
