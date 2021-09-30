@@ -8,7 +8,6 @@ function keyDownHandler(event)
 	}
 	//console.log(event);
 }
-
 $( document ).ready(function() {
 	$( "#searchInput" ).select();
 	document.addEventListener('keydown', keyDownHandler);
@@ -30,6 +29,29 @@ function closeSaveAsPopover()
 	{
 		popover.hide();
 	}
+}
+function markSelectedPill(thePill, theName)
+{
+	thePill.className = 'badge rounded-pill badge-'+theName+' badge-spaced';
+}
+function markDeselectedPill(thePill, theName)
+{
+	thePill.className = 'badge rounded-pill badge-'+theName+'-ns badge-not-selected text-dark badge-spaced';
+}
+function selectPill(name)
+{
+	var allPills = $(".workerSelect").children();
+	var thePill;
+	for(var i = 0; i < allPills.length; i++)
+	{
+		var theName = allPills[i].innerHTML;
+		markDeselectedPill(allPills[i], theName);
+		if(theName==name)
+		{
+			thePill = allPills[i];
+		}
+	}
+	markSelectedPill(thePill, name);
 }
 function changeEmployee()
 {

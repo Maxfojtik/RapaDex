@@ -15,24 +15,64 @@
 .work-table {
 	text-align: center;
 }
-.badge.badge-max {
+.badge-max {
    background-color: blue;
 } 
-.badge.badge-evan {
+.badge-evan {
    background-color: purple;
 } 
-.badge.badge-chloe {
+.badge-chloe {
    background-color: #ffdfed;
 } 
-.badge.badge-brennan {
+.badge-brennan {
    background-color: #aefad8;
 } 
-.badge.badge-todd {
+.badge-todd {
    background-color: #dd0000;
 } 
-.badge.badge-spaced {
+.badge-cory {
+   background-color: #eb8034;
+} 
+.badge-dave {
+   background-color: #FF00FF;
+} 
+.badge-mike {
+   background-color: #000000;
+} 
+.badge-not-selected {
+	background-color: transparent;
+	border: 1px solid transparent;
+}
+.badge-max-ns {
+   border-color: blue;
+} 
+.badge-evan-ns {
+   border-color: purple;
+} 
+.badge-chloe-ns {
+   border-color: #ffdfed;
+} 
+.badge-brennan-ns {
+   border-color: #aefad8;
+} 
+.badge-todd-ns {
+   border-color: #dd0000;
+} 
+.badge-todd-ns {
+   border-color: #dd0000;
+} 
+.badge-dave-ns {
+   border-color: #FF00FF;
+} 
+.badge-mike-ns {
+   border-color: #000000;
+} 
+.badge-spaced {
 	margin-top:2px;
 	cursor: pointer;
+} 
+.workerSelect {
+   padding-bottom: 8px;
 } 
 .workButton {
    width: 100%;
