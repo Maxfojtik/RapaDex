@@ -16,7 +16,7 @@
 	text-align: center;
 }
 .badge-max {
-   background-color: blue;
+   background-color: 00eaff;
 } 
 .badge-evan {
    background-color: purple;
@@ -68,6 +68,10 @@
    border-color: #000000;
 } 
 .badge-spaced {
+	margin-top:2px;
+	cursor: pointer;
+} 
+.badge {
 	margin-top:2px;
 	cursor: pointer;
 } 

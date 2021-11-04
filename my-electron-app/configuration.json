@@ -20,10 +20,12 @@
 					"Cracked LCD",
 					"Cracked Glass",
 					"Sticky Keys",
-					"Damaged Enclosure"
+					"Damaged Enclosure",
+					"No Backlight"
 				]
 			},
 			"pencil": {
+				"digitalFlagshipSwitch": true,
 				"commonName": "Pencil",
 				"commonProblems": [
 					"Connects but does not write",
@@ -33,11 +35,20 @@
 				]
 			},
 			"keyboard": {		
+				"digitalFlagshipSwitch": true,
 				"commonName": "Keyboard",		
 				"commonProblems": [
 					"Sticky Keys",
 					"Does not connect",
 					"Damaged Enclosure"
+				]
+			},
+			"imac": {		
+				"commonName": "iMac",
+				"commonProblems": [
+					"Drive Failure",
+					"No Power",
+					"Firmware Password Removal"
 				]
 			}
 			"Other":true
@@ -62,14 +73,14 @@
 			"Other":true
 		},
 		"Microsoft": {
-			"Surface Laptop":{
-			
+			"surfaceLaptop":{
+				"commonName": "Surface Laptop"
 			},
-			"Surface Pro": {
-			
+			"surfacePro": {
+				"commonName": "Surface Pro"
 			},
-			"Surface Book": {
-			
+			"surfaceBook": {
+				"commonName": "Surface Book"
 			},
 			"Other":true
 		}
@@ -80,20 +91,16 @@
 			"black-text": false
 		},
 		"Dave": {
-			"color": "#FF00FF",
+			"color": "#ff00ff",
 			"black-text": true
-		},
-		"Mike": {
-			"color": "#000000",
-			"black-text": false
 		},
 		"Cory": {
 			"color": "#ae59e3",
 			"black-text": true
 		},
 		"Max": {
-			"color": "#00FF00",
-			"black-text": false
+			"color": "#00eaff",
+			"black-text": true
 		},
 		"Evan": {
 			"color": "#8e00b5",
@@ -106,6 +113,26 @@
 		"Brennan": {
 			"color": "#aefad8",
 			"black-text": true
+		},
+		"Helin": {
+			"color": "#unknown",
+			"black-text": true
+		},
+		"Donovan": {
+			"color": "#e6e600",
+			"black-text": true
+		},
+		"Stephanie": {
+			"color": "#00ff00",
+			"black-text": true
+		},
+		"Trent": {
+			"color": "#unknown",
+			"black-text": true
+		},
+		"Johnathan": {
+			"color": "#000000",
+			"black-text": false
 		}
 	}
 }
