@@ -218,7 +218,7 @@
 				</div>
 				<h4>
 					<div class="workerSelect">
-							<span id="selectEmployeeTodd" class="badge rounded-pill badge-todd badge-spaced" onclick="selectPill('Todd')">Todd</span>
+							<span id="selectEmployeeTodd" class="badge rounded-pill badge-todd-ns badge-not-selected text-dark badge-spaced" onclick="selectPill('Todd')">Todd</span>
 							<span id="selectEmployeeDave" class="badge rounded-pill badge-dave-ns badge-not-selected text-dark badge-spaced" onclick="selectPill('Dave')">Dave</span>
 							<span id="selectEmployeeMike" class="badge rounded-pill badge-mike-ns badge-not-selected text-dark badge-spaced" onclick="selectPill('Mike')">Mike</span>
 							<span id="selectEmployeeMax" class="badge rounded-pill badge-max-ns badge-not-selected text-dark badge-spaced" onclick="selectPill('Max')">Max</span>
@@ -230,7 +230,7 @@
 				<div class="row">
 					<div class="input-group mb-3 col">
 						<span class="input-group-text" id="basic-addon1">Dot Number</span>
-						<input type="text" class="form-control" placeholder="buckeye.1" aria-label="Name.Number" aria-describedby="basic-addon1">
+						<input type="text" class="form-control" placeholder="buckeye.1" aria-label="Name.Number" aria-describedby="basic-addon1" onblur="findPerson()">
 					</div>
 					<div class="input-group mb-3 col">
 						<span class="input-group-text" id="basic-addon1">Serial Number</span>
@@ -244,13 +244,13 @@
 					</div>
 					<div class="input-group mb-3 col">
 						<span class="input-group-text" id="basic-addon1">Make</span>
-						<select class="form-select" aria-label="Default select example">
-							<option selected>Apple</option>
-							<option value="1">Dell</option>
-							<option value="2">Microsoft</option>
-							<option value="3">Other</option>
-						</select>
-						<input type="text" class="form-control" placeholder="Specify" aria-label="Specify" aria-describedby="basic-addon1" style="display:none;">
+						<div id="makeSelector" class="btn-group" role="group" aria-label="Make Select">
+							<button id="makeApple" type="button" class="btn btn-outline-primary" onclick="makeSelect('Apple')">Apple</button>
+							<button id="makeDell" type="button" class="btn btn-outline-primary" onclick="makeSelect('Dell')">Dell</button>
+							<button id="makeMicrosoft" type="button" class="btn btn-outline-primary" onclick="makeSelect('Microsoft')">Microsoft</button>
+							<button id="makeOther" type="button" class="btn btn-outline-primary" onclick="makeSelect('Other')">Other</button>
+						</div>
+						<input id='makeOtherBox' type="text" class="form-control" placeholder="Specify" aria-label="Specify" aria-describedby="basic-addon1" style="display:none;">
 					</div>
 				</div>
 				<div class="row">
@@ -258,15 +258,32 @@
 						<span class="input-group-text" id="basic-addon1">Email</span>
 						<input type="text" class="form-control" placeholder="buckeye.1@osu.edu" aria-label="buckeye.1@osu.edu" aria-describedby="basic-addon1">
 					</div>
-					<div class="input-group mb-3 col">
-						<span class="input-group-text" id="basic-addon1">Model</span>
-						<select class="form-select" aria-label="Default select example">
+					<div class="input-group mb-3 col" id="typeSelectors">
+						<span class="input-group-text" id="basic-addon1">Type</span>
+						<div id="typeSelectorApple" class="btn-group" role="group" aria-label="Type Select">
+							<button id="typeMacbook" type="button" class="btn btn-outline-primary" onclick="typeSelect('typeMacbook')">Macbook</button>
+							<button id="typeiPad" type="button" class="btn btn-outline-primary" onclick="typeSelect('typeiPad')">iPad</button>
+							<button id="typeOtherMac" type="button" class="btn btn-outline-primary" onclick="typeSelect('typeOtherMac')">Other</button>
+						</div>
+						<div id="typeSelectorDell" class="btn-group" role="group" aria-label="Type Select" style="display:none;">
+							<button id="typeXPS15" type="button" class="btn btn-outline-primary" onclick="typeSelect('typeXPS15')">XPS 15</button>
+							<button id="typeXPS13" type="button" class="btn btn-outline-primary" onclick="typeSelect('typeXPS13')">XPS 13</button>
+							<button id="typeInspiron" type="button" class="btn btn-outline-primary" onclick="typeSelect('typeInspiron')">Inspiron</button>
+							<button id="typeOtherDell" type="button" class="btn btn-outline-primary" onclick="typeSelect('typeOtherDell')">Other</button>
+						</div>
+						<div id="typeSelectorMicrosoft" class="btn-group" role="group" aria-label="Type Select" style="display:none;">
+							<button id="typeSurface" type="button" class="btn btn-outline-primary" onclick="typeSelect('typeSurface')">Surface</button>
+							<button id="typeSurfaceBook" type="button" class="btn btn-outline-primary" onclick="typeSelect('typeSurfaceBook')">Surface Book</button>
+							<button id="typeSurfaceLaptop" type="button" class="btn btn-outline-primary" onclick="typeSelect('typeSurfaceLaptop')">Surface Laptop</button>
+							<button id="typeOtherMicrosoft" type="button" class="btn btn-outline-primary" onclick="typeSelect('typeOtherMicrosoft')">Other</button>
+						</div>
+						<input id='typeOtherBox' type="text" class="form-control" placeholder="Specify" aria-label="Specify" aria-describedby="basic-addon1" style="display:none;">
+						<!--<select class="form-select" aria-label="Default select example">
 							<option selected>Macbook Pro 13"</option>
 							<option value="1">Macbook Pro 16"</option>
 							<option value="2">Macbook Air 13"</option>
 							<option value="3">Macbook</option>
-						</select>
-						<input type="text" class="form-control" placeholder="Specify" aria-label="Specify" aria-describedby="basic-addon1" style="display:none;">
+						</select>-->
 					</div>
 				</div>
 				<div class="row">
@@ -279,9 +296,17 @@
 						<input type="text" class="form-control" placeholder="" aria-label="01-01-1870" aria-describedby="basic-addon1">
 					</div>
 				</div>
-				<div class="input-group mb-3 col">
-					<span class="input-group-text" id="basic-addon1">Accesories</span>
-					<input type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1">
+				<div class="row" style="height: 54px">
+					<div class="input-group mb-3 col">
+						<span class="input-group-text" id="basic-addon1">Accesories</span>
+						<input type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1">
+					</div>
+					<div class="form-check form-switch col" style="padding-left: 12px">
+						<h4>
+						<input class="form-check-input" style="margin-left: 0px;" type="checkbox" id="flexSwitchCheckCheckedDepartmental">
+						<label class="form-check-label" style="margin-top: 3px; padding-left: 10px;" for="flexSwitchCheckCheckedDepartmental">Departmental</label>
+						</h4>
+					</div>
 				</div>
 				<div class="input-group mb-3 col">
 					<span class="input-group-text" id="basic-addon1">Intake Notes</span>

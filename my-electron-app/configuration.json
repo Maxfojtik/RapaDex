@@ -1,0 +1,111 @@
+{
+	"repairables": {
+		"Apple": {
+			"commonProblems": [
+				"Liquid Damage"
+			],
+			"ipad": {
+				"digitalFlagshipSwitch": true,
+				"commonName": "iPad",
+				"commonProblems": [
+					"Cracked Screen",
+					"No display",
+					"Buttons unresponsive",
+					"Does not reconize Apple Pencil"
+				]
+			},
+			"macbook": {
+				"commonName": "Macbook",
+				"commonProblems": [
+					"Cracked LCD",
+					"Cracked Glass",
+					"Sticky Keys",
+					"Damaged Enclosure"
+				]
+			},
+			"pencil": {
+				"commonName": "Pencil",
+				"commonProblems": [
+					"Connects but does not write",
+					"Not connecting (no power)",
+					"Tip Damage",
+					"Enclosure Damage"
+				]
+			},
+			"keyboard": {		
+				"commonName": "Keyboard",		
+				"commonProblems": [
+					"Sticky Keys",
+					"Does not connect",
+					"Damaged Enclosure"
+				]
+			}
+			"Other":true
+		},
+		"Dell": {
+			"commonProblems": [
+				"Cracked LCD",
+				"Cracked Glass",
+				"Sticky Keys",
+				"Damaged Enclosure"
+			],
+			"xps15": {
+				"commonName": "XPS 15"
+			},
+			"xps13": {
+				"commonName": "XPS 13"
+			},
+			"inspiron": {
+				"commonName": "Inspiron"
+				
+			},
+			"Other":true
+		},
+		"Microsoft": {
+			"Surface Laptop":{
+			
+			},
+			"Surface Pro": {
+			
+			},
+			"Surface Book": {
+			
+			},
+			"Other":true
+		}
+	},
+	"employees": {
+		"Todd": {
+			"color": "#dd0000",
+			"black-text": false
+		},
+		"Dave": {
+			"color": "#FF00FF",
+			"black-text": true
+		},
+		"Mike": {
+			"color": "#000000",
+			"black-text": false
+		},
+		"Cory": {
+			"color": "#ae59e3",
+			"black-text": true
+		},
+		"Max": {
+			"color": "#00FF00",
+			"black-text": false
+		},
+		"Evan": {
+			"color": "#8e00b5",
+			"black-text": false
+		},
+		"Chloe": {
+			"color": "#ffdfed",
+			"black-text": true
+		},
+		"Brennan": {
+			"color": "#aefad8",
+			"black-text": true
+		}
+	}
+}
