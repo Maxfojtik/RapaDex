@@ -6,6 +6,21 @@
 	margin-bottom: 20px;
 	margin-top: 20px;
 }
+.repair-search-input-group {
+	display: flex;
+}
+.repair-search-input-group>:not(:first-child) {
+	margin-left: -1px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.repair-search-input-group>:not(:last-child) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+.repair-search-input-group>.form-control:focus, .input-group>.form-select:focus {
+    z-index: 3;
+}
 .header-inline {
 	padding-right: 10px;
 }
@@ -15,68 +30,18 @@
 .work-table {
 	text-align: center;
 }
-.badge-max {
-   background-color: 00eaff;
-} 
-.badge-evan {
-   background-color: purple;
-} 
-.badge-chloe {
-   background-color: #ffdfed;
-} 
-.badge-brennan {
-   background-color: #aefad8;
-} 
-.badge-todd {
-   background-color: #dd0000;
-} 
-.badge-cory {
-   background-color: #eb8034;
-} 
-.badge-dave {
-   background-color: #FF00FF;
-} 
-.badge-mike {
-   background-color: #000000;
-} 
 .badge-not-selected {
 	background-color: transparent;
-	border: 1px solid transparent;
 }
-.badge-max-ns {
-   border-color: blue;
-} 
-.badge-evan-ns {
-   border-color: purple;
-} 
-.badge-chloe-ns {
-   border-color: #ffdfed;
-} 
-.badge-brennan-ns {
-   border-color: #aefad8;
-} 
-.badge-todd-ns {
-   border-color: #dd0000;
-} 
-.badge-todd-ns {
-   border-color: #dd0000;
-} 
-.badge-dave-ns {
-   border-color: #FF00FF;
-} 
-.badge-mike-ns {
-   border-color: #000000;
-} 
-.badge-spaced {
-	margin-top:2px;
-	cursor: pointer;
-} 
 .badge {
 	margin-top:2px;
+	margin-right: 5px;
 	cursor: pointer;
+	border: 1px solid transparent;
 } 
 .workerSelect {
-   padding-bottom: 8px;
+   padding-bottom: 4px;
+   padding-top: 4px;
 } 
 .workButton {
    width: 100%;
@@ -85,9 +50,12 @@
 	padding-top: 2px;
 	padding-bottom: 2px;
 } 
+.float-right-top {
+  position: absolute;
+  right: 20px;
+  top: 20px;
+} 
 .secondRowAddWork {
-	width: 625px;
-	margin-right: 10px;
 	margin-top: 10px;
 } 
 .backButton 
@@ -111,4 +79,235 @@
 }
 .saveWorkCol {
 	padding-left: 0px;
+}
+.footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 100px;
+	line-height: 100px;
+}
+.footerLogo {
+	float:right; 
+	opacity: 0.5;
+	height: 80px;
+}
+.statement {
+	font-size: 10px;
+}
+.dropOffSig {
+	width: 100%; 
+	text-align: left; 
+	border-bottom: 1px solid #000; 
+	line-height: 0.1em;
+	margin: 10px 0 20px;
+	height: 20px;
+	font-size: 15px;
+	padding-top:10px;
+} 
+.dropOffSig span { 
+    background:#fff;
+	padding-right: 10px;
+	padding-bottom:20px; 
+}
+.const-width-1 {
+	width: 130px;
+	text-align: center;
+	justify-content: center;
+}
+.const-width-2 {
+	width: 125px;
+	text-align: center;
+	justify-content: center;
+}
+.center-screen {
+	text-align: center;
+	position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+}
+.pokeImage {
+	width: 50px;
+	height: 50px;
+}
+.pokeStars
+{
+	float: left; 
+	position: relative;
+}
+.starImage {
+	width: 15px;
+	height: 15px;
+	position: absolute;
+	top: 17px;
+	left: 17px;
+}
+.shaker {
+	animation: shake 1.5s;
+	animation-iteration-count: infinite;
+}
+.shakers {
+	animation: shakesmall .1s;
+}
+.star-1 {
+	z-index: 1;
+	transform-origin:40px 0px;
+	animation: star1 1s forwards;
+}
+.star-2 {
+	z-index: 2;
+	transform-origin:80px 0px;
+	animation: star2 1s forwards;
+}
+.star-3 {
+	z-index: 3;
+	transform-origin:-40px 0px;
+	animation: star3 1s forwards;
+}
+@keyframes shake {
+	0% { transform: translate(0px, 0px) rotate(0deg); }
+	25% { transform: translate(0px, 0px) rotate(0deg); }
+	50% { transform: translate(-5px, 0px) rotate(-15deg); }
+	75% { transform: translate(5px, 0px) rotate(15deg); }
+	100% { transform: translate(0px, 0px) rotate(0deg); }
+}
+@keyframes shakesmall {
+	0% { transform: translate(0px, 0px) rotate(0deg); }
+	25% { transform: translate(-2px, 0px) rotate(-5deg); }
+	50% { transform: translate(2px, 0px) rotate(5deg); }
+	75% { transform: translate(0px, 0px) rotate(0deg); }
+	100% { transform: translate(0px, 0px) rotate(0deg); }
+}
+@keyframes star1 {
+  0% {transform: rotate(0deg);}
+  90% {transform: rotate(45deg); opacity: 1;}
+  100% {transform: rotate(45deg); opacity: 0; visibility: hidden;}
+}
+@keyframes star2 {
+  0% {transform: rotate(0deg);}
+  90% {transform: rotate(50deg); opacity: 1;}
+  100% {transform: rotate(50deg); opacity: 0; visibility: hidden;}
+}
+@keyframes star3 {
+  0% {transform: rotate(0deg);}
+  90% {transform: rotate(-45deg); opacity: 1;}
+  100% {transform: rotate(-45deg); opacity: 0; visibility: hidden;}
+}
+body {
+  -webkit-print-color-adjust: exact !important;
+}
+.dateTimeForm {
+	border-width: 1px; 
+	padding-left: 10px; 
+	border-top-right-radius: .25rem;  
+	border-bottom-right-radius: .25rem;
+}
+@media (min-width: 992px) 
+{
+	.dateTimeForm {
+		width: 332px; 
+	}
+}
+@media (min-width: 1200px) 
+{
+	.dateTimeForm {
+		width: 422px; 
+	}
+	.modelSpan {
+		display: block;
+	}
+}
+@media (max-width: 1400px) 
+{
+	.modelSpan {
+		display: none;
+	}
+}
+@media (min-width: 1400px) 
+{
+	.dateTimeForm {
+		width: 512px;
+	}
+}
+@media print {
+	 
+	.modelSpan {
+		display: block;
+	}
+}
+.dateDropOffSig {
+	float:right; 
+	height: 20px; 
+	padding-left: 15px; 
+	padding-top:15px; 
+	padding-right:10px; 
+	margin-top:-15px;
+}
+.container {
+  min-height: 100%;
+  margin-bottom: -30px;
+}
+.repaLogo {
+	position: relative;
+	font-family: 'Work Sans', sans-serif; 
+	font-size: 100px;
+}
+.RepaPart {
+  color: black;
+  font-weight: 800;
+  overflow: hidden;
+}
+.RepaPartBefore {
+  position: absolute;
+  content: attr(data-content); /* Prints the value of the attribute */
+  top: 0;
+  left: 0;
+  color: black;
+  overflow: hidden;
+  transition: width 1000ms linear;
+  width: 0;
+  white-space: nowrap;
+}
+.RepaPartTrans {
+  width: 100%;
+}
+.nav-repair-item-link {
+	padding-top: 0px;
+}
+.active {
+	cursor: default;
+}
+.not-active {	
+	cursor: pointer;
+}
+.front-row {
+	cursor: pointer;
+}
+.repairContextButtons {
+	position: absolute; 
+	top: 3px; 
+	right: 0px; 
+	z-index: 10
+}
+.repair-context-button {
+	vertical-align: middle;
+	cursor: pointer;
+	display: inline-block;
+}
+.workEditPencil {
+	vertical-align: middle;
+	cursor: pointer;
+}
+.repairEditPencilImage:hover {
+    content: url('pencilhover.svg');
+}
+.repairLogImage:hover {
+    content: url('journalhover.svg');
+}
+.table-container {
+	max-height: calc(100% - 300px);
+	overflow-x: hidden;
+	overflow-y: scroll;
 }

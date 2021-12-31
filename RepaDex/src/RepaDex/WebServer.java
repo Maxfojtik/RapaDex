@@ -90,24 +90,86 @@ public class WebServer
 	    }
 	    return true;
 	}
-	static void deleteAndCopy()
+	public static void copyFolder(File source, File destination)
 	{
-		
+	    if (source.isDirectory())
+	    {
+	        if (!destination.exists())
+	        {
+	            destination.mkdirs();
+	        }
+
+	        String files[] = source.list();
+
+	        for (String file : files)
+	        {
+	            File srcFile = new File(source, file);
+	            File destFile = new File(destination, file);
+
+	            copyFolder(srcFile, destFile);
+	        }
+	    }
+	    else
+	    {
+	        InputStream in = null;
+	        OutputStream out = null;
+
+	        try
+	        {
+	            in = new FileInputStream(source);
+	            out = new FileOutputStream(destination);
+
+	            byte[] buffer = new byte[1024];
+
+	            int length;
+	            while ((length = in.read(buffer)) > 0)
+	            {
+	                out.write(buffer, 0, length);
+	            }
+	        }
+	        catch (Exception e)
+	        {
+	            try
+	            {
+	                in.close();
+	            }
+	            catch (IOException e1)
+	            {
+	                e1.printStackTrace();
+	            }
+
+	            try
+	            {
+	                out.close();
+	            }
+	            catch (IOException e1)
+	            {
+	                e1.printStackTrace();
+	            }
+	        }
+	    }
 	}
-	static void setup()
+	static void deleteAndCopy(File source, File destination)
+	{
+		destination.delete();
+		copyFolder(source, destination);
+	}
+	static void setup(boolean onLaptop)
 	{
 		File workingDirectory = new File(RepaDexMain.workingPath);
+		File serverDirectory = new File(RepaDexMain.serverLocation);
 		if(!workingDirectory.exists())
 		{
 			workingDirectory.mkdir();
-			deleteAndCopy();
-			return;
 		}
-		if(!)
+		if(!areDirsEqual(workingDirectory, serverDirectory))
+		{
+			deleteAndCopy(serverDirectory, workingDirectory);
+		}
 	}
-	static void start() throws IOException
+	static void start(boolean onLaptop) throws IOException
 	{
-		setup();
+		setup(onLaptop);
 		new WebServer();
 	}
 	public WebServer() throws IOException
@@ -131,7 +193,6 @@ public class WebServer
 		else if(f.isDirectory())
 		{
 			File index = new File(f.getAbsolutePath()+"/index.html");
-			//System.out.println(index.getAbsolutePath());
 			if(index.exists())
 			{
 		    	t.sendResponseHeaders(200, index.length());

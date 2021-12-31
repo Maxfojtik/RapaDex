@@ -6,110 +6,150 @@
 		<link href="style.css" rel="stylesheet">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
-		<script src="backend.js"></script>
 		<script src="index.js"></script>
+		<script src="front.js"></script>
+		<script src="repairForm.js"></script>
+		<script src="repairEdit.js"></script>
 		<title>RepaDex</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@900&family=Work+Sans:wght@600&display=swap" rel="stylesheet"> 
+		<script src="JsBarcode.all.min.js"></script>
 	</head>
 	<body>
-		<div id="container" class="container">
-			<h1 class="display-1" id="mainTitle">RepaDex</h1>
-			<div id="mainTable" style="display:none;">
-				<input type="email" class="form-control form-control-sm" id="searchInput" placeholder="Search for something">
-				<table class="table table-hover" id="dt">
-					  <thead>
-					  <tr>
-						<th scope="col">Name</th>
-						<th scope="col">Reference #</th>
-						<th scope="col">Device Name</th>
-						<th scope="col">Serial Number</th>
-						<th scope="col">Started</th>
-						<th scope="col">Status</th>
-					  </tr>
-					  </thead>
-					  <tbody>
-					  <tr>
-						<th scope="row">Maxwell Fojtik</th>
-						<td>1</td>
-						<td>iPad Air 4</td>
-						<td>DMPZ10ADQ16M</td>
-						<td>9/19/2021</td>
-						<td>Waiting on DEP</td>
-					  </tr>
-					  <tr class="table-warning">
-						<th scope="row">Cory Saffle</th>
-						<td>2</td>
-						<td>2020 MacBook Pro 16"</td>
-						<td>C02Y71V7JV3Q</td>
-						<td>9/18/2021</td>
-						<td>Sent To Apple</td>
-					  </tr>
-					  <tr class="table-danger">
-						<th scope="row">Chloe Degitz</th>
-						<td>3</td>
-						<td>2020 MacBook Air 13"</td>
-						<td>C02VJ210J1WL</td>
-						<td>9/15/2021</td>
-						<td>Emailed, waiting for response</td>
-					  </tr>
-					  <tr class="table-success" onclick="clickRow(1)">
-						<th scope="row">Evan Lawrence</th>
-						<td>4</td>
-						<td>2018 MacBook Air 13"</td>
-						<td>HJVF39M7JKM9</td>
-						<td>9/17/2021</td>
-						<td>Parts Arrived</td>
-					  </tr>
-					  <tr class="table-info">
-						<th scope="row">Brennan Finley</th>
-						<td>5</td>
-						<td>2020 Dell XPS 15</td>
-						<td>FHIUAS</td>
-						<td>9/15/2021</td>
-						<td>Parts Ordered</td>
-					  </tr>
-				</table>
+		<h1 id="mainError" style="display:none;"></h1>
+		<div id="repairFormWarning" style="display:none; width: 1500;" class="center-screen">
+			<div class="row" id="appleCareWarning">
+				<div class="col-1" style="padding-left: 150px; margin-right:50px;">
+					<h1><input class="form-check-input" type="checkbox" value="" id="ACAck" onchange="warningAck()"></h1>
+				</div>
+				<div class="col">
+					<h1>You selected AppleCare+; this means there is a potential fee associated.</h1>
+				</div>
+				<div class="col-1" style="width: 220px;">
+					<!-- I know I should have used padding on the above element but I didnt think about it until after and now it is layed out correctly and I dont want to touch it-->
+				</div>
 			</div>
-			<div id="repairForm" style="display:none;">
-				<ul class="nav nav-tabs">
-					<li class="nav-item">
-						<button type="button" class="btn btn-secondary" onclick="backToTable()"><-</button>
+			<div class="row" id="findWarning">
+				<div class="col-1" style="padding-left: 150px; margin-right:50px;">
+					<h1><input class="form-check-input" type="checkbox" value="" id="FMAck" onchange="warningAck()"></h1>
+				</div>
+				<div class="col">
+					<h1>This is an Apple device and has the option for Find My; you have to make sure Find My is disabled!</h1>
+				</div>
+				<div class="col-1" style="width: 220px;">
+					<!-- I know I should have used padding on the above element but I didnt think about it until after and now it is layed out correctly and I dont want to touch it-->
+				</div>
+			</div>
+		</div>
+		<div id="container" class="container" style="display:block;">
+			<div style="color:black; display:flex; align-items: center;" id="savingDisplay" class="float-right-top" style="">
+				<strong style="padding-right: 10px;" id="saveText"></strong>
+				<!--<div id="saveSpinner" class="spinner-border ms-auto" role="status" aria-hidden="true"></div>-->
+				<div class="pokeImage shaker" id="pokeImage">
+					<img src="pokeBall.svg"></img>
+					<div id="pokeStars" class="pokeStars"style="display:none;">
+						<img src="star.png" class="starImage star-1"></img>
+						<img src="star.png" class="starImage star-2"></img>
+						<img src="star.png" class="starImage star-3"></img>
+					</div>
+				</div>
+			</div>
+			<div id="topBar" class="row">
+				<!--<img style="float:left; margin-left:-25px" src="Logo.png" ></img>-->
+				<div class="col">
+					<h1 class="repaLogo" id="mainTitle"><span id="RepaPartTop" class="RepaPartBefore">Repa</span><span id="RepaPart" class="RepaPart">Repa</span><span style="color: #000000">Dex</span></h1>
+				</div>
+				<div class="col">
+					<img id="techLogo" class="showWhenPrint" src="TechLogo.png" style="display:none; height:120px; float: right; margin-top: 35px; margin-bottom: -10px"></img>
+				</div>
+			</div>
+			
+			
+			
+			
+			<div id="mainTable" style="display:block;">
+				<div class="row">
+					<div class="col-4">
+						<div class="input-group mb-3">
+							<input type="text" class="form-control form-control" id="searchInput" placeholder="Search" oninput="" style="height: 38px;">
+							<button id="searchButton" style="height: 38px; flex: initial;" type="button" class="btn btn-primary" onclick="search()" disabled>Search</button>
+							<!--<select id="searchOptions" class="form-select" aria-label="Search Option" style="height: 38px; flex: initial; width: 150px;">
+								<option value="All">All</option>
+								<option value="Repairs" selected>Repairs</option>
+								<option value="Loaners">Loaners</option>
+							</select>-->
+						</div>
+					</div>
+					<div class="col" id="saveSpinnerContainter">
+						<div id="saveSpinner" class="spinner-border ms-auto" role="status"></div>
+					</div>
+					<div class="col">
+						<button style="float:right; width: 400px;" id="startNewRepairButton" type="button" class="btn btn-primary" onclick="createNewRepair()" disabled>Create a new repair</button>
+					</div>
+				</div>
+				<div class="table-container">
+					<table class="table table-hover" id="dt">
+						<thead>
+						<tr>
+							<th scope="col">Name</th>
+							<th scope="col">Reference #</th>
+							<th scope="col">Device Name</th>
+							<th scope="col">Serial Number</th>
+							<th scope="col">Started</th>
+							<th scope="col">Status</th>
+						</tr>
+						</thead>
+						<tbody id="dtBody">
+						</tbody>
+					</table>
+				</div>
+			</div>
+			
+			
+			
+			
+			<div id="repairEdit" style="display:none;">
+				<ul class="nav nav-tabs" id="repairNav">
+					<li class="nav-item" id="repairBackButtonItem">
+						<button id="repairEditBackButton" type="button" class="btn btn-secondary" onclick="backToMain()" style="margin-bottom: 5px; padding-top: 1px; padding-bottom: 1px; margin-right: 5px;"><-</button>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link" aria-current="page" href="#">Repair on 9/20/19</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">Repair on 9/20/20</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link active" href="#">Repair on 9/20/21</a>
-					</li>
+					<!--more generated in js showRelatedRepairs-->
 				</ul>
-				<div class="custom-info-table">
-					<div class="row">
+				<div class="custom-info-table" style="position: relative;">
+					<div class="repairContextButtons" id="repairContextButtons">
+						<div id="editRepairPencil" class="repair-context-button" onclick="editRepairPencil()" data-bs-toggle="modal" data-bs-target="#editRepairModal">
+							<img class="repairEditPencilImage" src='pencil.svg' style='width: 20px; height: 20px'></img>
+						</div>
+						<div id="showLogsJournal" class="repair-context-button" onclick="showLogs()" data-bs-toggle="modal" data-bs-target="#logsModel">
+							<img class="repairLogImage" src='journal.svg' style='width: 20px; height: 20px'></img>
+						</div>
+					</div>
+					<div class="row" style="padding-top: 5px;">
 						<div class="col">
-							<h5 class="d-inline-flex header-inline">Evan Lawrence</h5>
-							<h5 class="d-inline-flex header-inline text-muted copiable" data-text="lawrence.709@osu.edu">lawrence.709@osu.edu</h5>
-							<h5 class="d-inline-flex header-inline text-muted">(419) 508-2393</h5>
+							<h5 class="d-inline-flex header-inline" id="nameLabel"></h5>
+							<h5 class="d-inline-flex header-inline text-muted copiable" id="emailLabel" data-text=""></h5>
+							<h5 class="d-inline-flex header-inline text-muted" id="phoneLabel"></h5>
+						</div>
+						<div class="col-2">
+							<h5 class="d-inline-flex header-inline text-muted">Employee</h5>
+						</div>
+						<div class="col-4" id="employeeLabel">
+							
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-2">
+							<h5 class="d-inline-flex header-inline text-muted copiable" data-text="" id="refLabelLabel">Reference Number</h5>
+						</div>
+						<div class="col-4">
+							<h5 class="d-inline-flex header-inline copiable" data-text="" id="refLabel"></h5>
 						</div>
 						<div class="col-2">
 							<h5 class="d-inline-flex header-inline text-muted">Serial Number</h5>
 						</div>
 						<div class="col-4">
-							<h5 class="d-inline-flex header-inline copiable" data-text="HJVF39M7JKM9">HJVF39M7JKM9</h5>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-2">
-							<h5 class="d-inline-flex header-inline text-muted copiable" data-text="4">Reference Number</h5>
-						</div>
-						<div class="col-4">
-							<h5 class="d-inline-flex header-inline copiable" data-text="4">4</h5>
-						</div>
-						<div class="col-2">
-							<h5 class="d-inline-flex header-inline text-muted">Model</h5>
-						</div>
-						<div class="col-4">
-							<h5 class="d-inline-flex header-inline">Apple MacBook Air 13"</h5>
+							<h5 class="d-inline-flex header-inline copiable" data-text="" id="SNLabel"></h5>
 						</div>
 					</div>
 					<div class="row">
@@ -117,28 +157,13 @@
 							<h5 class="d-inline-flex header-inline text-muted">Start Date</h5>
 						</div>
 						<div class="col">
-							<h5 class="d-inline-flex header-inline">9/17/2021</h5>
+							<h5 class="d-inline-flex header-inline" id="startDateLabel"></h5>
 						</div>
 						<div class="col-2">
-							<h5 class="d-inline-flex header-inline text-muted">Warranty</h5>
+							<h5 class="d-inline-flex header-inline text-muted">Model</h5>
 						</div>
 						<div class="col-4">
-							<h5 class="d-inline-flex header-inline">Safeware</h5>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-2">
-							<h5 class="d-inline-flex header-inline text-muted">Last Touched</h5>
-						</div>
-						<div class="col">
-							<h5 class="d-inline-flex header-inline">9/20/2021</h5>
-						</div>
-						<div class="col-2">
-							<h5 class="d-inline-flex header-inline text-muted">Loaner Computer</h5>
-						</div>
-						<div class="col-4">
-							<!--<button type="button" class="btn btn-primary btn-success loanerButton" onclick="issueLoaner()">Goto Form</button>-->
-							<button type="button" class="btn btn-primary btn-danger loanerButton" onclick="issueLoaner()">Issue Loaner</button>
+							<h5 class="d-inline-flex header-inline" id="modelLabel"></h5>
 						</div>
 					</div>
 					<div class="row">
@@ -146,15 +171,28 @@
 							<h5 class="d-inline-flex header-inline text-muted">Accesories</h5>
 						</div>
 						<div class="col">
-							<h5 class="d-inline-flex header-inline">-</h5>
+							<h5 class="d-inline-flex header-inline" id="accLabel"></h5>
+						</div>
+						<div class="col-2">
+							<h5 class="d-inline-flex header-inline text-muted">Warranty</h5>
+						</div>
+						<div class="col-4">
+							<h5 class="d-inline-flex header-inline" id="warrLabel"></h5>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-2">
-							<h5 class="d-inline-flex header-inline text-muted">Intake Notes</h5>
+							<h5 class="d-inline-flex header-inline text-muted">Loaner Computer</h5>
 						</div>
-						<div class="col">
-							<h5 class="d-inline-flex header-inline">Aware that safeware only has 200$ and that we will contact her when we know how much it will be</h5>
+						<div class="col-4">
+							<!--<button type="button" class="btn btn-success loanerButton" onclick="showLoaner()">Goto Form</button>-->
+							<button id="issueLoanerButton" type="button" class="btn btn-danger loanerButton" data-bs-toggle="modal" data-bs-target="#loanerModal" disabled>Issue Loaner</button>
+						</div>
+						<div class="col-2 iPadSerialNumberLabels" style="display:none;">
+							<h5 class="d-inline-flex header-inline text-muted">iPad Serial Number</h5>
+						</div>
+						<div class="col-4 iPadSerialNumberLabels" style="display:none;">
+							<h5 class="d-inline-flex header-inline copiable" id="iPadSNLabel" data-text=""></h5>
 						</div>
 					</div>
 					<div class="row">
@@ -162,158 +200,268 @@
 							<h5 class="d-inline-flex header-inline text-muted">Stated Problem</h5>
 						</div>
 						<div class="col">
-							<h5 class="d-inline-flex header-inline">Screen has pulsating white display</h5>
+							<h5 class="d-inline-flex header-inline" id="statedProblemLabel"></h5>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-2">
+							<h5 class="d-inline-flex header-inline text-muted">Intake Notes</h5>
+						</div>
+						<div class="col">
+							<h5 class="d-inline-flex header-inline" id="intakeNotesLabel"></h5>
 						</div>
 					</div>
 				</div>
-				<div class="row" style="padding-top: 0px;">
+				<!--<div class="row" style="padding-top: 0px;">
 					<div class="col">
 						<h1 class="d-inline-flex header-inline">Work completed</h1>
 					</div>
-				</div>
-				<table class="table table-striped work-table">
+				</div>-->
+				<table class="table table-striped work-table" style="margin-top:40px;">
 				  <tbody id="workTableBody">
-					<tr>
+					<!--<tr>
 					  <td scope="row">9/20/2021 2:50pm</td>
 					  <td>Created Repair Form</td>
 					  <td></td>
 					  <td><span class="badge rounded-pill badge-todd">Todd</span></td>
-					</tr>
-					<tr>
-					  <td scope="row">9/20/2021 3:50pm</td>
-					  <td>Submitted Claim</td>
-					  <td></td>
-					  <td><span class="badge rounded-pill badge-max">Max</span></td>
-					</tr>
-					<tr>
-					  <td scope="row">9/20/2021 4:50pm</td>
-					  <td>Ordered Parts</td>
-					  <td>Motherboard, Display</td>
-					  <td><span class="badge rounded-pill badge-evan">Evan</span></td>
-					</tr>
-					<tr>
-					  <td scope="row">9/20/2021 5:50pm</td>
-					  <td>Parts Arrived</td>
-					  <td>Motherboard</td>
-					  <td><span class="badge rounded-pill badge-chloe text-dark">Chloe</span></td>
-					</tr>
-					<tr>
-					  <td scope="row">9/20/2021 5:55pm</td>
-					  <td>Parts Arrived</td>
-					  <td>Display</td>
-					  <td><span class="badge rounded-pill badge-brennan text-dark">Brennan</span></td>
-					</tr>
+					</tr>-->
+					
 				  </tbody>
 				</table>
-				<button type="button" class="btn btn-success workButton" onclick="addWork()">+</button>
+				<button type="button" class="btn btn-secondary workButton" id="addWorkButton" onclick="addWorkLogin()">Log in as a Repair Technician</button>
 			</div>
-			<div id="intakeForm" style="display:block">
-				<div class="row" style="width:50%">
-					<div class="col-1">
-						<button type="button" class="btn btn-secondary" onclick="backToTable()"><-</button> 
+			
+			
+			
+			
+			<div id="repairForm" style="display:none">
+				<div class="row">
+					<div class="col-1 hideWhenPrint" id="inputBackButton" style="width: 50px;">
+						<button id="repairFormBack" type="button" class="btn btn-secondary" onclick="backToMain()" disabled><-</button> 
 					</div>
-					<div class="col">
-						<h2>Reference Number: 4</h2>
+					<div class="col-auto" style="padding-right:5px;">
+						<h4><span id="printingPill" class="badge rounded-pill badge-spaced text-dark showWhenPrint" style="border-color: black; display:none;">Example</span></h4>
+					</div>
+					<div class="col-6" style="padding-left:0px;">
+						<h3 id="RefNumLabel">Ref. Number: ???</h3>
+					</div>
+					<div id="barcodediv" class="col" class="showWhenPrint" style="display:none;">
+						<svg id="barcode" style="float:right;"></svg>
 					</div>
 				</div>
 				<h4>
-					<div class="workerSelect">
-							<span id="selectEmployeeTodd" class="badge rounded-pill badge-todd-ns badge-not-selected text-dark badge-spaced" onclick="selectPill('Todd')">Todd</span>
-							<span id="selectEmployeeDave" class="badge rounded-pill badge-dave-ns badge-not-selected text-dark badge-spaced" onclick="selectPill('Dave')">Dave</span>
-							<span id="selectEmployeeMax" class="badge rounded-pill badge-max-ns badge-not-selected text-dark badge-spaced" onclick="selectPill('Max')">Max</span>
-							<span id="selectEmployeeEvan" class="badge rounded-pill badge-evan-ns badge-not-selected text-dark badge-spaced" onclick="selectPill('Evan')">Evan</span>
-							<span id="selectEmployeeChloe" class="badge rounded-pill badge-chloe-ns badge-not-selected text-dark badge-spaced" onclick="selectPill('Chloe')">Chloe</span>
-							<span id="selectEmployeeBrennan" class="badge rounded-pill badge-brennan-ns badge-not-selected text-dark badge-spaced" onclick="selectPill('Brennan')">Brennan</span>
+					<div id="workerSelector" class="workerSelect hideWhenPrint" tabindex="0" onfocus="startCollectKeyboard()" onblur="stopCollectKeyboard()">
+						<!--HTML generated within Javascript from configuration.json-->
 					</div>
 				</h4>
 				<div class="row">
 					<div class="input-group mb-3 col">
-						<span class="input-group-text" id="basic-addon1">Dot Number</span>
-						<input type="text" class="form-control" placeholder="buckeye.1" aria-label="Name.Number" aria-describedby="basic-addon1" onblur="findPerson()">
+						<span class="input-group-text const-width-1" id="basic-addon3">Customer Name</span>
+						<input id="nameForm" type="text" class="form-control is-invalid validable" placeholder="buckeye.1" aria-label="Brutus Buckeye" aria-describedby="basic-addon3" oninput="validateSaveButtons()">
 					</div>
 					<div class="input-group mb-3 col">
-						<span class="input-group-text" id="basic-addon1">Serial Number</span>
-						<input type="text" class="form-control" placeholder="ABCDEFGHI" aria-label="ABCDEFGHI" aria-describedby="basic-addon1">
+						<span class="input-group-text const-width-2" id="basic-addon14">Date Started</span>
+						<input class="hideWhenPrint dateTimeForm" id="dateForm" type="datetime-local" value="">
+						<input class="showWhenPrint form-control" id="dateFormPrint" type="text" placeholder="" aria-label="" aria-describedby="basic-addon14" style="display:none;">
+					</div>
+					<!--<div class="col-2" style="padding-top:6px; padding-left:15px; padding-right:15px; width: 220px;">
+						
+					</div>-->
+				</div>
+				<div class="row">
+					<div class="input-group mb-3 col">
+						<span class="input-group-text" id="basic-addon5">Email</span>
+						<input id="emailForm" type="text" class="form-control is-invalid validable" placeholder="buckeye.1@osu.edu" aria-label="buckeye.1@osu.edu" aria-describedby="basic-addon5" oninput="validateSaveButtons()">
+					</div>
+					<div class="input-group mb-3 col">
+						<span class="input-group-text const-width-2" id="basic-addon2">Serial Number</span>
+						<input id="serialForm" type="text" class="form-control is-invalid validable" placeholder="" aria-label="" aria-describedby="basic-addon2" oninput="validateSaveButtons(); genbar();">
 					</div>
 				</div>
 				<div class="row">
 					<div class="input-group mb-3 col">
-						<span class="input-group-text" id="basic-addon1">Customer Name</span>
-						<input type="text" class="form-control" placeholder="Brutus Buckeye" aria-label="Brutus Buckeye" aria-describedby="basic-addon1">
+						<span class="input-group-text const-width-1" id="basic-addon6">Phone Number</span>
+						<input id="phoneForm" type="text" class="form-control" placeholder="614-292-8883" aria-label="614-292-8883" aria-describedby="basic-addon6">
 					</div>
 					<div class="input-group mb-3 col">
-						<span class="input-group-text" id="basic-addon1">Make</span>
-						<div id="makeSelector" class="btn-group" role="group" aria-label="Make Select">
-							<button id="makeApple" type="button" class="btn btn-outline-primary" onclick="makeSelect('Apple')">Apple</button>
-							<button id="makeDell" type="button" class="btn btn-outline-primary" onclick="makeSelect('Dell')">Dell</button>
-							<button id="makeMicrosoft" type="button" class="btn btn-outline-primary" onclick="makeSelect('Microsoft')">Microsoft</button>
-							<button id="makeOther" type="button" class="btn btn-outline-primary" onclick="makeSelect('Other')">Other</button>
+						<span class="input-group-text const-width-2" id="basic-addon4">Make</span>
+						<div id="makeSelector" class="btn-group hideWhenPrint" role="group" aria-label="Make Select">
+							<!--Generated in js-->
 						</div>
-						<input id='makeOtherBox' type="text" class="form-control" placeholder="Specify" aria-label="Specify" aria-describedby="basic-addon1" style="display:none;">
+						<input id='makeOtherBox' type="text" class="form-control validable is-invalid hideWhenPrint" placeholder="Specify" aria-label="Specify" style="display:none;" oninput="validateSaveButtons()">
+						<input id='printMake' type="text" class="form-control showWhenPrint" style="display:none;">
 					</div>
 				</div>
 				<div class="row">
 					<div class="input-group mb-3 col">
-						<span class="input-group-text" id="basic-addon1">Email</span>
-						<input type="text" class="form-control" placeholder="buckeye.1@osu.edu" aria-label="buckeye.1@osu.edu" aria-describedby="basic-addon1">
+						<span class="input-group-text const-width-1" id="basic-addon13">Warranty</span>
+						<!--<input type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon13">-->
+						<select  style="border-top-right-radius: .25rem;  border-bottom-right-radius: .25rem;" id="warrantySelector" class="form-select header-inline warrantySelector is-invalid" aria-label="Select warranty" onclick="warrantySelected(); validateSaveButtons();" onmousedown="removeFirstWarranty();">
+							<!--generated in js-->
+						</select>
+						<input id="warrantyOtherText" type="text" class="form-control validable is-invalid" placeholder="Specify" aria-label="" style="display:none;" oninput="validateSaveButtons()">
 					</div>
-					<div class="input-group mb-3 col" id="typeSelectors">
-						<span class="input-group-text" id="basic-addon1">Type</span>
-						<div id="typeSelectorApple" class="btn-group" role="group" aria-label="Type Select">
-							<button id="typeMacbook" type="button" class="btn btn-outline-primary" onclick="typeSelect('typeMacbook')">Macbook</button>
-							<button id="typeiPad" type="button" class="btn btn-outline-primary" onclick="typeSelect('typeiPad')">iPad</button>
-							<button id="typeOtherMac" type="button" class="btn btn-outline-primary" onclick="typeSelect('typeOtherMac')">Other</button>
+					<div class="input-group mb-3 col">
+						<span class="input-group-text const-width-2 modelSpan" id="basic-addon7">Model</span>
+						<div id="typeSelectors" class="btn-group hideWhenPrint" role="group" aria-label="Model Select">
+							
+							<!--Generated in js-->
 						</div>
-						<div id="typeSelectorDell" class="btn-group" role="group" aria-label="Type Select" style="display:none;">
-							<button id="typeXPS15" type="button" class="btn btn-outline-primary" onclick="typeSelect('typeXPS15')">XPS 15</button>
-							<button id="typeXPS13" type="button" class="btn btn-outline-primary" onclick="typeSelect('typeXPS13')">XPS 13</button>
-							<button id="typeInspiron" type="button" class="btn btn-outline-primary" onclick="typeSelect('typeInspiron')">Inspiron</button>
-							<button id="typeOtherDell" type="button" class="btn btn-outline-primary" onclick="typeSelect('typeOtherDell')">Other</button>
-						</div>
-						<div id="typeSelectorMicrosoft" class="btn-group" role="group" aria-label="Type Select" style="display:none;">
-							<button id="typeSurface" type="button" class="btn btn-outline-primary" onclick="typeSelect('typeSurface')">Surface</button>
-							<button id="typeSurfaceBook" type="button" class="btn btn-outline-primary" onclick="typeSelect('typeSurfaceBook')">Surface Book</button>
-							<button id="typeSurfaceLaptop" type="button" class="btn btn-outline-primary" onclick="typeSelect('typeSurfaceLaptop')">Surface Laptop</button>
-							<button id="typeOtherMicrosoft" type="button" class="btn btn-outline-primary" onclick="typeSelect('typeOtherMicrosoft')">Other</button>
-						</div>
-						<input id='typeOtherBox' type="text" class="form-control" placeholder="Specify" aria-label="Specify" aria-describedby="basic-addon1" style="display:none;">
-						<!--<select class="form-select" aria-label="Default select example">
-							<option selected>Macbook Pro 13"</option>
-							<option value="1">Macbook Pro 16"</option>
-							<option value="2">Macbook Air 13"</option>
-							<option value="3">Macbook</option>
-						</select>-->
+						<input id='typeOtherBox' type="text" class="form-control validable is-invalid hideWhenPrint" placeholder="Specify" aria-label="Specify" style="display:block;" oninput="validateSaveButtons()">
+						<input id='printModel' type="text" class="form-control showWhenPrint" style="display:none;">
 					</div>
 				</div>
 				<div class="row">
 					<div class="input-group mb-3 col">
-						<span class="input-group-text" id="basic-addon1">Phone Number</span>
-						<input type="text" class="form-control" placeholder="614-292-8883" aria-label="614-292-8883" aria-describedby="basic-addon1">
+						<span class="input-group-text const-width-1" id="basic-addon8">Purchase Date</span>
+						<input id="purchForm" type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon8">
 					</div>
-					<div class="input-group mb-3 col">
-						<span class="input-group-text" id="basic-addon1">Password</span>
-						<input type="text" class="form-control" placeholder="" aria-label="01-01-1870" aria-describedby="basic-addon1">
+					<div class="input-group mb-3 col" id="passwordDiv">
+						<span class="input-group-text const-width-2" id="basic-addon7">Password</span>
+						<input id="passwordForm" type="input" class="form-control" placeholder="" aria-label="01-01-1870" aria-describedby="basic-addon7" disabled value="Written in after printing">
+						<!--<input id="passwordForm" type="password" class="form-control" placeholder="" aria-label="01-01-1870" aria-describedby="basic-addon7">
+						<button class="btn btn-primary" onmousedown="$(passwordForm).attr('type', 'input')" onmouseup="$(passwordForm).attr('type', 'password')">Show</button>-->
+					</div>
+					<div class="input-group mb-3 col" id="iPadSNDiv" style="display:none;">
+						<span class="input-group-text" id="basic-addon15">iPad Serial Number</span>
+						<input id="iPadSN" type="text" class="form-control validable is-invalid" placeholder="" aria-label="01-01-1870" aria-describedby="basic-addon15" oninput="validateSaveButtons()">
 					</div>
 				</div>
 				<div class="row" style="height: 54px">
 					<div class="input-group mb-3 col">
-						<span class="input-group-text" id="basic-addon1">Accesories</span>
-						<input type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1">
+						<span class="input-group-text const-width-1" id="basic-addon8">Accessories</span>
+						<input id="accForm" type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon8">
 					</div>
-					<div class="form-check form-switch col" style="padding-left: 12px">
-						<h4>
+					<div class="form-check form-switch col-3 hideWhenPrint" style="padding-left: 12px">
+						<h3>
 						<input class="form-check-input" style="margin-left: 0px;" type="checkbox" id="flexSwitchCheckCheckedDepartmental">
 						<label class="form-check-label" style="margin-top: 3px; padding-left: 10px;" for="flexSwitchCheckCheckedDepartmental">Departmental</label>
-						</h4>
+						</h3>
+					</div>
+					<div class="form-check form-switch col-3 hideWhenPrint" style="padding-left: 12px">
+						<h3 id="digitalFlagshipSwitch"  style="display:none;">
+						<input class="form-check-input" style="margin-left: 0px;" type="checkbox" id="flexSwitchCheckCheckedFlagship">
+						<label class="form-check-label" style="margin-top: 3px; padding-left: 10px;" for="flexSwitchCheckCheckedFlagship">Digital Flagship</label>
+						</h3>
 					</div>
 				</div>
-				<div class="input-group mb-3 col">
-					<span class="input-group-text" id="basic-addon1">Intake Notes</span>
-					<input type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon1">
+				<div class="row">
+					<div class="input-group mb-3 col">
+						<span class="input-group-text const-width-1" id="basic-addon9">Intake Notes</span>
+						<!--<input type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon9">-->
+						<textarea class="form-control" id="intakeTextArea" rows="2" oninput=""></textarea>
+					</div>
 				</div>
-				<div class="input-group mb-3 col">
-					<span class="input-group-text" id="basic-addon1">Problem</span>
-					<textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+				<div class="row" id="problemSelectorRow">
+					<div class="input-group mb-3 col">
+						<select class="form-select header-inline is-invalid" aria-label="Select Problem" id="problemSelector" onmousedown="removeFirstProblem()" style="display:none;" onclick="validateSaveButtons();">
+							<!--Generated in js from configuration.json-->
+						</select>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-group mb-3 col" style="display:none;" id="problemBox">
+						<span class="input-group-text const-width-1" id="basic-addon10">Problem</span>
+						<textarea class="form-control" id="problemTextArea" rows="3" oninput="validateSaveButtons()"></textarea>
+					</div>
+				</div>
+				<div class="row hideWhenPrint" id="saveButtons">
+					<div class="col">
+						<button id="saveAndPrintRepairForm" type="button" class="btn btn-primary saveButton" onclick="saveAndPrintRepairForm()" style="width: 100%" disabled>Save and Print</button>
+					</div>
+					<div class="col">
+						<button id="saveRepairForm" type="button" class="btn btn-primary saveButton" onclick="saveRepairForm()" style="width: 100%" disabled>Save</button>
+					</div>
+				</div>
+				<div class="row showWhenPrint" style="display:none; margin-bottom: -15px;">
+					<p id="dropOffStatement" class="statement"></p>
+				</div>
+				<div class="row showWhenPrint" style="display:none;">
+					<div class="col">
+						<h5 class="dropOffSig" id="dropOffSigLine" style="background-color: yellow"><span style="padding-top:10px;">Customer Drop-Off Signature:</span><span id="dateTimeLabel" class="dateDropOffSig">xx/xx/xxxx xx:xx pm</span></h5>
+					</div>
+				</div>
+				<div class="row showWhenPrint" style="display:none; margin-bottom: -15px; margin-top: 20px;">
+					<p id="pickUpStatement" class="statement"></p>
+				</div>
+				<div class="row showWhenPrint" style="display:none;">
+					<div class="col">
+						<h5 class="dropOffSig"><span style="padding-right: 19px; padding-top:10px;">Customer Pick-Up Signature:</span><span class="dateDropOffSig" style="padding-left: 90px; margin-top: -13;">__/__/____</span></h5>
+					</div>
+				</div>
+				<div class="row showWhenPrint" style="display:none;">
+					<div class="col">
+						<p style="padding-left: 210px" id="nameLabelBottom">Customer Name</p>
+					</div>
+				</div>
+			</div>
+			
+			
+			
+			
+			<div id="loanerForm" style="display:none;">
+			
+				<div class="row">
+					<div class="input-group mb-3 col">
+						<span class="input-group-text const-width-1">Asset Tag</span>
+						<input id="loanerNameForm" type="text" class="form-control" placeholder="">
+					</div>
+					<div class="input-group mb-3 col">
+						<span class="input-group-text const-width-2">Date Started</span>
+						<input class="hideWhenPrint dateTimeForm" id="loanerDateForm" type="datetime-local" value="">
+						<input class="showWhenPrint form-control" id="loanerDateFormPrint" type="text" placeholder="" style="display:none;">
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-group mb-3 col">
+						<span class="input-group-text const-width-1">Customer Name</span>
+						<input id="loanerNameForm" type="text" class="form-control" placeholder="Brutus Buckeye">
+					</div>
+					<div class="input-group mb-3 col">
+						<span class="input-group-text const-width-2">Make/Model</span>
+						<input id="loanerMakeModel" type="text" class="form-control" placeholder="">
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-group mb-3 col">
+						<span class="input-group-text">Email</span>
+						<input id="loanerEmailForm" type="text" class="form-control" placeholder="buckeye.1@osu.edu">
+					</div>
+					<div class="input-group mb-3 col">
+						<span class="input-group-text const-width-2">Serial Number</span>
+						<input id="loanerSerialForm" type="text" class="form-control" placeholder="">
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-group mb-3 col">
+						<span class="input-group-text const-width-1">Something</span>
+						<input id="loanerNameForm" type="text" class="form-control" placeholder="Brutus Buckeye">
+					</div>
+					<div class="input-group mb-3 col">
+						<span class="input-group-text const-width-2">Device Value</span>
+						<input id="loanerDeviceValue" type="text" class="form-control" placeholder="">
+					</div>
+				</div>
+				<div class="row" style="margin-bottom: -15px;">
+					<p id="dropOffStatement" class="statement"></p>
+				</div>
+				<div class="row">
+					<div class="col">
+						<h5 class="dropOffSig" id="dropOffSigLine" style="background-color: yellow"><span style="padding-top:10px;">Customer Pick-Up Signature:</span><span id="dateTimeLabel" class="dateDropOffSig">xx/xx/xxxx xx:xx pm</span></h5>
+					</div>
+				</div>
+				<div class="row" style="margin-bottom: -15px; margin-top: 20px;">
+					<p id="pickUpStatement" class="statement"></p>
+				</div>
+				<div class="row">
+					<div class="col">
+						<h5 class="dropOffSig"><span style="padding-right: 19px; padding-top:10px;">Customer Drop-Off Signature:</span><span class="dateDropOffSig" style="padding-left: 90px; margin-top: -13;">__/__/____</span></h5>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<p style="padding-left: 210px" id="nameLabelBottom">Customer Name</p>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -327,46 +475,183 @@
 			</div>
 		</div>
 		<div class="position-fixed top-50 start-50 translate-middle" style="z-index: 11">
-			<div class="toast align-items-center border-0" role="alert" id="addWorkToast" aria-live="assertive" aria-atomic="true" data-bs-autohide="false" style="width: 650px">
+			<div class="toast align-items-center border-0" role="alert" id="addWorkToast" aria-live="assertive" aria-atomic="true" data-bs-autohide="false" style="width: 700px">
 				<div class="toast-header">
-					<strong class="me-auto">Add Work</strong>
+					<strong class="me-auto" id="addWorkTitle">Add Work</strong>
 					<button type="button" class="btn-close" data-bs-dismiss="toast" onclick="closeSaveAsPopover();" aria-label="Close"></button>
 				</div>
-				<div class="toast-body" id="toastText">
+				<div class="toast-body" id="toastTextAddWork">
 					<div class="row">
-						<div class="col-2" style="padding-top:6px; padding-left:15px; padding-right:150px;">
-							<input type="date" value="2018-07-22">
+						<div class="col-2" style="padding-top:6px; padding-left:15px; padding-right:15px; width: 220px;">
+							<input id="addWorkDate" type="datetime-local" value="" style="width: 190px;">
 						</div>
-						<div class="col">
-							<select class="form-select header-inline workSelector" aria-label="Select work completed">
-								<option value="0" selected>Submitted Claim</option>
-								<option value="1">Diagnosed</option>
-								<option value="2">Submitted RFA</option>
-								<option value="3">Ordered Parts</option>
-								<option value="4">Finished</option>
-								<option value="5">Note</option>
+						<div class="col" style="padding-left: 0px;">
+							<select id="addWorkSelector" class="form-select header-inline workSelector" aria-label="Select work completed">
+								<option value="Diagnosed" selected>Diagnosed</option>
+								<option value="Submitted Claim">Submitted Claim</option>
+								<option value="Sent Out">Sent Out</option>
+								<option value="Submitted RFA">Submitted RFA</option>
+								<option value="Ordered Parts">Ordered Parts</option>
+								<option value="Finished">Finished</option>
+								<option value="Note">Note</option>
 							</select>
 						</div>
 						<div class="col saveWorkCol">
-							<button type="button" style="width: 100%" class="btn btn-primary header-inline" onclick="saveWork()">Save</button>		
+							<button id="saveWorkButton" type="button" style="width: 100%" class="btn btn-primary header-inline editWorkButtons" onclick="saveWork()" disabled>Save</button>		
 						</div>	
 						<div class="col saveWorkCol">
-							<button type="button" id="saveAsButton" style="width: 100%" class="btn btn-primary header-inline" onclick="changeEmployee()" data-bs-toggle="popover" data-bs-html="true" title="Save As" data-bs-content='
-							<div class="overflow-auto insideSaveAs">
-							<span class="badge rounded-pill badge-todd badge-spaced">Todd</span>
-							<span class="badge rounded-pill badge-max badge-spaced">Max</span>
-							<span class="badge rounded-pill badge-evan badge-spaced">Evan</span>
-							<span class="badge rounded-pill badge-chloe text-dark badge-spaced">Chloe</span>
-							<span class="badge rounded-pill badge-brennan text-dark badge-spaced">Brennan</span>
-							</div>'>Save As</button>		
+							<!--More generated in javascript-->
+							<button type="button" id="saveWorkAsButton" style="width: 100%" class="btn btn-primary header-inline editWorkButtons" onclick="changeEmployee()" data-bs-toggle="popover" data-bs-html="true" title="Save As" disabled>Save As</button>		
 						</div>		
 					</div>
-					<div class="row">
+					<div class="row secondRowAddWork">
 						<div class="col">
-							<input type="notes" class="form-control header-inline secondRowAddWork" id="exampleFormControlInput1" placeholder="notes (optional)">
-						</div>					
+							<input type="text" class="form-control header-inline" id="noteTextInput" placeholder="notes (optional)">
+						</div>
+						<div id="deleteButtonCol" class="col-auto" style="padding-left: 0px;" style="display:none;">					
+							<button id="deleteWorkButton" type="button" class="btn btn-danger header-inline editWorkButtons" onclick="deleteWork()" data-bs-content="Click 5 more times to delete." disabled>Delete</button>	
+						</div>
 					</div>
 				</div>
+			</div>
+		</div>
+		<div class="position-fixed top-50 start-50 translate-middle" style="z-index: 13">
+			<div class="toast align-items-center border-0" role="alert" id="loginToast" aria-live="assertive" aria-atomic="true" data-bs-autohide="false" style="width: initial;">
+				<div class="toast-header">
+					<strong class="me-auto" id="addWorkTitle">Log In</strong>
+					<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+				</div>
+				<div class="toast-body" id="toastTextLogin">
+					<!--generated in JS-->
+				</div>
+			</div>
+		</div>
+		<!-- Edit Repair Modal -->
+		<div class="modal fade" id="editRepairModal" tabindex="-1" aria-labelledby="editRepairModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Edit Repair</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<div class="row">
+							<div class="input-group mb-3 col">
+								<span class="input-group-text const-width-1">Customer Name</span>
+								<input id="customerNameEditForm" type="text" class="form-control" placeholder="">
+							</div>
+						</div>
+						<div class="row">
+							<div class="input-group mb-3 col">
+								<span class="input-group-text const-width-1">Email</span>
+								<input id="emailEditForm" type="text" class="form-control" placeholder="">
+							</div>
+						</div>
+						<div class="row">
+							<div class="input-group mb-3 col">
+								<span class="input-group-text const-width-1">Phone Number</span>
+								<input id="phoneEditForm" type="text" class="form-control" placeholder="">
+							</div>
+						</div>
+						<div class="row">
+							<div class="input-group mb-3 col">
+								<span class="input-group-text const-width-1">Serial Number</span>
+								<input id="serialEditForm" type="text" class="form-control" placeholder="">
+							</div>
+						</div>
+						<div class="row">
+							<div class="input-group mb-3 col">
+								<span class="input-group-text const-width-1">Make</span>
+								<input id="makeEditForm" type="text" class="form-control" placeholder="">
+							</div>
+						</div>
+						<div class="row">
+							<div class="input-group mb-3 col">
+								<span class="input-group-text const-width-1">Model</span>
+								<input id="modelEditForm" type="text" class="form-control" placeholder="">
+							</div>
+						</div>
+						<div class="row">
+							<div class="input-group mb-3 col">
+								<span class="input-group-text const-width-1">Warranty</span>
+								<input id="warrEditForm" type="text" class="form-control" placeholder="">
+							</div>
+						</div>
+						<div class="row">
+							<div class="input-group mb-3 col">
+								<span class="input-group-text const-width-1">Accesories</span>
+								<input id="accEditForm" type="text" class="form-control" placeholder="">
+							</div>
+						</div>
+						<div class="row">
+							<div class="input-group mb-3 col">
+								<span class="input-group-text const-width-1">Stated Problem</span>
+								<input id="probEditForm" type="text" class="form-control" placeholder="">
+							</div>
+						</div>
+						<div class="row">
+							<div class="input-group mb-3 col">
+								<span class="input-group-text const-width-1">Intake Notes</span>
+								<input id="notesEditForm" type="text" class="form-control" placeholder="">
+							</div>
+						</div>
+						<div class="row">
+							<div class="input-group mb-3 col">
+								<span class="input-group-text const-width-1">iPad SN</span>
+								<input id="iPadSerialEditForm" type="text" class="form-control" placeholder="">
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="saveEditRepair()">Save changes</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- Edit Repair Modal -->
+		<div class="modal fade" id="logsModel" tabindex="-1" aria-labelledby="logsModel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-scrollable modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Repair Journal</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body" id="logsModelBody">
+						<div id="noLogsLabel" style="display:none;">
+							<p>No information on this repair, how odd.</p>
+						</div>
+						<table class="table" id="logsTable">
+							<thead>
+								<tr>
+									<th scope="col">Who</th>
+									<th scope="col">When</th>
+									<th scope="col">What</th>
+								</tr>
+								<tbody id="logsTableBody">
+									<!-- Generated in showLogs() -->
+								</tbody>
+							</thead>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="loanerModal" tabindex="-1" aria-labelledby="loanerModal" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-scrollable">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Issue Loaner</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body" id="logsModelBody">
+						<input id="assetTagForm" type="text" class="form-control" placeholder="Asset Tag">
+					</div>
+				</div>
+			</div>
+		</div>
+		<div style="height: 30px; line-height: initial;">
+			<div style="float: right; padding-right: 10px;">
+				<span class="text-muted" id="loggedInAsLabel" onclick="showLoginToast()" style="cursor: pointer;"></span>
 			</div>
 		</div>
 	</body>

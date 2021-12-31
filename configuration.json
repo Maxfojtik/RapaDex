@@ -1,0 +1,231 @@
+{
+	"backendPath": "C:/be/examplebe.json",
+	"lockFilePath": "C:/be/locked.lock",
+	"repairables": {
+		"apple": {
+			"warningOnAppleDevices": true,
+			"appleCareRequiresFee": true,
+			"findMyWarning": true,
+			"commonName": "Apple",
+			"commonProblems": [
+				"Liquid Damage"
+			],
+			"devices":
+			{
+				"ipad": {
+					"digitalFlagshipSwitch": true,
+					"findMy": true,
+					"commonName": "iPad",
+					"commonProblems": [
+						"Cracked Screen",
+						"No display/Does not Boot",
+						"Buttons unresponsive",
+						"Charger Broke Off in Port",
+						"Does not recognize Apple Pencil"
+					],
+					"types": [
+						"Standard",
+						"Air",
+						"Mini",
+						"Pro"
+					]
+				},
+				"macbook": {
+					"commonName": "Macbook",
+					"findMy": true,
+					"commonProblems": [
+						"Cracked LCD",
+						"Cracked Glass",
+						"Sticky Keys",
+						"Damaged Enclosure",
+						"No Power",
+						"No Backlight"
+					],
+					"types": [
+						"Standard",
+						"Air",
+						"Pro"
+					]
+				},
+				"pencil": {
+					"digitalFlagshipSwitch": true,
+					"iPadSerialNumber": true,
+					"commonName": "Pencil",
+					"commonProblems": [
+						"Connects but does not write",
+						"Not connecting (no power)",
+						"Tip Damage",
+						"Enclosure Damage"
+					]
+				},
+				"keyboard": {		
+					"digitalFlagshipSwitch": true,
+					"iPadSerialNumber": true,
+					"commonName": "Keyboard",		
+					"commonProblems": [
+						"Sticky Keys",
+						"Does not connect",
+						"Damaged Enclosure"
+					]
+				},
+				"imac": {		
+					"commonName": "iMac",
+					"findMy": true,
+					"commonProblems": [
+						"Drive Failure",
+						"No Power",
+						"Firmware Password Removal"
+					],
+					"types": [
+						"21'",
+						"24'",
+						"27'"
+					]
+				},
+				"Other":true
+			}
+		},
+		"dell": {
+			"commonName": "Dell",
+			"commonProblems": [
+				"Cracked LCD",
+				"Cracked Glass",
+				"Sticky Keys",
+				"Damaged Enclosure",
+				"Liquid Damage"
+			],
+			"devices":
+			{
+				"xps15": {
+					"commonName": "XPS 15"
+				},
+				"xps13": {
+					"commonName": "XPS 13"
+				},
+				"inspiron": {
+					"commonName": "Inspiron"
+					
+				},
+				"Other":true
+			}
+		},
+		"microsoft": {
+			"commonName": "Microsoft",
+			"devices":
+			{
+				"surfaceLaptop":{
+					"commonName": "Surface Laptop"
+				},
+				"surfacePro": {
+					"commonName": "Surface Pro"
+				},
+				"surfaceBook": {
+					"commonName": "Surface Book"
+				},
+				"Other":true
+			}
+		}
+	},
+	"warranties": [
+		"AppleCare+",
+		"Safeware",
+		"Dell Warranty",
+		"Out of Warranty"
+	],
+	"employees": {
+		"yeager.137": {
+			"color": "#dd0000",
+			"black-text": false,
+			"abr": "to",
+			"active": true,
+			"name": "Todd"
+		},
+		"markiewicz.11": {
+			"color": "#ff87ff",
+			"black-text": true,
+			"abr": "da",
+			"active": true,
+			"name": "Dave"
+		},
+		"saffle.9": {
+			"color": "#8e00b5",
+			"black-text": false,
+			"abr": "co",
+			"active": true,
+			"name": "Cory"
+		},
+		"degitz.3": {
+			"color": "ffa1ca",
+			"black-text": true,
+			"repairTeam": true,
+			"abr": "ch",
+			"active": true,
+			"name": "Chloe"
+		},
+		"fojtik.6": {
+			"color": "#00eaff",
+			"black-text": true,
+			"repairTeam": true,
+			"abr": "ma",
+			"active": true,
+			"name": "Max"
+		},
+		"lawrence.709": {
+			"color": "#ddaffa",
+			"black-text": true,
+			"repairTeam": false,
+			"abr": "ev",
+			"active": true,
+			"name": "Evan"
+		},
+		"finley.267": {
+			"color": "#0000a8",
+			"black-text": false,
+			"repairTeam": true,
+			"abr": "br",
+			"active": true,
+			"name": "Brennan"
+		},
+		"mirzahasan.1": {
+			"color": "#e8ed5f",
+			"black-text": true,
+			"repairTeam": true,
+			"abr": "he",
+			"active": true,
+			"name": "Helin"
+		},
+		"collins.1795": {
+			"color": "#ffd36e",
+			"black-text": true,
+			"abr": "do",
+			"active": true,
+			"name": "Donovan"
+		},
+		"wittpenn.1": {
+			"color": "#026913",
+			"black-text": false,
+			"abr": "st",
+			"active": true,
+			"name": "Stephanie"
+		},
+		"gregory.532": {
+			"color": "#ff5512",
+			"black-text": false,
+			"abr": "tr",
+			"active": true,
+			"name": "Trent"
+		},
+		"rausch.169": {
+			"color": "#000000",
+			"black-text": false,
+			"abr": "jo",
+			"active": true,
+			"name": "Johnathan"
+		}
+	},
+	"dropOffStatement": "I understand and agree that repairing my computer may involve my data being lost. Data backup is solely my responsibility and Tech Hub is not liable for lost data.",
+	"dropOffStatement(unused)": "I understand and agree that repairing my computer may involve my data being lost. Data backup is solely my responsibility and Tech Hub is not liable for lost data. Tech Hub allows 7 days following repair pickup to claim any missing accessories. I am aware that I forfeit my device 6 months after being notified that is it available to be picked up.",
+	"pickUpStatement": "I agree that the reported issue is resolved and that all accessories are present.",
+	"pickUpStatementLoaner": "Pick up loaner",
+	"dropOffStatementLoaner": "Drop off loaner"
+}

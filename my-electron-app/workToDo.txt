@@ -1,0 +1,62 @@
+work to be done:
+	done - show iPad serial number in:
+		repair edit - done
+		repair edit edit - done
+		copiable - done
+		
+	done - make the front end work
+		search - done, dont know how it will work with lots of repairs
+			get discriptors for each repair generally - done, (could include iPad SN - done, or maybe loaner information)
+		pagementation? - just big boi scrollbar until we have problems with lag, or I have time
+		scroll - done
+		
+	color code front end (change color when adding work)
+	make status line work
+	
+	work on style with different widths
+		whole repairEdit, repairForm almost complete
+		
+		
+	logs
+		created repair - done
+		added work - done
+		deleted work - done
+		edited work - done
+		edited repair - done
+		issue loaner
+		
+	---------------- minimum viable product ---------------
+		
+	part checkin
+	
+	reconize serial numbers in intake form
+	
+	loaner form
+		jk it is now a modal... 
+			need to add a selector for condition, loaded from when last checked in
+			text box for estimated value, also loaded from database
+				when it does not reconize the computer:
+					Make and Model
+					Serial Number
+					
+	loaner checkin
+	attention items (for example if a repair is open for more than 2 months unfinished, or 2 month after finishing)
+	better error messages when config or backend dies, or if the k drive is down
+	does every loaner connect to a repair... If so, why do we have so many loaners out?
+	
+		
+	easter eggs:
+		when clicking on "Repa" it changes a random nice color and then goes back to what it was
+		when writing a @umich.edu email it says "muck fishican"
+		
+		
+flow diagram:
+	Main <-> Repair Form
+	  /\
+	  |
+	  \/
+	Repair Edit <-> Loaner Form
+	  /\
+	  |
+	  \/
+	Loaner Edit

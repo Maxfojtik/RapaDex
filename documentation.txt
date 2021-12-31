@@ -1,0 +1,3 @@
+Documentation:
+
+Never remove employees, it will break old forms... only set them as not active, when you set one as not active you can reuse the color
