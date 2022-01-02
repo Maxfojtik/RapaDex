@@ -674,6 +674,7 @@ function jsonifyTheRepairForm()
 	json["intakeNotes"] = $("#intakeTextArea").val();
 	json["phone"] = $("#phoneForm").val();
 	json["purchaseDate"] = $("#purchForm").val();
+	json["color"] = "default";
 	if(neediPadSN && $("#iPadSN").val()!="")
 	{
 		json["iPadSN"] = $("#iPadSN").val();

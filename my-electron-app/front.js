@@ -37,7 +37,10 @@ window.api.receive("fromMainLoadAll", (data) =>
 			backendData["repairs"][refNum]["descriptors"] = makeDescriptors(backendData["repairs"][refNum]);
 			window.api.send("toMain", "s"+JSON.stringify(backendData["repairs"][refNum]));
 		}*/
-		showRepairs(backendData["repairs"], true, Object.keys(backendData["repairs"]).length-100, 100);
+		if(backendData["repairs"])
+		{
+			showRepairs(backendData["repairs"], true, Object.keys(backendData["repairs"]).length-100, 100);
+		}
 	}
 	catch(e)
 	{
@@ -55,12 +58,13 @@ window.api.receive("fromMainLoadAll", (data) =>
 function loadAll()
 {
 	freezeFront = true;
+	$("#dtBody").empty();
 	$(".front-row").css("cursor", "default");
 	$("#searchButton").prop('disabled', true);
 	$("#startNewRepairButton").prop('disabled', true);
 	$("#saveSpinner").css("visibility", "hidden");
+	$("#searchInput").val("");
 	startLoadingSaving("Loading repairs...");
-	// Send a message to the main process
 	window.api.send("toMain", "loadAll");
 }	
 function createNewRepair()
@@ -87,7 +91,7 @@ function showRepairs(repairsIn, showArchived, start, length)
 		}*/
 		//repair["descriptors"] = makeDescriptors(repair);
 		//console.log(repair["descriptors"]);
-		var row = "<tr class=\"table-"+repair.color+" front-row\" onclick=\"clickRow("+refNum+")\"><th scope=\"row\">"+repair.name+"</th>";
+		var row = "<tr class=\"table-"+repair.color+" front-row\" onclick=\"clickRow("+repair.refNum+")\"><th scope=\"row\">"+repair.name+"</th>";
 		row += "<td>"+repair.refNum+"</td>";
 		row += "<td>"+repair.make+" "+repair.model+"</td>";
 		row += "<td>"+repair.serial+"</td>";
@@ -103,10 +107,11 @@ function search()
 	$("#saveSpinner").css("visibility", "visible");
 	var caughtRepairs = [];
 	var toSearchFor = $("#searchInput").val().toLowerCase();
-	console.log("Searching For '"+toSearchFor+"'");
+	//console.log("Searching For '"+toSearchFor+"'");
 	if(toSearchFor=="")
 	{
 		showRepairs(backendData["repairs"], true, Object.keys(backendData["repairs"]).length-100, 100);
+		$("#tooManyResultsWarning").fadeOut();
 	}
 	else
 	{
@@ -128,7 +133,22 @@ function search()
 				}
 			}
 		}
-		showRepairs(caughtRepairs, true, 0, Object.keys(caughtRepairs).length);
+		var maxRepairs = Object.keys(caughtRepairs).length;
+		var tooMany = false;
+		if(maxRepairs>config["maxRowsAtOnce"])
+		{
+			tooMany = true;
+			maxRepairs = config["maxRowsAtOnce"];
+		}
+		showRepairs(caughtRepairs, true, 0, maxRepairs);
+		if(tooMany)
+		{
+			$("#tooManyResultsWarning").fadeIn();
+		}
+		else
+		{
+			$("#tooManyResultsWarning").fadeOut();
+		}
 	}
 	//console.log(caughtRepairs);
 	$("#saveSpinner").css("visibility", "hidden");

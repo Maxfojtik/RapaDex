@@ -9,9 +9,10 @@ work to be done:
 			get discriptors for each repair generally - done, (could include iPad SN - done, or maybe loaner information)
 		pagementation? - just big boi scrollbar until we have problems with lag, or I have time
 		scroll - done
+		only show last 100 repairs, have to search to get the rest - done
 		
-	color code front end (change color when adding work)
-	make status line work
+	color code front end (change color when adding work) - done
+	make status line work - done
 	
 	work on style with different widths
 		whole repairEdit, repairForm almost complete
@@ -23,10 +24,11 @@ work to be done:
 		deleted work - done
 		edited work - done
 		edited repair - done
-		issue loaner
 		
 	---------------- minimum viable product ---------------
 		
+	logs for loaner 
+	
 	part checkin
 	
 	reconize serial numbers in intake form
@@ -49,7 +51,37 @@ work to be done:
 		when clicking on "Repa" it changes a random nice color and then goes back to what it was
 		when writing a @umich.edu email it says "muck fishican"
 		
-		
+	
+cons:
+	every new employee has to be added (using brennans configurator)
+	every new repair product we decide to support needs to be added
+	potential for new bugs
+	changes to our current system
+
+expected and here:
+	multiple people can use it at once
+	can store and retreieve repairs
+	can print forms for people to sign
+
+pros:
+	conneciton to OSU find people to validate emails and students
+	iPad serial number requirement
+	applecare+ fee and find my notifications
+	configurable 
+	commited to documentation (not much yet)
+	repair journal (can see everything that happens)
+	work is done with events and not in one big text box
+	runs on the same infrustucure that access does
+	has highlighting on first signiture line
+	looks prettier
+	pokemon
+	
+big pros:
+	can handle 100,000 repairs easily, wont slow down
+	does not freeze (has indications when doing work)
+	
+	
+
 flow diagram:
 	Main <-> Repair Form
 	  /\

@@ -191,6 +191,7 @@ function loadConfiguration()
 			//setupWarranties(); called like above
 			$("#dropOffStatement").text(config.dropOffStatement);	
 			$("#pickUpStatement").text(config.pickUpStatement);	
+			$("#tooManyResultsWarning").text("There are more than "+config["maxRowsAtOnce"]+" results for your search, please refine your parameters");
 			//console.log(config);
 		}
 		catch(e)
@@ -337,15 +338,15 @@ function generateRandomRepair(refNum)
 	//date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
 	json["workCompleted"] = [{"who": "fojtik.6", "when": date.toJSON(), "what": "Created Repair Form", "note": ""}];
 	json["descriptors"] = makeDescriptors(json);
-	json["archived"] = Math.random()>.5;
+	//json["archived"] = false;
 	return json;
 }
 function generateLots(amount)
 {
-	var repairs = [];
+	var repairs = {};
 	for(var i = 0; i < amount; i++)
 	{
-		repairs[i] = generateRandomRepair(i+1);
+		repairs[(i+1)+""] = generateRandomRepair(i+1);
 	}
 	console.log(JSON.stringify(repairs));
 }

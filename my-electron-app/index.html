@@ -81,8 +81,8 @@
 							</select>-->
 						</div>
 					</div>
-					<div class="col" id="saveSpinnerContainter">
-						<div id="saveSpinner" class="spinner-border ms-auto" role="status"></div>
+					<div class="col" id="">
+						<p id="tooManyResultsWarning" style="display:none;"></p>
 					</div>
 					<div class="col">
 						<button style="float:right; width: 400px;" id="startNewRepairButton" type="button" class="btn btn-primary" onclick="createNewRepair()" disabled>Create a new repair</button>
@@ -492,6 +492,7 @@
 								<option value="Sent Out">Sent Out</option>
 								<option value="Submitted RFA">Submitted RFA</option>
 								<option value="Ordered Parts">Ordered Parts</option>
+								<option value="Parts Arrived">Parts Arrived</option>
 								<option value="Finished">Finished</option>
 								<option value="Note">Note</option>
 							</select>

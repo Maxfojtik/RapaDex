@@ -223,6 +223,7 @@
 			"name": "Johnathan"
 		}
 	},
+	"maxRowsAtOnce": 1000,
 	"dropOffStatement": "I understand and agree that repairing my computer may involve my data being lost. Data backup is solely my responsibility and Tech Hub is not liable for lost data.",
 	"dropOffStatement(unused)": "I understand and agree that repairing my computer may involve my data being lost. Data backup is solely my responsibility and Tech Hub is not liable for lost data. Tech Hub allows 7 days following repair pickup to claim any missing accessories. I am aware that I forfeit my device 6 months after being notified that is it available to be picked up.",
 	"pickUpStatement": "I agree that the reported issue is resolved and that all accessories are present.",

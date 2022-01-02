@@ -95,8 +95,9 @@ function deleteWork()
 		currentRepairJSON["workCompleted"].splice(editingIndex, 1);
 		currentRepairJSON["logs"].push(logEntry);
 		//console.log(JSON.stringify(currentRepairJSON["workCompleted"]));
-		startLoadingSaving("Deleting record...");
+		figureOutColor();
 		freezeForm();
+		startLoadingSaving("Deleting record...");
 		addedWorkRefNum = refNumIn;
 		window.api.send("toMain", "s"+JSON.stringify(currentRepairJSON));
 	}
@@ -211,6 +212,7 @@ function saveWorkAs(name)
 	{
 		currentRepairJSON["status"] = repairWork["what"];
 	}
+	figureOutColor();
 	addedWorkRefNum = refNumIn;
 	window.api.send("toMain", "s"+JSON.stringify(currentRepairJSON));
 	addWorkToast.hide();
@@ -507,4 +509,48 @@ function issueLoaner()
 	{
 		
 	}
+}
+function figureOutColor()
+{
+	var color = "default";
+	for(var i = currentRepairJSON["workCompleted"].length-1; i > 0; i++)
+	{
+		var work = currentRepairJSON["workCompleted"][i];
+		if(work["what"]=="Sent Out")
+		{
+			color = "warning";
+			break;
+		}
+		if(work["what"]=="Diagnosed")
+		{
+			color = "secondary";
+			break;
+		}
+		if(work["what"]=="Submitted Claim")
+		{
+			color = "info";
+			break;
+		}
+		if(work["what"]=="Submitted RFA")
+		{
+			color = "info";
+			break;
+		}
+		if(work["what"]=="Ordered Parts")
+		{
+			color = "info";
+			break;
+		}
+		if(work["what"]=="Parts Arrived")
+		{
+			color = "primary";
+			break;
+		}
+		if(work["what"]=="Finished")
+		{
+			color = "success";
+			break;
+		}
+	}
+	currentRepairJSON["color"] = color;
 }
