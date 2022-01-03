@@ -298,67 +298,67 @@ function saveEditRepair()
 	var newName = $("#customerNameEditForm").val();
 	if(newName!=currentRepairJSON["name"])
 	{
-		buildingLog += " name: "+currentRepairJSON["name"]+" -> "+newName;
+		buildingLog += " name: '"+currentRepairJSON["name"]+"' -> '"+newName+"'";
 	}
 	currentRepairJSON["name"] = newName;
 	var newEmail = $("#emailEditForm").val();
 	if(newEmail!=currentRepairJSON["email"])
 	{
-		buildingLog += " email: "+currentRepairJSON["email"]+" -> "+newEmail;
+		buildingLog += " email: '"+currentRepairJSON["email"]+"' -> '"+newEmail+"'";
 	}
 	currentRepairJSON["email"] = newEmail;
 	var newPhone = $("#phoneEditForm").val();
 	if(newPhone!=currentRepairJSON["phone"])
 	{
-		buildingLog += " phone: "+currentRepairJSON["phone"]+" -> "+newPhone;
+		buildingLog += " phone: '"+currentRepairJSON["phone"]+"' -> '"+newPhone+"'";
 	}
 	currentRepairJSON["phone"] = newPhone;
 	var newSerial = $("#serialEditForm").val();
 	if(newSerial!=currentRepairJSON["serial"])
 	{
-		buildingLog += " serial: "+currentRepairJSON["serial"]+" -> "+newSerial;
+		buildingLog += " serial: '"+currentRepairJSON["serial"]+"' -> '"+newSerial+"'";
 	}
 	currentRepairJSON["serial"] = newSerial;
 	var newMake = $("#makeEditForm").val();
 	if(newMake!=currentRepairJSON["make"])
 	{
-		buildingLog += " make: "+currentRepairJSON["make"]+" -> "+newMake;
+		buildingLog += " make: '"+currentRepairJSON["make"]+"' -> '"+newMake+"'";
 	}
 	currentRepairJSON["make"] = newMake;
 	var newModel = $("#modelEditForm").val();
 	if(newModel!=currentRepairJSON["model"])
 	{
-		buildingLog += " model: "+currentRepairJSON["model"]+" -> "+newModel;
+		buildingLog += " model: '"+currentRepairJSON["model"]+"' -> '"+newModel+"'";
 	}
 	currentRepairJSON["model"] = newModel;
 	var newWarr = $("#warrEditForm").val();
 	if(newWarr!=currentRepairJSON["warranty"])
 	{
-		buildingLog += " warranty: "+currentRepairJSON["warranty"]+" -> "+newWarr;
+		buildingLog += " warranty: '"+currentRepairJSON["warranty"]+"' -> '"+newWarr+"'";
 	}
 	currentRepairJSON["warranty"] = newWarr;
 	var newAcc = $("#accEditForm").val();
 	if(newAcc!=currentRepairJSON["acc"])
 	{
-		buildingLog += " acc: "+currentRepairJSON["acc"]+" -> "+newAcc;
+		buildingLog += " acc: '"+currentRepairJSON["acc"]+"' -> '"+newAcc+"'";
 	}
 	currentRepairJSON["acc"] = newAcc;
 	var newProblem = $("#probEditForm").val();
 	if(newProblem!=currentRepairJSON["problem"])
 	{
-		buildingLog += " problem: "+currentRepairJSON["problem"]+" -> "+newProblem;
+		buildingLog += " problem: '"+currentRepairJSON["problem"]+"' -> '"+newProblem+"'";
 	}
 	currentRepairJSON["problem"] = newProblem;
 	var newiPadSN = $("#iPadSerialEditForm").val();
 	if(newiPadSN!=currentRepairJSON["iPadSN"])
 	{
-		buildingLog += " iPadSN: "+currentRepairJSON["iPadSN"]+" -> "+newiPadSN;
+		buildingLog += " iPadSN: '"+currentRepairJSON["iPadSN"]+"' -> '"+newiPadSN+"'";
 	}
 	currentRepairJSON["iPadSN"] = newiPadSN;
 	var newIntakeNotes = $("#notesEditForm").val();
 	if(newIntakeNotes!=currentRepairJSON["intakeNotes"])
 	{
-		buildingLog += " intakeNotes: "+currentRepairJSON["intakeNotes"]+" -> "+newIntakeNotes;
+		buildingLog += " intakeNotes: '"+currentRepairJSON["intakeNotes"]+"' -> '"+newIntakeNotes+"'";
 	}
 	currentRepairJSON["intakeNotes"] = newIntakeNotes;
 	if(buildingLog!="")//if anything actually changed, save it
