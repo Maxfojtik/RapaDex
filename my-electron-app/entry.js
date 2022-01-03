@@ -4,8 +4,8 @@ const fs = require("fs");
 const crypto = require("crypto");
 var win;
 
-//var configPath = "K:/BF/PRSM/TechHub/RepaDex/configuration.json";
-var configPath = "C:/Users/Maxwell/Documents/GitHub/RapaDex/configuration.json";
+var configPath = "K:/BF/PRSM/TechHub/RepaDex/configuration.json";
+//var configPath = "C:/Users/Maxwell/Documents/GitHub/RapaDex/configuration.json";
 var configPathLocalFolder = process.env.APPDATA+"/repadex/";
 var configPathLocal = configPathLocalFolder+"configuration.json";
 var backendPath = "";//JSON.parse(configTxt).backendPath;
