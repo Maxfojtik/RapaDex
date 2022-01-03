@@ -5,6 +5,7 @@ const crypto = require("crypto");
 var win;
 
 var configPath = "C:/Users/Maxwell/Documents/GitHub/RapaDex/configuration.json";
+//var configPath = "C:/Users/Maxwell/Documents/GitHub/RapaDex/configuration.json";
 var configPathLocalFolder = process.env.APPDATA+"/repadex/";
 var configPathLocal = configPathLocalFolder+"configuration.json";
 var backendPath = "";//JSON.parse(configTxt).backendPath;

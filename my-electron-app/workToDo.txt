@@ -25,7 +25,9 @@ work to be done:
 		edited work - done
 		edited repair - done
 		
-	being able to update itself 
+	being able to update itself - temp problem
+	
+	needs to be able to reprint form
 	
 	bugs:
 	
