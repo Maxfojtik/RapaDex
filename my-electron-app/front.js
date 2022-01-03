@@ -77,12 +77,14 @@ function createNewRepair()
 function showRepairs(repairsIn, showArchived, start, length)
 {
 	$("#dtBody").empty();
+	var counter = 0;
 	for(var refNum in repairsIn)
 	{
-		if(refNum<start || refNum>(start+length))
+		if(refNum<start || counter>length)
 		{
 			continue;
 		}
+		counter++;
 		var repair = repairsIn[refNum];
 		/*if(repairsIn[refNum]["archived"] && !showArchived)
 		{

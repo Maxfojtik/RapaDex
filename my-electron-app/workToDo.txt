@@ -15,7 +15,7 @@ work to be done:
 	make status line work - done
 	
 	work on style with different widths
-		whole repairEdit, repairForm almost complete
+		whole repairEdit, repairForm almost complete - done
 		
 		
 	logs
@@ -25,7 +25,16 @@ work to be done:
 		edited work - done
 		edited repair - done
 		
+	being able to update itself 
+	
+	bugs:
+	
+		not showing top repair - done?
+		barcode not working 
+		change highlighting - done
+	
 	---------------- minimum viable product ---------------
+	
 		
 	logs for loaner 
 	
@@ -57,6 +66,8 @@ cons:
 	every new repair product we decide to support needs to be added
 	potential for new bugs
 	changes to our current system
+	loaners not complete
+	will have to be updated often
 
 expected and here:
 	multiple people can use it at once
@@ -75,6 +86,8 @@ pros:
 	has highlighting on first signiture line
 	looks prettier
 	pokemon
+	front colorful and has status labels
+	
 	
 big pros:
 	can handle 100,000 repairs easily, wont slow down

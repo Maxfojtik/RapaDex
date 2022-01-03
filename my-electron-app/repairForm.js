@@ -806,7 +806,6 @@ function unMakeRepairPrintable()
 	$("#passwordForm").val("Written in after printing");
 	$("#mainTitle").css("font-size", "");
 	$("#techLogo").css("height", "");
-	$("#barcodediv").hide();
 }
 function genbar()
 {
