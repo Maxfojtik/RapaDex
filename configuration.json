@@ -77,9 +77,9 @@
 						"Firmware Password Removal"
 					],
 					"types": [
-						"21'",
-						"24'",
-						"27'"
+						"21",
+						"24",
+						"27"
 					]
 				},
 				"Other":true

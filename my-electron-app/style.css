@@ -314,3 +314,9 @@ body {
 	overflow-x: hidden;
 	overflow-y: scroll;
 }
+th {
+	border-color: #ccc;
+}
+td {
+	border-color: #ccc;
+}

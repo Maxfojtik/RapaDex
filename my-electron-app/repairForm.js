@@ -2,8 +2,8 @@ $(document).on('input', '.validable', function () {
 	//console.log(event.target.value);
 	validateInputElement(event.target);
 });
-$(document).on("keyup", '#nameForm', function(e) {
-	var value = $("#nameForm").val();
+$(document).on("keyup", '#emailForm', function(e) {
+	var value = $("#emailForm").val();
 	if(/^[a-z]*[.,](\d+)$/.test(value))
 	{
 		if (e.keyCode == 13) {
@@ -14,19 +14,16 @@ $(document).on("keyup", '#nameForm', function(e) {
 $(document).on("change", "#problemSelector", function () {
 	//text = event.target.innerHTML;
 	//alert();
-	/*var value = $(this).find("option:selected").attr("showproblem");
+	var value = $(this).find("option:selected").attr("showproblem");
 	if(value=="true")
 	{
 		$("#problemBox").show();
-		$("#problemSelectorRow").addClass("hideWhenPrint");
 	}
 	else
 	{
 		$("#problemBox").hide();
-		$("#problemSelectorRow").removeClass("hideWhenPrint");
-	}*/
+	}
 });
-//need easter egg to say muck fishigan if we type an @umich.edu
 function resetRepairForm()
 {
 	var date = new Date();
@@ -66,6 +63,7 @@ function resetRepairForm()
 	$("#serialForm").addClass("is-invalid");
 	$("#warrantySelector").addClass("is-invalid");
 	$("#typeOtherBox").addClass("is-invalid");
+	$("#workerSelector").focus();
 }
 function validateInputElement(ele)
 {
@@ -108,7 +106,7 @@ function findPerson()
 	{
 		lastname: "",
 		firstname: "",
-		name_n: $("#nameForm").val(),
+		name_n: $("#emailForm").val(),
 		filter: "All"
 	},
 	function(data, status){
@@ -688,6 +686,10 @@ function jsonifyTheRepairForm()
 	if(neediPadSN && $("#iPadSN").val()!="")
 	{
 		json["iPadSN"] = $("#iPadSN").val();
+	}
+	else
+	{
+		json["iPadSN"] = "";
 	}
 	//json["lastTouched"] = new Date().toJSON();
 	var problem = $("#problemSelector").val();

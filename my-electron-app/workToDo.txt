@@ -25,7 +25,7 @@ work to be done:
 		edited work - done
 		edited repair - done
 		
-	being able to update itself - temp problem
+	being able to update itself - temp problem fixed
 	
 	needs to be able to reprint form
 	
@@ -34,9 +34,18 @@ work to be done:
 		not showing top repair - done?
 		barcode not working - done
 		change highlighting - done
-	
+		journal for editing repair adding wrong info - done
+		multiple problems/other not working - done
+		
+		
+		
 	---------------- minimum viable product ---------------
 	
+	make email the place where we do the searching - done
+	
+	change row to be darker	- done
+	
+	select worker selector immedetly - done
 		
 	logs for loaner 
 	
