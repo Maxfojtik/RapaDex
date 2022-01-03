@@ -124,6 +124,9 @@
 						<div id="showLogsJournal" class="repair-context-button" onclick="showLogs()" data-bs-toggle="modal" data-bs-target="#logsModel">
 							<img class="repairLogImage" src='journal.svg' style='width: 20px; height: 20px'></img>
 						</div>
+						<div id="reprintForm" class="repair-context-button" onclick="reprintForm()">
+							<img class="repairReprintImage" src='printer.svg' style='width: 20px; height: 20px'></img>
+						</div>
 					</div>
 					<div class="row" style="padding-top: 5px;">
 						<div class="col">
@@ -296,10 +299,10 @@
 					<div class="input-group mb-3 col">
 						<span class="input-group-text const-width-1" id="basic-addon13">Warranty</span>
 						<!--<input type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon13">-->
-						<select  style="border-top-right-radius: .25rem;  border-bottom-right-radius: .25rem;" id="warrantySelector" class="form-select header-inline warrantySelector is-invalid" aria-label="Select warranty" onclick="warrantySelected(); validateSaveButtons();" onmousedown="removeFirstWarranty();">
+						<select style="border-top-right-radius: .25rem;  border-bottom-right-radius: .25rem;" id="warrantySelector" class="form-select header-inline warrantySelector is-invalid hideWhenPrint" aria-label="Select warranty" onclick="warrantySelected(); validateSaveButtons();" onmousedown="removeFirstWarranty();">
 							<!--generated in js-->
 						</select>
-						<input id="warrantyOtherText" type="text" class="form-control validable is-invalid" placeholder="Specify" aria-label="" style="display:none;" oninput="validateSaveButtons()">
+						<input id="warrantyOtherText" type="text" class="form-control validable is-invalid showWhenPrint" placeholder="Specify" aria-label="" style="display:none;" oninput="validateSaveButtons()">
 					</div>
 					<div class="input-group mb-3 col">
 						<span class="input-group-text const-width-2 modelSpan" id="basic-addon7">Model</span>
@@ -352,7 +355,7 @@
 						<textarea class="form-control" id="intakeTextArea" rows="2" oninput=""></textarea>
 					</div>
 				</div>
-				<div class="row" id="problemSelectorRow">
+				<div class="row hideWhenPrint" id="problemSelectorRow">
 					<div class="input-group mb-3 col">
 						<select class="form-select header-inline is-invalid" aria-label="Select Problem" id="problemSelector" onmousedown="removeFirstProblem()" style="display:none;" onclick="validateSaveButtons();">
 							<!--Generated in js from configuration.json-->
@@ -360,9 +363,9 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="input-group mb-3 col" style="display:none;" id="problemBox">
+					<div class="input-group mb-3 col showWhenPrint" style="display:none;" id="problemBox">
 						<span class="input-group-text const-width-1" id="basic-addon10">Problem</span>
-						<textarea class="form-control" id="problemTextArea" rows="3" oninput="validateSaveButtons()"></textarea>
+						<textarea class="form-control" id="problemTextArea" rows="1" oninput="validateSaveButtons()"></textarea>
 					</div>
 				</div>
 				<div class="row hideWhenPrint" id="saveButtons">

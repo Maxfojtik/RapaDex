@@ -32,7 +32,7 @@ work to be done:
 	bugs:
 	
 		not showing top repair - done?
-		barcode not working 
+		barcode not working - done
 		change highlighting - done
 	
 	---------------- minimum viable product ---------------

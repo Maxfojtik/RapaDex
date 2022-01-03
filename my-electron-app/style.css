@@ -306,6 +306,9 @@ body {
 .repairLogImage:hover {
     content: url('journalhover.svg');
 }
+.repairReprintImage:hover {
+    content: url('printerhover.svg');
+}
 .table-container {
 	max-height: calc(100% - 300px);
 	overflow-x: hidden;

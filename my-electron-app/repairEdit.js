@@ -3,6 +3,8 @@ var addedWorkRefNum = 0;
 var addWorkToast;
 var loginToast;
 var deleteClicksLeft;
+var dontOverrideWarranty = false;
+var dontOverrideProblem = false;
 $(document).on("keyup", '#assetTagForm', function(e) {
 	if (e.keyCode == 13 && !repairEditFrozen) {
 		var value = $("#assetTagForm").val();
@@ -553,4 +555,51 @@ function figureOutColor()
 		}
 	}
 	currentRepairJSON["color"] = color;
+}
+function reprintForm()
+{
+	$("#savingDisplay").hide();
+	$("#repairForm").show();
+	$("#repairEdit").hide();
+	var whoDidIt = currentRepairJSON["workCompleted"][0]["who"];
+	$("#RepaPart").css("color", config["employees"][whoDidIt]["color"]);
+	fillPrintingFill(whoDidIt);
+	$("#RefNumLabel").text("Ref. Number: "+currentRepairJSON["refNum"]);
+	$("#serialForm").val(currentRepairJSON["serial"]);
+	genbar();
+	$("#nameForm").val(currentRepairJSON["name"]);
+	var date = new Date(currentRepairJSON["startDate"]);
+	$("#dateForm").val(date.toISOString().slice(0,16));
+	$("#emailForm").val(currentRepairJSON["email"]);
+	$("#accForm").val(currentRepairJSON["acc"]);
+	$("#intakeTextArea").val(currentRepairJSON["intakeNotes"]);
+	$("#phoneForm").val(currentRepairJSON["phone"]);
+	$("#purchForm").val(currentRepairJSON["purchaseDate"]);
+	if(currentRepairJSON["iPadSN"])
+	{
+		$("#iPadSN").val(currentRepairJSON["iPadSN"]);
+		$("#iPadSNDiv").show();
+		$("#passwordDiv").hide();
+	}
+	else
+	{
+		$("#iPadSNDiv").hide();
+		$("#passwordDiv").show();
+	}
+	dontOverrideProblem = true;
+	$("#problemSelector").val("Other");
+	$("#problemTextArea").val(currentRepairJSON["problem"]);
+	dontOverrideWarranty = true;
+	$("#warrantyOtherText").val(currentRepairJSON["warranty"]);
+	selectedMakeName = currentRepairJSON["make"];
+	selectedModelName = currentRepairJSON["model"];
+	subType = "";
+	printing = true;
+	makeRepairPrintable();
+	window.print();
+	unMakeRepairPrintable();
+	dontOverrideWarranty = false;
+	dontOverrideProblem = false;
+	$("#repairForm").hide();
+	$("#repairEdit").show();
 }

@@ -14,7 +14,7 @@ $(document).on("keyup", '#nameForm', function(e) {
 $(document).on("change", "#problemSelector", function () {
 	//text = event.target.innerHTML;
 	//alert();
-	var value = $(this).find("option:selected").attr("showproblem");
+	/*var value = $(this).find("option:selected").attr("showproblem");
 	if(value=="true")
 	{
 		$("#problemBox").show();
@@ -24,7 +24,7 @@ $(document).on("change", "#problemSelector", function () {
 	{
 		$("#problemBox").hide();
 		$("#problemSelectorRow").removeClass("hideWhenPrint");
-	}
+	}*/
 });
 //need easter egg to say muck fishigan if we type an @umich.edu
 function resetRepairForm()
@@ -177,24 +177,34 @@ function selectPill(name)//pass null if you want to reset pills
 		validateSaveButtons();
 	}
 }
+function fillPrintingFill(theName)
+{	
+	$("#printingPill").css("background-color", config.employees[theName].color);
+	$("#printingPill").css("border-color", config.employees[theName].color);
+	$("#printingPill").text(config.employees[theName]["name"]);
+	if(config.employees[theName]["black-text"])
+	{
+		$("#printingPill").addClass("text-dark");
+	}
+	else
+	{
+		$("#printingPill").removeClass("text-dark");
+	}
+}
 function markSelectedPill(thePill, theName)
 {
 	setRepaColor(config.employees[theName].color);
 	//$("#RepaPart").css("color", config.employees[theName].color);
 	var styling = 'background-color: '+config.employees[theName].color+'; '+'border-color: '+config.employees[theName].color+';';
 	thePill.style = styling;
-	$("#printingPill").css("background-color", config.employees[theName].color);
-	$("#printingPill").css("border-color", config.employees[theName].color);
-	$("#printingPill").text(config.employees[theName]["name"]);
+	fillPrintingFill(theName);
 	if(config.employees[theName]["black-text"])
 	{
 		thePill.className = 'badge rounded-pill badge-spaced text-dark';
-		//$("#printingPill").addClass("text-dark");
 	}
 	else
 	{
 		thePill.className = 'badge rounded-pill badge-spaced';
-		//$("#printingPill").removeClass("text-dark");
 	}
 }
 function markDeselectedPill(thePill, theName)
@@ -259,7 +269,7 @@ function makeSelect(name)
 	$("#problemSelector").empty();
 	$("#problemSelector").hide();
 	$("#problemBox").hide();
-	$("#problemSelectorRow").removeClass("hideWhenPrint");
+	//$("#problemSelectorRow").removeClass("hideWhenPrint");
 	//console.log(commonProblems);
 	var allMakes = $("#makeSelector").children();
 	var theMake;
@@ -412,7 +422,7 @@ function typeSelect(id)
 {
 	subType = "";
 	$("#problemBox").hide();
-	$("#problemSelectorRow").removeClass("hideWhenPrint");
+	//$("#problemSelectorRow").removeClass("hideWhenPrint");
 	var allTypes = $("#typeSelectors").find('button');
 	var theTypeElement;
 	for(var i = 0; i < allTypes.length; i++)
@@ -737,6 +747,17 @@ function getNextRefNum()
 }
 function makeRepairPrintable()
 {
+	$("#warrantySelector").hide();
+	if($("#warrantySelector").val()!="Other" && !dontOverrideWarranty)
+	{
+		//console.log("overriding");
+		$("#warrantyOtherText").val($("#warrantySelector").val());
+	}
+	var needToOverrideProblem = $("#problemSelector").find("option:selected").attr("showproblem")!="true";
+	if(needToOverrideProblem && !dontOverrideProblem)
+	{
+		$("#problemTextArea").val($("#problemSelector").val());
+	}
 	$(".is-invalid").each(function(){
 		$(this).addClass("is-invalid-printed");
 		$(this).removeClass("is-invalid");
@@ -784,6 +805,7 @@ function makeRepairPrintable()
 }
 function unMakeRepairPrintable()
 {
+	$("#warrantySelector").show();
 	$(".is-invalid").each(function(){
 		$(this).addClass("is-invalid-printed");
 		$(this).removeClass("is-invalid");
