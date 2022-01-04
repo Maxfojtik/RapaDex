@@ -48,6 +48,8 @@ work to be done:
 	
 	select worker selector immedetly - done
 		
+	repair notes - done
+		
 	make it a requirement to select yourself before saving repair changes
 		
 	logs for loaner 

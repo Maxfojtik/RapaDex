@@ -804,6 +804,7 @@ function makeRepairPrintable()
 	dateTimeText += " "+hours+":"+String(d.getMinutes()).padStart(2, '0')+" "+ampmindicator;
 	$("#dateTimeLabel").text(dateTimeText);
 	$("#nameLabelBottom").text($("#nameForm").val());
+	$("#loggedInAsLabel").text("v"+version);
 }
 function unMakeRepairPrintable()
 {
@@ -830,6 +831,7 @@ function unMakeRepairPrintable()
 	$("#passwordForm").val("Written in after printing");
 	$("#mainTitle").css("font-size", "");
 	$("#techLogo").css("height", "");
+	$("#loggedInAsLabel").text("");
 }
 function genbar()
 {
