@@ -117,7 +117,7 @@ function setupWarranties()
 		"<option value=\"Other\">Other</option>"
 	);
 }
-function getPill(name, id, functionSelect)
+function getPill(innerName, name, id, functionSelect)
 {
 	var styling = 'background-color: '+config.employees[name].color+'; '+'border-color: '+config.employees[name].color+';';
 	if(functionSelect=="")
@@ -135,7 +135,7 @@ function getPill(name, id, functionSelect)
 		classes = 'badge rounded-pill badge-spaced';
 		//$("#printingPill").removeClass("text-dark");
 	}
-	return "<span id=\""+id+"\" employee=\""+name+"\" style=\""+styling+"\" class=\""+classes+"\" onclick=\""+functionSelect+"\">"+config.employees[name]["name"]+"</span>";
+	return "<span id=\""+id+"\" employee=\""+name+"\" style=\""+styling+"\" class=\""+classes+"\" onclick=\""+functionSelect+"\">"+innerName+"</span>";
 }
 function getOutlinedPill(name, id, functionSelect)
 {
@@ -157,11 +157,26 @@ function loadConfiguration()
 			//<span id="selectEmployeeTodd" class="badge rounded-pill badge-not-selected text-dark badge-spaced" onclick="selectPill('Todd')">Todd</span>
 			var building = "<div class=\"overflow-auto insideSaveAs\">";
 			var buildingLogin = "<h5>";
+			$("#editDateWorkerSelector").append(
+				"<option value=\"\" selected></option>"
+			);
 			for (var employee in config.employees) 
 			{
 				if(!config.employees[employee].active)//skip if not active
 				{
 					continue;
+				}
+				if(config.employees[employee]["black-text"])
+				{
+					$("#editDateWorkerSelector").append(
+						"<option value=\""+employee+"\" style=\"background-color: "+config.employees[employee]["color"]+";\">"+config.employees[employee]["name"]+"</option>"
+					);
+				}
+				else
+				{
+					$("#editDateWorkerSelector").append(
+						"<option value=\""+employee+"\" style=\"color: white; background-color: "+config.employees[employee]["color"]+";\">"+config.employees[employee]["name"]+"</option>"
+					);
 				}
 				$(".workerSelect").append(
 					getOutlinedPill(employee, "selectEmployee"+employee, "selectPill('"+employee+"')")
@@ -179,8 +194,8 @@ function loadConfiguration()
 						pillClasses = 'badge rounded-pill badge-spaced';
 					}
 					building += "<span id=\"repairEmployee"+employee+"\" class=\""+pillClasses+"\" onclick=\"selectRepairPill('"+employee+"')\" style=\""+pillStyle+"\">"+employee+"</span>"*/
-					building += getPill(employee, "repairEmployee"+employee, "selectRepairPill('"+employee+"')");;
-					buildingLogin += getPill(employee, "repairEmployeeLogin"+employee, "selectLoginPill('"+employee+"')");;
+					building += getPill(config.employees[employee]["name"], employee, "repairEmployee"+employee, "selectRepairPill('"+employee+"')");;
+					buildingLogin += getPill(config.employees[employee]["name"], employee, "repairEmployeeLogin"+employee, "selectLoginPill('"+employee+"')");;
 				}
 			}
 			building += "</div>";

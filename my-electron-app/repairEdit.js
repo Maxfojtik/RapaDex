@@ -97,7 +97,7 @@ function deleteWork()
 		currentRepairJSON["workCompleted"].splice(editingIndex, 1);
 		currentRepairJSON["logs"].push(logEntry);
 		//console.log(JSON.stringify(currentRepairJSON["workCompleted"]));
-		figureOutColor();
+		figureOutColorAndStatus();
 		freezeForm();
 		startLoadingSaving("Deleting record...");
 		addedWorkRefNum = refNumIn;
@@ -210,11 +210,7 @@ function saveWorkAs(name)
 	{
 		currentRepairJSON["logs"].push(logEntry);
 	}
-	if(repairWork["what"]!="Note")
-	{
-		currentRepairJSON["status"] = repairWork["what"];
-	}
-	figureOutColor();
+	figureOutColorAndStatus();
 	addedWorkRefNum = refNumIn;
 	window.api.send("toMain", "s"+JSON.stringify(currentRepairJSON));
 	addWorkToast.hide();
@@ -398,7 +394,24 @@ function showRepair(data, refNum)
 	$("#startDateLabel").text(dateText);
 	$("#warrLabel").text(repair["warranty"]);
 	$("#employeeLabel").empty();
-	$("#employeeLabel").append("<h5 style='margin-bottom: 0px;'>"+getPill(repair["workCompleted"][0]["who"], "employeeLabelPill", "")+"</h5>");
+	$("#employeeLabel").append("<h5 style='margin-bottom: 0px;'>"+getPill(config.employees[repair["workCompleted"][0]["who"]]["name"], repair["workCompleted"][0]["who"], "employeeLabelPill", "")+"</h5>");
+	//$("#datePickedUpLabel").empty();
+	if(repair["datePicked"])
+	{
+		$("#pickedUpText").text("Status: Picked Up");
+		$("#datePickedUpContext").show();
+		$("#datePickedUpButton").hide();
+		$("#datePickedUpContext").empty();
+		var datePicked = new Date(repair["datePicked"]["date"]);
+		var datePickedText = String(date.getMonth()+1).padStart(2, '0')+"/"+String(date.getDate()).padStart(2, '0')+"/"+date.getFullYear();
+		$("#datePickedUpContext").append("<h5 style='margin-bottom: 0px;'>"+getPill(datePickedText, repair["datePicked"]["who"], "pickedupLabelPill", "editDatePickedUp()")+"</h5>");
+	}
+	else
+	{
+		$("#pickedUpText").text("Status: In-Store");
+		$("#datePickedUpButton").show();
+		$("#datePickedUpContext").hide();
+	}
 	var lastTouchedDate = new Date();
 	lastTouchedDate.setTime(Date.parse(repair["lastTouched"]));
 	$("#statedProblemLabel").text(repair["problem"]);
@@ -431,7 +444,7 @@ function showRepair(data, refNum)
 		var html = "<tr><td scope='row'>"+dateTimeText+"</td>";
 		html +="<td>"+repair["workCompleted"][i]["what"]+"</td>";
 		html +="<td style='max-width: 400px; overflow:auto;'>"+repair["workCompleted"][i]["note"]+"</td>";
-		html +="<td>"+getPill(repair["workCompleted"][i]["who"], "workCompletedLabelPill"+i, "")+"</td>";
+		html +="<td>"+getPill(config.employees[repair["workCompleted"][0]["who"]]["name"], repair["workCompleted"][i]["who"], "workCompletedLabelPill"+i, "")+"</td>";
 		if(loggedInAs=="")
 		{
 			if(i==0)
@@ -512,49 +525,68 @@ function issueLoaner()
 		
 	}
 }
-function figureOutColor()
+function figureOutColorAndStatus()
 {
 	var color = "default";
-	for(var i = currentRepairJSON["workCompleted"].length-1; i > 0; i++)
+	var status = "Unknown";
+	if(currentRepairJSON["datePicked"])
+	{		
+		var date = new Date(currentRepairJSON["datePicked"]["when"]);
+		var dateText = String(date.getMonth()+1).padStart(2, '0')+"/"+String(date.getDate()).padStart(2, '0')+"/"+date.getFullYear();
+		status = "Picked up on "+dateText;
+		color = "light";
+	}
+	else
 	{
-		var work = currentRepairJSON["workCompleted"][i];
-		if(work["what"]=="Sent Out")
+		for(var i = currentRepairJSON["workCompleted"].length-1; i > 0; i--)
 		{
-			color = "warning";
-			break;
-		}
-		if(work["what"]=="Diagnosed")
-		{
-			color = "secondary";
-			break;
-		}
-		if(work["what"]=="Submitted Claim")
-		{
-			color = "info";
-			break;
-		}
-		if(work["what"]=="Submitted RFA")
-		{
-			color = "info";
-			break;
-		}
-		if(work["what"]=="Ordered Parts")
-		{
-			color = "info";
-			break;
-		}
-		if(work["what"]=="Parts Arrived")
-		{
-			color = "primary";
-			break;
-		}
-		if(work["what"]=="Finished")
-		{
-			color = "success";
-			break;
+			var work = currentRepairJSON["workCompleted"][i];
+			if(work["what"]=="Sent Out")
+			{
+				color = "warning";
+				status = "Sent Out";
+				break;
+			}
+			if(work["what"]=="Diagnosed")
+			{
+				color = "secondary";
+				status = "Diagnosed";
+				break;
+			}
+			if(work["what"]=="Submitted Claim")
+			{
+				color = "info";
+				status = "Submitted Claim";
+				break;
+			}
+			if(work["what"]=="Submitted RFA")
+			{
+				color = "info";
+				status = "Submitted RFA";
+				break;
+			}
+			if(work["what"]=="Ordered Parts")
+			{
+				color = "info";
+				status = "Ordered Parts";
+				break;
+			}
+			if(work["what"]=="Parts Arrived")
+			{
+				color = "primary";
+				status = "Parts Arrived";
+				break;
+			}
+			if(work["what"]=="Finished")
+			{
+				color = "success";
+				status = "Finished";
+				break;
+			}
 		}
 	}
 	currentRepairJSON["color"] = color;
+	currentRepairJSON["status"] = status;
 }
 function reprintForm()
 {
@@ -602,4 +634,79 @@ function reprintForm()
 	dontOverrideProblem = false;
 	$("#repairForm").hide();
 	$("#repairEdit").show();
+}
+var pickedUpModal;
+function removeFirstEditWorkEmployee()
+{
+	if($("#editDateWorkerSelector").find("option:first").text()=="")
+	{
+		$("#editDateWorkerSelector").find("option:first").remove();
+	}	
+	if(repairEditFrozen)
+	{
+		$("#saveDatePickedUpButton").addClass("editWorkButtons");
+	}
+	else
+	{
+		$("#saveDatePickedUpButton").removeClass("editWorkButtons");
+		$("#saveDatePickedUpButton").prop("disabled", false);
+	}
+}
+function saveDatePickedUp()
+{
+	var date = new Date($("#dateEditPickedUpForm").val());
+	currentRepairJSON["datePicked"] = {};
+	currentRepairJSON["datePicked"]["when"] = date.toJSON();
+	currentRepairJSON["datePicked"]["who"] = $("#editDateWorkerSelector").val();
+	
+	var logEntry = JSON.parse("{}");
+	logEntry["who"] = currentRepairJSON["datePicked"]["who"];
+	logEntry["when"] = currentRepairJSON["datePicked"]["when"];
+	logEntry["what"] = "Marked repair as picked up";
+	currentRepairJSON["logs"].push(logEntry);
+	
+	figureOutColorAndStatus();
+	addedWorkRefNum = refNumIn;
+	window.api.send("toMain", "s"+JSON.stringify(currentRepairJSON));
+	freezeForm();
+	startLoadingSaving("Saving picked up...");
+	var myModalEl = document.getElementById('pickupModal');
+	var modal = bootstrap.Modal.getInstance(myModalEl);
+	modal.hide();
+}
+function fillPickedUpDate()
+{
+	var date = new Date();
+	date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+	$("#dateEditPickedUpForm").val(date.toISOString().slice(0,16));
+	$("#saveDatePickedUpButton").prop("disabled", true);
+	
+	$("#editDateWorkerSelector").empty();
+	$("#editDateWorkerSelector").append(
+		"<option value=\"\" selected></option>"
+	);
+	for (var employee in config.employees) 
+	{
+		if(config.employees[employee]["black-text"])
+		{
+			$("#editDateWorkerSelector").append(
+				"<option value=\""+employee+"\" style=\"background-color: "+config.employees[employee]["color"]+";\">"+config.employees[employee]["name"]+"</option>"
+			);
+		}
+		else
+		{
+			$("#editDateWorkerSelector").append(
+				"<option value=\""+employee+"\" style=\"color: white; background-color: "+config.employees[employee]["color"]+";\">"+config.employees[employee]["name"]+"</option>"
+			);
+		}
+	}
+}
+function editDatePickedUp()
+{
+	var date = new Date(currentRepairJSON["datePicked"]["when"]);
+	date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+	$("#dateEditPickedUpForm").val(date.toISOString().slice(0,16));
+	$("#editDateWorkerSelector").val(currentRepairJSON["datePicked"]["who"]);
+	pickedUpModal = new bootstrap.Modal($('#pickupModal'));
+	pickedUpModal.show();
 }

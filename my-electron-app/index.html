@@ -140,6 +140,7 @@
 						<div class="col-4" id="employeeLabel">
 							
 						</div>
+						
 					</div>
 					<div class="row">
 						<div class="col-2">
@@ -188,8 +189,25 @@
 							<h5 class="d-inline-flex header-inline text-muted">Loaner Computer</h5>
 						</div>
 						<div class="col-4">
-							<!--<button type="button" class="btn btn-success loanerButton" onclick="showLoaner()">Goto Form</button>-->
-							<button id="issueLoanerButton" type="button" class="btn btn-danger loanerButton" data-bs-toggle="modal" data-bs-target="#loanerModal" disabled>Issue Loaner</button>
+							<!--<button type="button" class="btn btn-success repairEditButton" onclick="showLoaner()">Goto Form</button>-->
+							<button id="issueLoanerButton" type="button" class="btn btn-danger repairEditButton" data-bs-toggle="modal" data-bs-target="#loanerModal" disabled>Issue Loaner</button>
+						</div>
+						<div class="col-2" id="datePickedUpLabel">
+							<h5 class="d-inline-flex header-inline text-muted" id="pickedUpText"></h5>
+						</div>
+						<div class="col-4" id="datePickedUpContext" style="display:none;">
+							
+						</div>
+						<div class="col-4" id="datePickedUpButton">
+							<button id="pickUpButton" type="button" class="btn btn-danger btn-primary repairEditButton" data-bs-toggle="modal" data-bs-target="#pickupModal" onclick="fillPickedUpDate()">Pick Up</button>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-2">
+							<h5 class="d-inline-flex header-inline text-muted">Intake Notes</h5>
+						</div>
+						<div class="col-4">
+							<h5 class="d-inline-flex header-inline" id="intakeNotesLabel"></h5>
 						</div>
 						<div class="col-2 iPadSerialNumberLabels" style="display:none;">
 							<h5 class="d-inline-flex header-inline text-muted">iPad Serial Number</h5>
@@ -204,14 +222,6 @@
 						</div>
 						<div class="col">
 							<h5 class="d-inline-flex header-inline" id="statedProblemLabel"></h5>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-2">
-							<h5 class="d-inline-flex header-inline text-muted">Intake Notes</h5>
-						</div>
-						<div class="col">
-							<h5 class="d-inline-flex header-inline" id="intakeNotesLabel"></h5>
 						</div>
 					</div>
 				</div>
@@ -468,6 +478,9 @@
 				</div>
 			</div>
 		</div>
+		
+		
+		<!-- Copy Toast -->
 		<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
 			<div class="toast align-items-center text-white bg-primary border-0" role="alert" id="liveToast" aria-live="assertive" aria-atomic="true">
 				<div class="d-flex">
@@ -477,6 +490,9 @@
 				</div>
 			</div>
 		</div>
+		
+		
+		<!-- Add Work Modal -->
 		<div class="position-fixed top-50 start-50 translate-middle" style="z-index: 11">
 			<div class="toast align-items-center border-0" role="alert" id="addWorkToast" aria-live="assertive" aria-atomic="true" data-bs-autohide="false" style="width: 700px">
 				<div class="toast-header">
@@ -519,6 +535,8 @@
 				</div>
 			</div>
 		</div>
+		
+		<!-- Login Modal -->
 		<div class="position-fixed top-50 start-50 translate-middle" style="z-index: 13">
 			<div class="toast align-items-center border-0" role="alert" id="loginToast" aria-live="assertive" aria-atomic="true" data-bs-autohide="false" style="width: initial;">
 				<div class="toast-header">
@@ -526,10 +544,12 @@
 					<button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
 				</div>
 				<div class="toast-body" id="toastTextLogin">
-					<!--generated in JS-->
+					<!-- Generated in JS -->
 				</div>
 			</div>
 		</div>
+		
+		
 		<!-- Edit Repair Modal -->
 		<div class="modal fade" id="editRepairModal" tabindex="-1" aria-labelledby="editRepairModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
 			<div class="modal-dialog">
@@ -612,12 +632,14 @@
 				</div>
 			</div>
 		</div>
+		
+		
 		<!-- Edit Repair Modal -->
 		<div class="modal fade" id="logsModel" tabindex="-1" aria-labelledby="logsModel" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-scrollable modal-lg">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Repair Journal</h5>
+						<h5 class="modal-title" id="repairJournalTitle">Repair Journal</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body" id="logsModelBody">
@@ -640,11 +662,13 @@
 				</div>
 			</div>
 		</div>
+		
+		<!-- Issue Loaner Model -->
 		<div class="modal fade" id="loanerModal" tabindex="-1" aria-labelledby="loanerModal" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-scrollable">
 				<div class="modal-content">
 					<div class="modal-header">
-						<h5 class="modal-title" id="exampleModalLabel">Issue Loaner</h5>
+						<h5 class="modal-title" id="issueLoanerTitle">Issue Loaner</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 					</div>
 					<div class="modal-body" id="logsModelBody">
@@ -653,6 +677,30 @@
 				</div>
 			</div>
 		</div>
+		
+		
+		<!-- Picked Up Model -->
+		<div class="modal fade" id="pickupModal" tabindex="-1" aria-labelledby="pickupModal" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="pickedUpTitle">Date Picked Up</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body" id="logsModelBody">
+						<div class="input-group mb-3">
+							<select id="editDateWorkerSelector" style="width:140px; flex: initial;" class="form-select header-inline" aria-label="Edit Employee" onmousedown="removeFirstEditWorkEmployee();">
+								<!--generated in loadConfig js-->
+							</select>
+							<input class="datePickedUpDate" id="dateEditPickedUpForm" type="datetime-local" value="">
+							<button id="saveDatePickedUpButton" type="button" class="btn btn-primary header-inline" onclick="saveDatePickedUp()" disabled>Save</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!-- Footer -->
 		<div style="height: 30px; line-height: initial;">
 			<div style="float: right; padding-right: 10px;">
 				<span class="text-muted" id="loggedInAsLabel" onclick="showLoginToast()" style="cursor: pointer;"></span>

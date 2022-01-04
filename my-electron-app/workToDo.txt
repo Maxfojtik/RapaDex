@@ -24,6 +24,7 @@ work to be done:
 		deleted work - done
 		edited work - done
 		edited repair - done
+		picked up 
 		
 	being able to update itself - temp problem fixed
 	
@@ -36,7 +37,7 @@ work to be done:
 		change highlighting - done
 		journal for editing repair adding wrong info - done
 		multiple problems/other not working - done
-		
+		subtype not closing when bsacktomain
 		
 		
 	---------------- minimum viable product ---------------
@@ -46,6 +47,8 @@ work to be done:
 	change row to be darker	- done
 	
 	select worker selector immedetly - done
+		
+	make it a requirement to select yourself before saving repair changes
 		
 	logs for loaner 
 	

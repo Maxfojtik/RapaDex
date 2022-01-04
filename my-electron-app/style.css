@@ -46,7 +46,7 @@
 .workButton {
    width: 100%;
 } 
-.loanerButton {
+.repairEditButton {
 	padding-top: 2px;
 	padding-bottom: 2px;
 } 
@@ -313,6 +313,12 @@ body {
 	max-height: calc(100% - 300px);
 	overflow-x: hidden;
 	overflow-y: scroll;
+}
+.datePickedUpDate {
+	width: 265px;
+	border-width: 1px;
+	padding-left: 10px;
+	margin-left: 0px!important;
 }
 th {
 	border-color: #ccc;
