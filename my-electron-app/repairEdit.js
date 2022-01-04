@@ -444,7 +444,7 @@ function showRepair(data, refNum)
 		var html = "<tr><td scope='row'>"+dateTimeText+"</td>";
 		html +="<td>"+repair["workCompleted"][i]["what"]+"</td>";
 		html +="<td style='max-width: 400px; overflow:auto;'>"+repair["workCompleted"][i]["note"]+"</td>";
-		html +="<td>"+getPill(config.employees[repair["workCompleted"][0]["who"]]["name"], repair["workCompleted"][i]["who"], "workCompletedLabelPill"+i, "")+"</td>";
+		html +="<td>"+getPill(config.employees[repair["workCompleted"][i]["who"]]["name"], repair["workCompleted"][i]["who"], "workCompletedLabelPill"+i, "")+"</td>";
 		if(loggedInAs=="")
 		{
 			if(i==0)
