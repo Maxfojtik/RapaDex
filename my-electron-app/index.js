@@ -1,6 +1,7 @@
 function startLoadingSaving(message)
 {
 	$("#saveText").text(message);
+	$("#savingDisplay").css("color", "black");
 	//$("#saveSpinner").css("visibility", "visible");
 	$("#savingDisplay").css("display", "flex").hide().fadeIn();
 	//$("#savingDisplay").addClass("d-flex");

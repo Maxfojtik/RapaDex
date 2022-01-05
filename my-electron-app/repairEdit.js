@@ -577,6 +577,12 @@ function figureOutColorAndStatus()
 				status = "Parts Arrived";
 				break;
 			}
+			if(work["what"]=="Waiting on DEP")
+			{
+				color = "primary";
+				status = "Waiting on DEP";
+				break;
+			}
 			if(work["what"]=="Finished")
 			{
 				color = "success";
