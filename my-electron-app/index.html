@@ -58,7 +58,10 @@
 			<div id="topBar" class="row">
 				<!--<img style="float:left; margin-left:-25px" src="Logo.png" ></img>-->
 				<div class="col">
-					<h1 class="repaLogo" id="mainTitle"><span id="RepaPartTop" class="RepaPartBefore">Repa</span><span id="RepaPart" class="RepaPart">Repa</span><span style="color: #000000">Dex</span></h1>
+					<span style="display: flex;">
+						<h1 class="repaLogo" id="mainTitle"><span id="RepaPartTop" class="RepaPartBefore">Repa</span><span id="RepaPart" class="RepaPart">Repa</span><span style="color: #000000">Dex</span></h1>
+						<h5 style="padding-top: 94px; padding-left: 10px;" class="text-muted" id="versionLabel"></h5>
+					</span>
 				</div>
 				<div class="col">
 					<img id="techLogo" class="showWhenPrint" src="TechLogo.png" style="display:none; height:120px; float: right; margin-top: 35px; margin-bottom: -10px"></img>
@@ -71,7 +74,7 @@
 			<div id="mainTable" style="display:block;">
 				<div class="row">
 					<div class="col-4">
-						<div class="input-group mb-3">
+						<div id="searchInputGroup" class="input-group mb-3">
 							<input type="text" class="form-control form-control" id="searchInput" placeholder="Search" oninput="" style="height: 38px;">
 							<button id="searchButton" style="height: 38px; flex: initial;" type="button" class="btn btn-primary" onclick="search()" disabled>Search</button>
 							<!--<select id="searchOptions" class="form-select" aria-label="Search Option" style="height: 38px; flex: initial; width: 150px;">
@@ -85,7 +88,10 @@
 						<p id="tooManyResultsWarning" style="display:none;"></p>
 					</div>
 					<div class="col">
-						<button style="float:right; width: 400px;" id="startNewRepairButton" type="button" class="btn btn-primary" onclick="createNewRepair()" disabled>Create a new repair</button>
+						<div style="float: right;">
+							<button id="refreshButton" style="height: 38px; flex: initial; margin-right: 5px;" type="button" class="btn btn-primary" onclick="loadAll()" disabled><img src="arrow-clockwise.svg"></img></button>
+							<button style="width: 350px; height: 38px;" id="startNewRepairButton" type="button" class="btn btn-primary" onclick="createNewRepair()" disabled>Create a new repair</button>
+						</div>
 					</div>
 				</div>
 				<div class="table-container">

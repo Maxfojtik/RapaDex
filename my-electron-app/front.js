@@ -52,6 +52,7 @@ window.api.receive("fromMainLoadAll", (data) =>
 	freezeFront = false;
 	$("#startNewRepairButton").prop('disabled', false);
 	$("#searchButton").prop('disabled', false);
+	$("#refreshButton").prop('disabled', false);
 	$(".front-row").css("cursor", "pointer");
 	//console.log('Received ${'+data+'} from main process');
 });
@@ -61,6 +62,7 @@ function loadAll()
 	$("#dtBody").empty();
 	$(".front-row").css("cursor", "default");
 	$("#searchButton").prop('disabled', true);
+	$("#refreshButton").prop('disabled', true);
 	$("#startNewRepairButton").prop('disabled', true);
 	$("#saveSpinner").css("visibility", "hidden");
 	$("#searchInput").val("");

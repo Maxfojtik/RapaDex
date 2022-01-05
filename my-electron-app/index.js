@@ -18,7 +18,7 @@ function doneLoadingSaving()
 }
 var stopShaking = false;
 var building = "";
-var version = "1.1.0";
+var version = "1.0.2";
 function keyDownHandler(event)
 {
 	if(event.key=='Escape' && !$("#savingDisplay").is(":visible"))//hacky but each screen has their own variables to tell if they are frozen or whatever
@@ -55,6 +55,7 @@ $( document ).ready(function() {
 	$( "#searchInput" ).select();
 	document.addEventListener('keydown', keyDownHandler);
 	setTimeout(initPopovers, 500);
+	$("#versionLabel").text("v"+version);
 	$('#pokeImage').on('animationiteration', function () {
 		if(stopShaking)
 		{
@@ -155,6 +156,13 @@ function loadConfiguration()
 		try
 		{
 			config = JSON.parse(data);
+			if(!config["searchRequiresSubmit"])
+			{
+				$("#searchButton").remove();
+				$("#searchInput").attr("oninput", "search()");
+				//$("#searchInput").css("height: 38px; width:100%");
+				//$("#searchInputGroup").removeClass("input-group");
+			}
 			//<span id="selectEmployeeTodd" class="badge rounded-pill badge-not-selected text-dark badge-spaced" onclick="selectPill('Todd')">Todd</span>
 			var building = "<div class=\"overflow-auto insideSaveAs\">";
 			var buildingLogin = "<h5>";
