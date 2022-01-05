@@ -18,7 +18,7 @@ function doneLoadingSaving()
 }
 var stopShaking = false;
 var building = "";
-var version = "1.0.1";
+var version = "1.1.0";
 function keyDownHandler(event)
 {
 	if(event.key=='Escape' && !$("#savingDisplay").is(":visible"))//hacky but each screen has their own variables to tell if they are frozen or whatever
@@ -158,26 +158,11 @@ function loadConfiguration()
 			//<span id="selectEmployeeTodd" class="badge rounded-pill badge-not-selected text-dark badge-spaced" onclick="selectPill('Todd')">Todd</span>
 			var building = "<div class=\"overflow-auto insideSaveAs\">";
 			var buildingLogin = "<h5>";
-			$("#editDateWorkerSelector").append(
-				"<option value=\"\" selected></option>"
-			);
 			for (var employee in config.employees) 
 			{
 				if(!config.employees[employee].active)//skip if not active
 				{
 					continue;
-				}
-				if(config.employees[employee]["black-text"])
-				{
-					$("#editDateWorkerSelector").append(
-						"<option value=\""+employee+"\" style=\"background-color: "+config.employees[employee]["color"]+";\">"+config.employees[employee]["name"]+"</option>"
-					);
-				}
-				else
-				{
-					$("#editDateWorkerSelector").append(
-						"<option value=\""+employee+"\" style=\"color: white; background-color: "+config.employees[employee]["color"]+";\">"+config.employees[employee]["name"]+"</option>"
-					);
 				}
 				$(".workerSelect").append(
 					getOutlinedPill(employee, "selectEmployee"+employee, "selectPill('"+employee+"')")

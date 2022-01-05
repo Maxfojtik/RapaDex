@@ -1,3 +1,8 @@
 Documentation:
 
 Never remove employees, it will break old forms... only set them as not active, when you set one as not active you can reuse the color
+
+ChangeLog:
+1.1.0: 
+	Changed how incRefNum works, now gets it if the save buttons become enabled because Im annoyed how we are missing numbers
+	Also cleaned up how selector for picked up looks

@@ -635,7 +635,19 @@ function reprintForm()
 	$("#repairForm").hide();
 	$("#repairEdit").show();
 }
-var pickedUpModal;
+function setupEditDateWorkerSelector()
+{
+	$("#editDateWorkerSelector").empty();
+	$("#editDateWorkerSelector").append(
+		"<option value=\"\" selected></option>"
+	);
+	for(var employee in config.employees)
+	{
+		$("#editDateWorkerSelector").append(
+			"<option value=\""+employee+"\" style=\"background-color: #fff; color: "+config.employees[employee]["color"]+";\">"+config.employees[employee]["name"]+"</option>"
+		);
+	}
+}
 function removeFirstEditWorkEmployee()
 {
 	if($("#editDateWorkerSelector").find("option:first").text()=="")
@@ -680,26 +692,7 @@ function fillPickedUpDate()
 	date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
 	$("#dateEditPickedUpForm").val(date.toISOString().slice(0,16));
 	$("#saveDatePickedUpButton").prop("disabled", true);
-	
-	$("#editDateWorkerSelector").empty();
-	$("#editDateWorkerSelector").append(
-		"<option value=\"\" selected></option>"
-	);
-	for (var employee in config.employees) 
-	{
-		if(config.employees[employee]["black-text"])
-		{
-			$("#editDateWorkerSelector").append(
-				"<option value=\""+employee+"\" style=\"background-color: "+config.employees[employee]["color"]+";\">"+config.employees[employee]["name"]+"</option>"
-			);
-		}
-		else
-		{
-			$("#editDateWorkerSelector").append(
-				"<option value=\""+employee+"\" style=\"color: white; background-color: "+config.employees[employee]["color"]+";\">"+config.employees[employee]["name"]+"</option>"
-			);
-		}
-	}
+	setupEditDateWorkerSelector();
 }
 function editDatePickedUp()
 {
@@ -707,6 +700,6 @@ function editDatePickedUp()
 	date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
 	$("#dateEditPickedUpForm").val(date.toISOString().slice(0,16));
 	$("#editDateWorkerSelector").val(currentRepairJSON["datePicked"]["who"]);
-	pickedUpModal = new bootstrap.Modal($('#pickupModal'));
+	var pickedUpModal = new bootstrap.Modal($('#pickupModal'));
 	pickedUpModal.show();
 }

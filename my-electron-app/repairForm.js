@@ -26,6 +26,10 @@ $(document).on("change", "#problemSelector", function () {
 });
 function resetRepairForm()
 {
+	gettingNextRefNum = false;
+	referenceNumber = -1;
+	$("#RefNumLabel").text("Ref. Number: ???");
+	saveNow = false;
 	var date = new Date();
 	//var dateStr = date.getFullYear()+"-"+String(date.getMonth()+1).padStart(2, '0')+"-"+String(date.getDate()).padStart(2, '0');
 	date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
@@ -33,7 +37,6 @@ function resetRepairForm()
 	//alert(dateStr);
 	//$("#dateForm").val(dateStr);
 	$("#repairFormBack").prop("disabled", true);
-	getNextRefNum();
 	setupMakes();
 	setupWarranties();
 	selectPill();
@@ -232,6 +235,7 @@ function validateSaveButtons()
 	good = good && makeGood && typeGood && warrantyGood && subTypeGood && problemGood;
 	if(good)
 	{
+		getNextRefNum();
 		$(".saveButton").prop('disabled', false);
 	}
 	else
@@ -653,10 +657,8 @@ function warningAck()
 		okayWarning();
 	}
 }
-function okayWarning()
+function sendSave()
 {
-	$("#container").show();
-	$("#repairFormWarning").hide();
 	startLoadingSaving("Saving...");
 	window.api.send("toMain", "s"+jsonifyTheRepairForm());
 	if(printing)
@@ -664,7 +666,21 @@ function okayWarning()
 		makeRepairPrintable();
 		window.print();
 	}
-	
+}
+var saveNow = false;
+function okayWarning()
+{
+	$("#container").show();
+	$("#repairFormWarning").hide();
+	if(referenceNumber==-1)
+	{
+		getNextRefNum();
+		saveNow = true;
+	}
+	else
+	{
+		sendSave();
+	}
 }
 var referenceNumber = -1;
 function jsonifyTheRepairForm()
@@ -739,13 +755,22 @@ window.api.receive("fromMainRefNum", (data) =>
 	$("#RefNumLabel").text("Ref. Number: "+data);
 	referenceNumber = data;
 	$("#repairFormBack").prop("disabled", false);
+	if(saveNow)
+	{
+		sendSave();
+	}
 	//console.log('Received ${'+data+'} from main process');
 });
+var gettingNextRefNum = false;
 function getNextRefNum()
 {
-	$("#RefNumLabel").text("Ref. Number: ???");
-	startLoadingSaving("Getting next reference number...");
-	window.api.send("toMain", "incRefNum");
+	if(referenceNumber==-1 && !gettingNextRefNum)
+	{
+		gettingNextRefNum = true;
+		$("#RefNumLabel").text("Ref. Number: ???");
+		startLoadingSaving("Getting next reference number...");
+		window.api.send("toMain", "incRefNum");
+	}
 }
 function makeRepairPrintable()
 {
