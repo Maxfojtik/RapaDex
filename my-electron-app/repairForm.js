@@ -36,7 +36,7 @@ function resetRepairForm()
 	$("#dateForm").val(date.toISOString().slice(0,16));
 	//alert(dateStr);
 	//$("#dateForm").val(dateStr);
-	$("#repairFormBack").prop("disabled", true);
+	//$("#repairFormBack").prop("disabled", true);
 	setupMakes();
 	setupWarranties();
 	selectPill();
