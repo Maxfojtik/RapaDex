@@ -18,3 +18,6 @@ ChangeLog:
 1.0.3:
 	fixed size of create new repair
 	fixed not being able to go back
+	added option for waiting for DEP
+1.0.4:
+	added accountability to editing repairs

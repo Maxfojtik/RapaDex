@@ -280,15 +280,23 @@ function editRepairPencil()
 	$("#probEditForm").val(currentRepairJSON["problem"]);
 	$("#notesEditForm").val(currentRepairJSON["intakeNotes"]);
 	$("#iPadSerialEditForm").val(currentRepairJSON["iPadSN"]);
+	setupEditRepairWorkerSelector();
+	if(loggedInAs=="")
+	{
+		$("#saveEditRepairButton").prop("disabled", true);
+		//$("#editRepairGroup").addClass("input-group");
+	}
+	else
+	{
+		$("#editRepairWorkerSelector").val(loggedInAs);
+		$("#saveEditRepairButton").prop("disabled", false);
+		//$("#editRepairGroup").removeClass("input-group");
+	}
 }
 function saveEditRepair()
 {
 	var logEntry = JSON.parse("{}");
-	logEntry["who"] = loggedInAs;
-	if(logEntry["who"]=="")
-	{
-		logEntry["who"] = "Unknown";
-	}
+	logEntry["who"] = $("#editRepairWorkerSelector").val();
 	logEntry["when"] = new Date().toJSON();
 	var buildingLog = "";
 	var newName = $("#customerNameEditForm").val();
@@ -359,7 +367,7 @@ function saveEditRepair()
 	currentRepairJSON["intakeNotes"] = newIntakeNotes;
 	if(buildingLog!="")//if anything actually changed, save it
 	{
-		buildingLog = loggedInAs+" edited repair:"+buildingLog;
+		buildingLog = "edited repair:"+buildingLog;
 		logEntry["what"] = buildingLog;
 		currentRepairJSON["logs"].push(logEntry);
 	}
@@ -654,6 +662,19 @@ function setupEditDateWorkerSelector()
 		);
 	}
 }
+function setupEditRepairWorkerSelector()
+{
+	$("#editRepairWorkerSelector").empty();
+	$("#editRepairWorkerSelector").append(
+		"<option value=\"\" selected></option>"
+	);
+	for(var employee in config.employees)
+	{
+		$("#editRepairWorkerSelector").append(
+			"<option value=\""+employee+"\" style=\"background-color: #fff; color: "+config.employees[employee]["color"]+";\">"+config.employees[employee]["name"]+"</option>"
+		);
+	}
+}
 function removeFirstEditWorkEmployee()
 {
 	if($("#editDateWorkerSelector").find("option:first").text()=="")
@@ -669,6 +690,14 @@ function removeFirstEditWorkEmployee()
 		$("#saveDatePickedUpButton").removeClass("editWorkButtons");
 		$("#saveDatePickedUpButton").prop("disabled", false);
 	}
+}
+function removeFirstEditRepairEmployee()
+{
+	if($("#editRepairWorkerSelector").find("option:first").text()=="")
+	{
+		$("#editRepairWorkerSelector").find("option:first").remove();
+	}	
+	$("#saveEditRepairButton").prop("disabled", false);
 }
 function saveDatePickedUp()
 {

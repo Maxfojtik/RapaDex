@@ -640,14 +640,19 @@
 						</div>
 					</div>
 					<div class="modal-footer">
-						<button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="saveEditRepair()">Save changes</button>
+						<div id="editRepairGroup" class="input-group" style="float: right;">
+							<select id="editRepairWorkerSelector" style="width:140px; flex: initial; margin-left: auto;" class="form-select header-inline" aria-label="Edit Employee" onmousedown="removeFirstEditRepairEmployee();">
+								<!--generated in loadConfig js-->
+							</select>
+							<button id="saveEditRepairButton" type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="saveEditRepair()">Save changes</button>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 		
 		
-		<!-- Edit Repair Modal -->
+		<!-- Journal Modal -->
 		<div class="modal fade" id="logsModel" tabindex="-1" aria-labelledby="logsModel" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-scrollable modal-lg">
 				<div class="modal-content">
