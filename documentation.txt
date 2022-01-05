@@ -15,4 +15,5 @@ ChangeLog:
 	made search happen every type
 	added a refresh button
 	added version next to the logo
-	
+1.0.3:
+	fixed size of create new repair

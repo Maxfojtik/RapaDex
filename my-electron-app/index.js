@@ -18,7 +18,7 @@ function doneLoadingSaving()
 }
 var stopShaking = false;
 var building = "";
-var version = "1.0.2";
+var version = "1.0.3";
 function keyDownHandler(event)
 {
 	if(event.key=='Escape' && !$("#savingDisplay").is(":visible"))//hacky but each screen has their own variables to tell if they are frozen or whatever
