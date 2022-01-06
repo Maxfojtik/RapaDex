@@ -23,3 +23,5 @@ ChangeLog:
 	added accountability to editing repairs
 	fixed bug where intake notes not clearing
 	...and problem box
+1.0.5:
+	added color formatting to table
