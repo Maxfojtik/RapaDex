@@ -223,6 +223,15 @@
 			"name": "Johnathan"
 		}
 	},
+	"pickedColor": "#ffcf7d",
+	"sentOutColor": "#fcd4b0",
+	"diagColor": "#b0fcf7",
+	"submittedClaimColor": "#b0fcf7",
+	"submittedRFAColor": "#b0fcf7",
+	"orderedPartsColor": "#b0fcf7",
+	"partsArrivedColor": "#b0d3fc",
+	"waitingForDEPColor": "#b0d3fc",
+	"finishedColor": "#61ffa5",
 	"searchRequiresSubmit": false,
 	"maxRowsAtOnce": 1000,
 	"dropOffStatement": "I understand and agree that repairing my computer may involve my data being lost. Data backup is solely my responsibility and Tech Hub is not liable for lost data.",
