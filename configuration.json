@@ -12,6 +12,23 @@
 			],
 			"devices":
 			{
+				"macbook": {
+					"commonName": "Macbook",
+					"findMy": true,
+					"commonProblems": [
+						"Cracked LCD",
+						"Cracked Glass",
+						"Sticky Keys",
+						"Damaged Enclosure",
+						"No Power",
+						"No Backlight"
+					],
+					"types": [
+						"Air",
+						"Pro",
+						"12-inch"
+					]
+				},
 				"ipad": {
 					"digitalFlagshipSwitch": true,
 					"findMy": true,
@@ -27,23 +44,6 @@
 						"Standard",
 						"Air",
 						"Mini",
-						"Pro"
-					]
-				},
-				"macbook": {
-					"commonName": "Macbook",
-					"findMy": true,
-					"commonProblems": [
-						"Cracked LCD",
-						"Cracked Glass",
-						"Sticky Keys",
-						"Damaged Enclosure",
-						"No Power",
-						"No Backlight"
-					],
-					"types": [
-						"12-inch",
-						"Air",
 						"Pro"
 					]
 				},
