@@ -51,6 +51,7 @@ function resetRepairForm()
 	$("#accForm").val("");
 	$("#purchForm").val("");
 	$("#phoneForm").val("");
+	$("#problemBox").val("");
 	$("#problemBox").hide();
 	$("#makeOtherBox").hide();
 	$("#problemSelector").hide();

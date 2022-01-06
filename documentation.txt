@@ -21,3 +21,5 @@ ChangeLog:
 	added option for waiting for DEP
 1.0.4:
 	added accountability to editing repairs
+	fixed bug where intake notes not clearing
+	...and problem box
