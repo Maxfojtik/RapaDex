@@ -41,7 +41,7 @@ function resetRepairForm()
 	setupWarranties();
 	selectPill();
 	
-	$("#intakeTextArea").val();
+	$("#intakeTextArea").val("");
 	$("#nameForm").val("");
 	$("#serialForm").val("");
 	$("#emailForm").val("");
