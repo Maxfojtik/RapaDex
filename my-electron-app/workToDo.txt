@@ -50,7 +50,9 @@ work to be done:
 		
 	repair notes - done
 		
-	make it a requirement to select yourself before saving repair changes
+	make it a requirement to select yourself before saving repair changes - done
+		
+	make colors for front end configurable
 		
 	logs for loaner 
 	
@@ -76,6 +78,13 @@ work to be done:
 		when clicking on "Repa" it changes a random nice color and then goes back to what it was
 		when writing a @umich.edu email it says "muck fishican"
 		
+	when adding a new work thing:
+		add 2 css variables
+		add 2 css classes
+		add config color
+		add load config into css in index.js
+	
+	
 	
 cons:
 	every new employee has to be added (using brennans configurator)

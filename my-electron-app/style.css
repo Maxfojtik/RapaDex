@@ -1,3 +1,77 @@
+:root {
+	--datePickedColor: #aaaaaa;
+	--datePickedColorHover: #000000;
+	--sentOutColor: #000000;
+	--sentOutColorHover: #000000;
+	--diagColor: #000000;
+	--diagColorHover: #000000;
+	--submittedClaimColor: #000000;
+	--submittedClaimColorHover: #000000;
+	--submittedRFAColor: #000000;
+	--submittedRFAColorHover: #000000;
+	--orderedPartsColor: #000000;
+	--orderedPartsColorHover: #000000;
+	--partsArrivedColor: #000000;
+	--partsArrivedColorHover: #000000;
+	--waitingOnDEPColor: #000000;
+	--waitingOnDEPColorHover: #000000;
+	--finishedColor: #000000;
+	--finishedColorHover: #000000;
+}
+.datePickedRow {
+	background-color: var(--datePickedColor);
+}
+.datePickedRow:hover {
+	background-color: var(--datePickedColorHover);
+}
+.sentOutRow {
+	background-color: var(--sentOutColor);
+}
+.sentOutRow:hover {
+	background-color: var(--sentOutColorHover);
+}
+.diagRow {
+	background-color: var(--diagColor);
+}
+.diagRow:hover {
+	background-color: var(--diagColorHover);
+}
+.submittedClaimRow {
+	background-color: var(--submittedClaimColor);
+}
+.submittedClaimRow:hover {
+	background-color: var(--submittedClaimColorHover);
+}
+.submittedRFARow {
+	background-color: var(--submittedRFAColor);
+}
+.submittedRFARow:hover {
+	background-color: var(--submittedRFAColorHover);
+}
+.orderedPartsRow {
+	background-color: var(--orderedPartsColor);
+}
+.orderedPartsRow:hover {
+	background-color: var(--orderedPartsColorHover);
+}
+.partsArrivedRow {
+	background-color: var(--partsArrivedColor);
+}
+.partsArrivedRow:hover {
+	background-color: var(--partsArrivedColorHover);
+}
+.waitingOnDEPRow {
+	background-color: var(--waitingOnDEPColor);
+}
+.waitingOnDEPRow:hover {
+	background-color: var(--waitingOnDEPColorHover);
+}
+.finishedRow {
+	background-color: var(--finishedColor);
+}
+.finishedRow:hover {
+	background-color: var(--finishedColorHover);
+}
 #searchInput {
 	margin-bottom: 10px;
 }
@@ -320,8 +394,8 @@ body {
 	margin-left: 0px!important;
 }
 th {
-	border-color: #ccc;
+	border-color: #333;
 }
 td {
-	border-color: #ccc;
+	border-color: #333;
 }

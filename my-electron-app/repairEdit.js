@@ -542,7 +542,7 @@ function figureOutColorAndStatus()
 		var date = new Date(currentRepairJSON["datePicked"]["when"]);
 		var dateText = String(date.getMonth()+1).padStart(2, '0')+"/"+String(date.getDate()).padStart(2, '0')+"/"+date.getFullYear();
 		status = "Picked up on "+dateText;
-		color = "light";
+		color = "datePickedRow";
 	}
 	else
 	{
@@ -551,49 +551,49 @@ function figureOutColorAndStatus()
 			var work = currentRepairJSON["workCompleted"][i];
 			if(work["what"]=="Sent Out")
 			{
-				color = "warning";
+				color = "sentOutRow";
 				status = "Sent Out";
 				break;
 			}
 			if(work["what"]=="Diagnosed")
 			{
-				color = "secondary";
+				color = "diagRow";
 				status = "Diagnosed";
 				break;
 			}
 			if(work["what"]=="Submitted Claim")
 			{
-				color = "info";
+				color = "submittedClaimRow";
 				status = "Submitted Claim";
 				break;
 			}
 			if(work["what"]=="Submitted RFA")
 			{
-				color = "info";
+				color = "submittedRFARow";
 				status = "Submitted RFA";
 				break;
 			}
 			if(work["what"]=="Ordered Parts")
 			{
-				color = "info";
+				color = "orderedPartsRow";
 				status = "Ordered Parts";
 				break;
 			}
 			if(work["what"]=="Parts Arrived")
 			{
-				color = "primary";
+				color = "partsArrivedRow";
 				status = "Parts Arrived";
 				break;
 			}
 			if(work["what"]=="Waiting on DEP")
 			{
-				color = "primary";
+				color = "waitingOnDEPRow";
 				status = "Waiting on DEP";
 				break;
 			}
 			if(work["what"]=="Finished")
 			{
-				color = "success";
+				color = "finishedRow";
 				status = "Finished";
 				break;
 			}

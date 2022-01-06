@@ -95,7 +95,7 @@ function showRepairs(repairsIn, showArchived, start, length)
 		}*/
 		//repair["descriptors"] = makeDescriptors(repair);
 		//console.log(repair["descriptors"]);
-		var row = "<tr class=\"table-"+repair.color+" front-row\" onclick=\"clickRow("+repair.refNum+")\"><th scope=\"row\">"+repair.name+"</th>";
+		var row = "<tr class=\""+repair.color+" front-row\" onclick=\"clickRow("+repair.refNum+")\"><th scope=\"row\">"+repair.name+"</th>";
 		row += "<td>"+repair.refNum+"</td>";
 		row += "<td>"+repair.make+" "+repair.model+"</td>";
 		row += "<td>"+repair.serial+"</td>";
