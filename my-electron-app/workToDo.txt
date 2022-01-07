@@ -68,6 +68,7 @@ work to be done:
 					Make and Model
 					Serial Number
 					
+	make it not die when disconnected from K drive
 	loaner checkin
 	attention items (for example if a repair is open for more than 2 months unfinished, or 2 month after finishing)
 	better error messages when config or backend dies, or if the k drive is down

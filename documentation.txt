@@ -4,7 +4,7 @@ Never remove employees, it will break old forms... only set them as not active, 
 
 Version formatting:
 
-1.(Major changes to how the code works).(bug fixes and small changes)
+1.(Major changes to how the code works).(small changes)letter(bugfix and style changes)
 
 
 
