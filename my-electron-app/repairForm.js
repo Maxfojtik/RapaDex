@@ -822,10 +822,13 @@ function makeRepairPrintable()
 	var dateTimeText = String(d.getMonth()+1).padStart(2, '0')+"/"+String(d.getDate()).padStart(2, '0')+"/"+d.getFullYear();
 	var hours = d.getHours();
 	var ampmindicator = "am";
+	if(hours>11)
+	{
+		ampmindicator = "pm";
+	}
 	if(hours>12)
 	{
 		hours -= 12;
-		ampmindicator = "pm";
 	}
 	dateTimeText += " "+hours+":"+String(d.getMinutes()).padStart(2, '0')+" "+ampmindicator;
 	$("#dateTimeLabel").text(dateTimeText);

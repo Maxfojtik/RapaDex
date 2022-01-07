@@ -443,10 +443,13 @@ function showRepair(data, refNum)
 		var dateTimeText = String(date.getMonth()+1).padStart(2, '0')+"/"+String(date.getDate()).padStart(2, '0')+"/"+date.getFullYear();
 		var hours = date.getHours();
 		var ampmindicator = "am";
+		if(hours>11)
+		{
+			ampmindicator = "pm";
+		}
 		if(hours>12)
 		{
 			hours -= 12;
-			ampmindicator = "pm";
 		}
 		dateTimeText += " "+hours+":"+String(date.getMinutes()).padStart(2, '0')+" "+ampmindicator;
 		var html = "<tr><td scope='row'>"+dateTimeText+"</td>";
@@ -501,10 +504,13 @@ function showLogs()
 		var dateTimeText = String(date.getMonth()+1).padStart(2, '0')+"/"+String(date.getDate()).padStart(2, '0')+"/"+date.getFullYear();
 		var hours = date.getHours();
 		var ampmindicator = "am";
+		if(hours>11)
+		{
+			ampmindicator = "pm";
+		}
 		if(hours>12)
 		{
 			hours -= 12;
-			ampmindicator = "pm";
 		}
 		dateTimeText += " "+hours+":"+String(date.getMinutes()).padStart(2, '0')+" "+ampmindicator;
 		building += "<td>"+dateTimeText+"</td>";

@@ -25,3 +25,4 @@ ChangeLog:
 	...and problem box
 1.0.5:
 	added color formatting to table
+	fixed bug with am/pm indicator

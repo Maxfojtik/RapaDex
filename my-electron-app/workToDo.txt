@@ -77,7 +77,12 @@ work to be done:
 	easter eggs:
 		when clicking on "Repa" it changes a random nice color and then goes back to what it was
 		when writing a @umich.edu email it says "muck fishican"
-		
+	
+
+	late game:
+		add colors for logged in
+
+	
 	when adding a new work thing:
 		add 2 css variables
 		add 2 css classes
