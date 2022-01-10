@@ -41,6 +41,7 @@ function resetRepairForm()
 	setupWarranties();
 	selectPill();
 	
+	$("#iPadSN").val("");
 	$("#intakeTextArea").val("");
 	$("#nameForm").val("");
 	$("#serialForm").val("");
