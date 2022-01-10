@@ -69,6 +69,7 @@ function resetRepairForm()
 	$("#warrantySelector").addClass("is-invalid");
 	$("#typeOtherBox").addClass("is-invalid");
 	$("#workerSelector").focus();
+	$(".saveButton").prop('disabled', true);
 }
 function validateInputElement(ele)
 {
@@ -674,6 +675,7 @@ function okayWarning()
 {
 	$("#container").show();
 	$("#repairFormWarning").hide();
+	$(".saveButton").prop('disabled', true);
 	if(referenceNumber==-1)
 	{
 		getNextRefNum();
