@@ -43,7 +43,7 @@ function lockFile()
 						win.webContents.send("fromMainWaiting", "");
 						console.log("waiting on lock");
 						goodToSave = false;
-						setTimeout(lockFile, 1000);
+						setTimeout(lockFile, 2000);
 						return;
 					}
 					else
@@ -53,7 +53,7 @@ function lockFile()
 						{
 							fs.writeFile(lockedPath, "", err => {	//unlock it to us
 								if (err) {
-									setTimeout(lockFile, 1000);//try again in 1
+									setTimeout(lockFile, 2000);//try again in 2
 									console.error(err);
 									return;
 								}
@@ -84,7 +84,7 @@ function lockFile()
 							return;
 						}
 						console.log("locked");
-						setTimeout(lockFile, 1000);
+						setTimeout(lockFile, 100);
 						return;
 					});
 				}
@@ -92,7 +92,7 @@ function lockFile()
 		}
 		else
 		{
-			setTimeout(lockFile, 1000);
+			setTimeout(lockFile, 100);
 			return;
 		}
 	});
@@ -152,7 +152,7 @@ function saveRepair(inJSON)
 	saving = true;
 	doneSaving = false;
 	repairJSON = inJSON;
-	savingTimer = setInterval(saveRepairPart, 2000);
+	savingTimer = setInterval(saveRepairPart, 1000);
 }
 
 var loadMessageName;
@@ -184,7 +184,7 @@ function loadRepairs()
 	console.log("loading repairs");
 	saving = true;
 	doneSaving = false;
-	loadingTimer = setInterval(loadRepairPart, 2000);
+	loadingTimer = setInterval(loadRepairPart, 1000);
 }
 
 function incRefPart()
@@ -227,7 +227,7 @@ function incRefNum()
 	console.log("inc ref num");
 	saving = true;
 	doneSaving = false;
-	loadingTimer = setInterval(incRefPart, 2000);
+	loadingTimer = setInterval(incRefPart, 1000);
 }
 app.whenReady().then(() => {
 	fs.copyFile(configPath, configPathLocal, (err) => {

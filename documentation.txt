@@ -28,3 +28,5 @@ ChangeLog:
 	fixed bug with am/pm indicator
 1.0.5b:
 	clear iPadSN
+1.0.5c:
+	sped up locking/unlocking process
