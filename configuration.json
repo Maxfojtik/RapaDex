@@ -231,6 +231,7 @@
     "orderedPartsColor": "#99ddff",
     "partsArrivedColor": "#99ffee",
     "waitingForDEPColor": "#99ffee",
+	"noteColor": "#fcf9b0",
     "finishedColor": "#18c912",
 	"searchRequiresSubmit": false,
 	"maxRowsAtOnce": 1000,

@@ -19,7 +19,7 @@ function doneLoadingSaving()
 }
 var stopShaking = false;
 var building = "";
-var version = "1.0.5d";
+var version = "1.0.6a";
 function keyDownHandler(event)
 {
 	if(event.key=='Escape' && !$("#savingDisplay").is(":visible"))//hacky but each screen has their own variables to tell if they are frozen or whatever
@@ -70,10 +70,16 @@ $( document ).ready(function() {
 		}
 	});
 	$("textarea").each(function () {
-		this.setAttribute("style", "height:" + (this.scrollHeight) + "px;overflow-y:hidden;");
+		if(this.id!="repairNotesArea")
+		{
+			this.setAttribute("style", "height:" + (this.scrollHeight) + "px;overflow-y:hidden;");
+		}
 	}).on("input", function () {
-		this.style.height = "auto";
-		this.style.height = (this.scrollHeight) + "px";
+		if(this.id!="repairNotesArea")
+		{
+			this.style.height = "auto";
+			this.style.height = (this.scrollHeight) + "px";
+		}
 	});
 });
 $(document).on('click', '.copiable', function () {

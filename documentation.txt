@@ -30,3 +30,8 @@ ChangeLog:
 	clear iPadSN
 1.0.5c:
 	sped up locking/unlocking process
+1.0.5d:
+	made textareas auto resize
+1.0.6a:
+	made repair notes exempt from above
+	clicking enter on search when there is one repair opens it

@@ -3,7 +3,7 @@ $( document ).ready(function() {
 })
 $(document).on("keyup", '#searchInput', function(e) {
 	if (e.keyCode == 13 && !freezeFront) {
-		search();
+		search(true);
 	}
 });
 var refClicked = 0;
@@ -11,7 +11,7 @@ var backendData;
 var freezeFront = false;
 function clickRow(number)
 {
-	console.log("row: "+number);
+	//console.log("row: "+number);
 	if(refClicked==number && !freezeFront)
 	{	
 		refClicked = 0;
@@ -59,6 +59,7 @@ window.api.receive("fromMainLoadAll", (data) =>
 function loadAll()
 {
 	freezeFront = true;
+	topRepair = undefined;
 	$("#dtBody").empty();
 	$(".front-row").css("cursor", "default");
 	$("#searchButton").prop('disabled', true);
@@ -104,13 +105,22 @@ function showRepairs(repairsIn, showArchived, start, length)
 		row += "<td>"+dateText+"</td>";
 		row += "<td>"+repair.status+"</td>";
 		$("#dtBody").prepend(row);
+		topRepair = repair;
 	}
 }
-function search()
+var lastSearchFor = "";
+var topRepair = undefined;
+function search(wasEnter)
 {
 	$("#saveSpinner").css("visibility", "visible");
 	var caughtRepairs = [];
 	var toSearchFor = $("#searchInput").val().toLowerCase();
+	if(lastSearchFor == toSearchFor && lastSearchFor!="" && topRepair!=undefined && wasEnter)//second search
+	{
+		lastSearchFor = "";
+		refClicked = topRepair.refNum;
+		clickRow(refClicked);
+	}
 	//console.log("Searching For '"+toSearchFor+"'");
 	if(toSearchFor=="")
 	{
@@ -154,6 +164,7 @@ function search()
 			$("#tooManyResultsWarning").fadeOut();
 		}
 	}
+	lastSearchFor = toSearchFor;
 	//console.log(caughtRepairs);
 	$("#saveSpinner").css("visibility", "hidden");
 }
