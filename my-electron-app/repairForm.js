@@ -949,3 +949,6 @@ const formatToPhone = (event) => {
     else if(input.length > 3){event.target.value = '('+areaCode+') '+middle;}
     else if(input.length > 0){event.target.value = '('+areaCode;}
 };
+const upperSerial = (event) => {
+    event.target.value = event.target.value.toUpperCase();
+};

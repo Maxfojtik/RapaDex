@@ -41,3 +41,6 @@ ChangeLog:
 	still didnt fix the cut off problem but now I did... I think... second time....
 	pick up date was actually the start date lol
 	format phone and make it required
+1.0.7a
+	force Serial number uppercase
+	validate save buttons when phone type
