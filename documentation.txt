@@ -44,3 +44,5 @@ ChangeLog:
 1.0.7a
 	force Serial number uppercase
 	validate save buttons when phone type
+1.0.7b
+	force iPad serial number uppercase

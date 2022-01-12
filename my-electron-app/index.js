@@ -19,7 +19,7 @@ function doneLoadingSaving()
 }
 var stopShaking = false;
 var building = "";
-var version = "1.0.7a";
+var version = "1.0.7b";
 function keyDownHandler(event)
 {
 	if(event.key=='Escape' && !$("#savingDisplay").is(":visible"))//hacky but each screen has their own variables to tell if they are frozen or whatever
@@ -84,6 +84,7 @@ $( document ).ready(function() {
 	$('#phoneForm').on('keydown', enforceFormat);
 	$('#phoneForm').on('keyup', formatToPhone);
 	$('#serialForm').on('keyup', upperSerial);
+	$('#iPadSN').on('keyup', upperSerial);
 });
 $(document).on('click', '.copiable', function () {
 	text = event.target.getAttribute("data-text");
