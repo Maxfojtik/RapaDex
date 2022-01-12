@@ -410,8 +410,8 @@ function showRepair(data, refNum)
 		$("#datePickedUpContext").show();
 		$("#datePickedUpButton").hide();
 		$("#datePickedUpContext").empty();
-		var datePicked = new Date(repair["datePicked"]["date"]);
-		var datePickedText = String(date.getMonth()+1).padStart(2, '0')+"/"+String(date.getDate()).padStart(2, '0')+"/"+date.getFullYear();
+		var datePicked = new Date(repair["datePicked"]["when"]);
+		var datePickedText = String(datePicked.getMonth()+1).padStart(2, '0')+"/"+String(datePicked.getDate()).padStart(2, '0')+"/"+datePicked.getFullYear();
 		$("#datePickedUpContext").append("<h5 style='margin-bottom: 0px;'>"+getPill(datePickedText, repair["datePicked"]["who"], "pickedupLabelPill", "editDatePickedUp()")+"</h5>");
 	}
 	else
