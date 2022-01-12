@@ -778,6 +778,10 @@ function getNextRefNum()
 }
 function makeRepairPrintable()
 {
+	$("#intakeTextArea").css("height", "auto");
+	$("#intakeTextArea").css("height", $("#intakeTextArea").prop("scrollHeight")+"px");//resize intake, resize problem
+	$("#problemTextArea").css("height", "auto");
+	$("#problemTextArea").css("height", $("#problemTextArea").prop("scrollHeight")+"px");
 	$("#warrantySelector").hide();
 	if($("#warrantySelector").val()!="Other" && !dontOverrideWarranty)
 	{

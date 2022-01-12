@@ -35,3 +35,5 @@ ChangeLog:
 1.0.6a:
 	made repair notes exempt from above
 	clicking enter on search when there is one repair opens it
+1.0.6b:
+	still didnt fix the cut off problem but now I did... I think...
