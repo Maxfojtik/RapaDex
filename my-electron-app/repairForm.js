@@ -98,6 +98,7 @@ function resetRepairForm()
 	$("#serialForm").addClass("is-invalid");
 	$("#warrantySelector").addClass("is-invalid");
 	$("#typeOtherBox").addClass("is-invalid");
+	$("#phoneForm").addClass("is-invalid");
 	$("#workerSelector").focus();
 	$(".saveButton").prop('disabled', true);
 }
