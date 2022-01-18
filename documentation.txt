@@ -52,3 +52,5 @@ ChangeLog:
 	fixed front to display top 100
 1.0.7d:
 	make phone form invalid for next repair
+1.0.7e:
+	fixed enter to search not working

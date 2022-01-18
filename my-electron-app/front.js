@@ -31,7 +31,7 @@ function getTopRepair(repairs)
 	var topNumber = 0;
 	for(var refNum in repairs)
 	{
-		console.log(refNum+":"+topNumber);
+		//console.log(refNum+":"+topNumber);
 		if(parseInt(refNum) > topNumber)
 		{
 			topNumber = refNum;
@@ -52,8 +52,8 @@ window.api.receive("fromMainLoadAll", (data) =>
 		}*/
 		if(backendData["repairs"])
 		{
-			var topRepair = getTopRepair(backendData["repairs"]);
-			showRepairs(backendData["repairs"], true, topRepair-100, 100);
+			var topRepairNumber = getTopRepair(backendData["repairs"]);
+			showRepairs(backendData["repairs"], true, topRepairNumber-100, 100);
 		}
 	}
 	catch(e)
@@ -138,8 +138,8 @@ function search(wasEnter)
 	//console.log("Searching For '"+toSearchFor+"'");
 	if(toSearchFor=="")
 	{
-		var topRepair = getTopRepair(backendData["repairs"]);
-		showRepairs(backendData["repairs"], true, topRepair, 100);
+		var topRepairNumber = getTopRepair(backendData["repairs"]);
+		showRepairs(backendData["repairs"], true, topRepairNumber, 100);
 		$("#tooManyResultsWarning").fadeOut();
 	}
 	else
