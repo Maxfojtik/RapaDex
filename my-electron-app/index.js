@@ -19,7 +19,7 @@ function doneLoadingSaving()
 }
 var stopShaking = false;
 var building = "";
-var version = "1.0.7b";
+var version = "1.0.7c";
 function keyDownHandler(event)
 {
 	if(event.key=='Escape' && !$("#savingDisplay").is(":visible"))//hacky but each screen has their own variables to tell if they are frozen or whatever
@@ -365,7 +365,7 @@ function generateRandomRepair(refNum)
 {
 	var json = {};
 	json["refNum"] = refNum;
-	json["name"] = "name"+makeid(10);
+	json["name"] = "name"+refNum;
 	json["serial"] = "serial"+makeid(10);
 	json["email"] = "email"+makeid(10)+"@osu.edu";
 	json["startDate"] = new Date().toJSON();

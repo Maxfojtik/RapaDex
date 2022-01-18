@@ -46,3 +46,5 @@ ChangeLog:
 	validate save buttons when phone type
 1.0.7b
 	force iPad serial number uppercase
+1.0.7c
+	fixed front to display top 100

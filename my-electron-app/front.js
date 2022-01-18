@@ -26,6 +26,19 @@ function clickRow(number)
 		refClicked = number;
 	}
 }
+function getTopRepair(repairs)
+{
+	var topNumber = 0;
+	for(var refNum in repairs)
+	{
+		console.log(refNum+":"+topNumber);
+		if(parseInt(refNum) > topNumber)
+		{
+			topNumber = refNum;
+		}
+	}
+	return topNumber;
+}
 window.api.receive("fromMainLoadAll", (data) => 
 {
 	doneLoadingSaving();
@@ -39,7 +52,8 @@ window.api.receive("fromMainLoadAll", (data) =>
 		}*/
 		if(backendData["repairs"])
 		{
-			showRepairs(backendData["repairs"], true, Object.keys(backendData["repairs"]).length-100, 100);
+			var topRepair = getTopRepair(backendData["repairs"]);
+			showRepairs(backendData["repairs"], true, topRepair-100, 100);
 		}
 	}
 	catch(e)
@@ -124,7 +138,8 @@ function search(wasEnter)
 	//console.log("Searching For '"+toSearchFor+"'");
 	if(toSearchFor=="")
 	{
-		showRepairs(backendData["repairs"], true, Object.keys(backendData["repairs"]).length-100, 100);
+		var topRepair = getTopRepair(backendData["repairs"]);
+		showRepairs(backendData["repairs"], true, topRepair, 100);
 		$("#tooManyResultsWarning").fadeOut();
 	}
 	else
