@@ -139,7 +139,7 @@ function search(wasEnter)
 	if(toSearchFor=="")
 	{
 		var topRepairNumber = getTopRepair(backendData["repairs"]);
-		showRepairs(backendData["repairs"], true, topRepairNumber, 100);
+		showRepairs(backendData["repairs"], true, topRepairNumber-100, 100);
 		$("#tooManyResultsWarning").fadeOut();
 	}
 	else

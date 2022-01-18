@@ -54,3 +54,5 @@ ChangeLog:
 	make phone form invalid for next repair
 1.0.7e:
 	fixed enter to search not working
+1.0.7f:
+	fixed all repairs not showing when backspaced all the way
