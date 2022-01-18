@@ -32,6 +32,8 @@ ChangeLog:
 	sped up locking/unlocking process
 1.0.5d:
 	made textareas auto resize
+	fixed problemTextArea not being cleared
+	disabled the save and save and print buttons more often
 1.0.6a:
 	made repair notes exempt from above
 	clicking enter on search when there is one repair opens it
