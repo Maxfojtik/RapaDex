@@ -56,3 +56,5 @@ ChangeLog:
 	fixed enter to search not working
 1.0.7f:
 	fixed all repairs not showing when backspaced all the way
+1.0.7g:
+	make it so you can clear out the date and unmark repairs as picked up

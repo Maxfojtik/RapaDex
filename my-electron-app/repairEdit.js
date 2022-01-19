@@ -707,17 +707,29 @@ function removeFirstEditRepairEmployee()
 }
 function saveDatePickedUp()
 {
-	var date = new Date($("#dateEditPickedUpForm").val());
-	currentRepairJSON["datePicked"] = {};
-	currentRepairJSON["datePicked"]["when"] = date.toJSON();
-	currentRepairJSON["datePicked"]["who"] = $("#editDateWorkerSelector").val();
-	
-	var logEntry = JSON.parse("{}");
-	logEntry["who"] = currentRepairJSON["datePicked"]["who"];
-	logEntry["when"] = currentRepairJSON["datePicked"]["when"];
-	logEntry["what"] = "Marked repair as picked up";
-	currentRepairJSON["logs"].push(logEntry);
-	
+	if($("#dateEditPickedUpForm").val()=='')//cleared out
+	{
+		delete currentRepairJSON["datePicked"];
+		
+		var logEntry = JSON.parse("{}");
+		logEntry["who"] = $("#editDateWorkerSelector").val();
+		logEntry["when"] = new Date().toJSON();
+		logEntry["what"] = "Un-marked repair as picked up";
+		currentRepairJSON["logs"].push(logEntry);
+	}
+	else
+	{
+		var date = new Date($("#dateEditPickedUpForm").val());
+		currentRepairJSON["datePicked"] = {};
+		currentRepairJSON["datePicked"]["when"] = date.toJSON();
+		currentRepairJSON["datePicked"]["who"] = $("#editDateWorkerSelector").val();
+		
+		var logEntry = JSON.parse("{}");
+		logEntry["who"] = currentRepairJSON["datePicked"]["who"];
+		logEntry["when"] = currentRepairJSON["datePicked"]["when"];
+		logEntry["what"] = "Marked repair as picked up";
+		currentRepairJSON["logs"].push(logEntry);
+	}
 	figureOutColorAndStatus();
 	addedWorkRefNum = refNumIn;
 	window.api.send("toMain", "s"+JSON.stringify(currentRepairJSON));
@@ -737,6 +749,7 @@ function fillPickedUpDate()
 }
 function editDatePickedUp()
 {
+	setupEditDateWorkerSelector();
 	var date = new Date(currentRepairJSON["datePicked"]["when"]);
 	date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
 	$("#dateEditPickedUpForm").val(date.toISOString().slice(0,16));
