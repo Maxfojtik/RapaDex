@@ -19,7 +19,7 @@ function doneLoadingSaving()
 }
 var stopShaking = false;
 var building = "";
-var version = "1.0.7g";
+var version = "1.0.8";
 function keyDownHandler(event)
 {
 	if(event.key=='Escape' && !$("#savingDisplay").is(":visible"))//hacky but each screen has their own variables to tell if they are frozen or whatever
@@ -48,7 +48,7 @@ function initPopovers()
 	$.fn.tooltip.Constructor.Default.allowList['*'].push('onclick');
 	var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
 	var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
-	  return new bootstrap.Popover(popoverTriggerEl);
+		return new bootstrap.Popover(popoverTriggerEl);
 	});
 }
 $( document ).ready(function() {

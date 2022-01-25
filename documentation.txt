@@ -57,4 +57,7 @@ ChangeLog:
 1.0.7f:
 	fixed all repairs not showing when backspaced all the way
 1.0.7g:
-	make it so you can clear out the date and unmark repairs as picked up
+	make it so you can clear out the date and unmark repairs as picked up - was a bug that you couldn't pick stuff up
+1.0.8:
+	make phone requirement optional when departmental is selected - is a feature, was not a bug
+	also added regex to email

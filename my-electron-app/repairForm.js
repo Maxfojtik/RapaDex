@@ -17,21 +17,25 @@ function validateInputElement(ele)
 }
 $(document).on('input', '.phoneValidable', function () {
 	//console.log(event.target.value);
-	validatePhoneElement(event.target);
+	if(phoneRequired)
+	{
+		validatePhoneElement();
+	}
 });
 function validatePhoneElement(ele)
 {
-	if(ele.value.length==14)
+	if($("#phoneForm").val().length==14)
 	{
-		$("#"+ele.id).addClass("is-valid");
-		$("#"+ele.id).removeClass("is-invalid");
+		$("#phoneForm").addClass("is-valid");
+		$("#phoneForm").removeClass("is-invalid");
 	}
 	else
 	{
-		$("#"+ele.id).removeClass("is-valid");
-		$("#"+ele.id).addClass("is-invalid");
+		$("#phoneForm").removeClass("is-valid");
+		$("#phoneForm").addClass("is-invalid");
 	}
 }
+var emailValid = false;
 $(document).on("keyup", '#emailForm', function(e) {
 	var value = $("#emailForm").val();
 	if(/^[a-z]*[.,](\d+)$/.test(value))
@@ -39,6 +43,18 @@ $(document).on("keyup", '#emailForm', function(e) {
 		if (e.keyCode == 13) {
 			findPerson();
 		}
+	}
+	if(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(value))
+	{
+		$("#emailForm").addClass("is-valid");
+		$("#emailForm").removeClass("is-invalid");
+		emailValid = true;
+	}
+	else
+	{
+		$("#emailForm").removeClass("is-valid");
+		$("#emailForm").addClass("is-invalid");
+		emailValid = false;
 	}
 });
 $(document).on("change", "#problemSelector", function () {
@@ -54,9 +70,26 @@ $(document).on("change", "#problemSelector", function () {
 		$("#problemBox").hide();
 	}
 });
+function departmentalSwitched()
+{
+	if($("#flexSwitchCheckCheckedDepartmental").is(":checked"))
+	{
+		phoneRequired = false;
+		$("#phoneForm").removeClass("is-invalid");
+		$("#phoneForm").removeClass("is-valid");
+	}
+	else
+	{
+		phoneRequired = true;
+		validatePhoneElement();
+	}
+	validateSaveButtons();
+}
 function resetRepairForm()
 {
 	gettingNextRefNum = false;
+	emailValid = false;
+	phoneValid = false;
 	referenceNumber = -1;
 	$("#RefNumLabel").text("Ref. Number: ???");
 	saveNow = false;
@@ -234,6 +267,7 @@ function markDeselectedPill(thePill, theName)
 	thePill.className = 'badge rounded-pill badge-not-selected text-dark badge-spaced';
 	thePill.style = 'border-color: '+config.employees[theName].color+';';
 }
+var phoneRequired = true;
 function validateSaveButtons()
 {
 	var pillSelected = false;
@@ -246,7 +280,7 @@ function validateSaveButtons()
 		}
 	}
 	//console.log($("#emailForm").val()!="");
-	var good = $("#problemSelector").is(":visible") && $("#nameForm").val()!="" && $("#warrantySelector").val()!="" && $("#serialForm").val()!="" && $("#phoneForm").val().length==14 && $("#emailForm").val()!="" && pillSelected && ((neediPadSN && $("#iPadSN").val()!="") || !neediPadSN);
+	var good = $("#problemSelector").is(":visible") && $("#nameForm").val()!="" && $("#warrantySelector").val()!="" && $("#serialForm").val()!="" && ($("#phoneForm").val().length==14 || !phoneRequired) && emailValid && pillSelected && ((neediPadSN && $("#iPadSN").val()!="") || !neediPadSN);
 	var makeGood = ($("#makeOtherBox").is(":visible") && $("#makeOtherBox").val()!="") || !$("#makeOtherBox").is(":visible");
 	var typeGood = ($("#typeOtherBox").is(":visible") && $("#typeOtherBox").val()!="") || !$("#typeOtherBox").is(":visible");
 	var warrantyGood = ($("#warrantyOtherText").is(":visible") && $("#warrantyOtherText").val()!="") || !$("#warrantyOtherText").is(":visible");

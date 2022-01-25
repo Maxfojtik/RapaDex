@@ -290,7 +290,7 @@
 				<div class="row">
 					<div class="input-group mb-3 col">
 						<span class="input-group-text" id="basic-addon5">Email</span>
-						<input id="emailForm" type="text" class="form-control is-invalid validable" placeholder="buckeye.1@osu.edu (searchable)" aria-label="buckeye.1@osu.edu" aria-describedby="basic-addon5" oninput="validateSaveButtons()">
+						<input id="emailForm" type="text" class="form-control is-invalid" placeholder="buckeye.1@osu.edu (searchable)" aria-label="buckeye.1@osu.edu" aria-describedby="basic-addon5" oninput="validateSaveButtons()">
 					</div>
 					<div class="input-group mb-3 col">
 						<span class="input-group-text const-width-2" id="basic-addon2">Serial Number</span>
@@ -353,7 +353,7 @@
 					</div>
 					<div class="form-check form-switch col-3 hideWhenPrint" style="padding-left: 12px">
 						<h4>
-							<input class="form-check-input" style="margin-left: 0px;" type="checkbox" id="flexSwitchCheckCheckedDepartmental">
+							<input class="form-check-input" style="margin-left: 0px;" type="checkbox" id="flexSwitchCheckCheckedDepartmental" oninput="departmentalSwitched();">
 							<label class="form-check-label" style="margin-top: 3px; padding-left: 10px;" for="flexSwitchCheckCheckedDepartmental">Departmental</label>
 						</h4>
 					</div>
