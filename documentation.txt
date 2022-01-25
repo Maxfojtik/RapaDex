@@ -61,3 +61,6 @@ ChangeLog:
 1.0.8:
 	make phone requirement optional when departmental is selected - is a feature, was not a bug
 	also added regex to email
+1.0.8a:
+	fixed autofilling email not validating the buttons
+	fixed intake notes resize

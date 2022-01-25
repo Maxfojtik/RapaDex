@@ -36,14 +36,10 @@ function validatePhoneElement(ele)
 	}
 }
 var emailValid = false;
-$(document).on("keyup", '#emailForm', function(e) {
+function validateEmail()
+{
 	var value = $("#emailForm").val();
-	if(/^[a-z]*[.,](\d+)$/.test(value))
-	{
-		if (e.keyCode == 13) {
-			findPerson();
-		}
-	}
+	console.log(value);
 	if(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(value))
 	{
 		$("#emailForm").addClass("is-valid");
@@ -56,6 +52,17 @@ $(document).on("keyup", '#emailForm', function(e) {
 		$("#emailForm").addClass("is-invalid");
 		emailValid = false;
 	}
+	validateSaveButtons();
+}
+$(document).on("keyup", '#emailForm', function(e) {
+	var value = $("#emailForm").val();
+	if(/^[a-z]*[.,](\d+)$/.test(value))
+	{
+		if (e.keyCode == 13) {
+			findPerson();
+		}
+	}
+	validateEmail();
 });
 $(document).on("change", "#problemSelector", function () {
 	//text = event.target.innerHTML;
@@ -209,6 +216,7 @@ function findPerson()
 		//$("#nameForm").trigger("input");
 		//alert(name+"\t"+email);
 		//alert("Data: " + data + "\nStatus: " + status);
+		validateEmail();
 	});
 }
 var selectedEmployee;
@@ -903,7 +911,7 @@ function makeRepairPrintable()
 function unMakeRepairPrintable()
 {
 	$("#intakeTextArea").css("width", "initial");
-	$("#intakeTextArea").css("flex", "initial");
+	$("#intakeTextArea").css("flex", "");
 	$("#problemTextArea").css("width", "initial");
 	$("#problemTextArea").css("flex", "initial");
 	$("#warrantySelector").show();
