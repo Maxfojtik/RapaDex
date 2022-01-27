@@ -64,3 +64,6 @@ ChangeLog:
 1.0.8a:
 	fixed autofilling email not validating the buttons
 	fixed intake notes resize
+1.0.8b:
+	changed sent out location
+	added Purchase Date to edit repair modal

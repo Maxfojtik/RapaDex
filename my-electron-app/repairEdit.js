@@ -280,6 +280,7 @@ function editRepairPencil()
 	$("#probEditForm").val(currentRepairJSON["problem"]);
 	$("#notesEditForm").val(currentRepairJSON["intakeNotes"]);
 	$("#iPadSerialEditForm").val(currentRepairJSON["iPadSN"]);
+	$("#purchaseDateEditForm").val(currentRepairJSON["purchaseDate"]);
 	setupEditRepairWorkerSelector();
 	if(loggedInAs=="")
 	{
@@ -359,6 +360,12 @@ function saveEditRepair()
 		buildingLog += " iPadSN: '"+currentRepairJSON["iPadSN"]+"' -> '"+newiPadSN+"'";
 	}
 	currentRepairJSON["iPadSN"] = newiPadSN;
+	var newPurch = $("#purchaseDateEditForm").val();
+	if(newPurch!=currentRepairJSON["purchaseDate"])
+	{
+		buildingLog += " purchaseDate: '"+currentRepairJSON["purchaseDate"]+"' -> '"+newPurch+"'";
+	}
+	currentRepairJSON["purchaseDate"] = newPurch;
 	var newIntakeNotes = $("#notesEditForm").val();
 	if(newIntakeNotes!=currentRepairJSON["intakeNotes"])
 	{
