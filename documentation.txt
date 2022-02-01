@@ -67,3 +67,10 @@ ChangeLog:
 1.0.8b:
 	changed sent out location
 	added Purchase Date to edit repair modal
+1.0.8c:
+	changed sent out location
+	added Purchase Date to edit repair
+	fixed bug where if we try to lock without a network connection it crashes
+	made name and phone copiable
+1.0.9:
+	added update button

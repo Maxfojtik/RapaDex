@@ -28,11 +28,11 @@ work to be done:
 		
 	being able to update itself - temp problem fixed
 	
-	needs to be able to reprint form
+	needs to be able to reprint form - done
 	
 	bugs:
 	
-		not showing top repair - done?
+		not showing top repair - done
 		barcode not working - done
 		change highlighting - done
 		journal for editing repair adding wrong info - done

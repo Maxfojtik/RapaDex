@@ -394,14 +394,17 @@ function showRepair(data, refNum)
 	currentRepairJSON = repair;
 	showRelatedRepairs(refNum);	
 	$("#nameLabel").text(repair["name"]);
+	$("#emailLabel").attr("data-text", repair["name"]);
 	$("#emailLabel").text(repair["email"]);
 	$("#emailLabel").attr("data-text", repair["email"]);
 	$("#phoneLabel").text(repair["phone"]);
+	$("#emailLabel").attr("data-text", repair["phone"]);
 	$("#SNLabel").text(repair["serial"]);
 	$("#SNLabel").attr("data-text", repair["serial"]);
 	$("#refLabel").text(repair["refNum"]);
 	$("#refLabel").attr("data-text", repair["refNum"]);
 	$("#refLabelLabel").attr("data-text", repair["refNum"]);
+	$("#purchLabel").text(repair["purchaseDate"]);
 	var model = repair["make"] + " " + repair["model"];
 	$("#modelLabel").text(model);
 	var date = new Date(repair["startDate"]);

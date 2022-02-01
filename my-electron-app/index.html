@@ -42,6 +42,11 @@
 				</div>
 			</div>
 		</div>
+		<div id="disconnectedMessage" style="display:none;" class="center-screen">
+			<div class="row">
+				<img src="cloud-slash.svg" width="50" height="50"></img>
+			</div>
+		</div>
 		<div id="container" class="container" style="display:block;">
 			<div style="color:black; display:flex; align-items: center;" id="savingDisplay" class="float-right-top" style="">
 				<strong style="padding-right: 10px;" id="saveText"></strong>
@@ -136,9 +141,9 @@
 					</div>
 					<div class="row" style="padding-top: 5px;">
 						<div class="col">
-							<h5 class="d-inline-flex header-inline" id="nameLabel"></h5>
+							<h5 class="d-inline-flex header-inline copiable" id="nameLabel" data-text=""></h5>
 							<h5 class="d-inline-flex header-inline text-muted copiable" id="emailLabel" data-text=""></h5>
-							<h5 class="d-inline-flex header-inline text-muted" id="phoneLabel"></h5>
+							<h5 class="d-inline-flex header-inline text-muted copiable" id="phoneLabel" data-text=""></h5>
 						</div>
 						<div class="col-2">
 							<h5 class="d-inline-flex header-inline text-muted">Employee</h5>
@@ -178,7 +183,7 @@
 					</div>
 					<div class="row">
 						<div class="col-2">
-							<h5 class="d-inline-flex header-inline text-muted">Accesories</h5>
+							<h5 class="d-inline-flex header-inline text-muted">Accessories</h5>
 						</div>
 						<div class="col">
 							<h5 class="d-inline-flex header-inline" id="accLabel"></h5>
@@ -192,11 +197,10 @@
 					</div>
 					<div class="row">
 						<div class="col-2">
-							<h5 class="d-inline-flex header-inline text-muted">Loaner Computer</h5>
+							<h5 class="d-inline-flex header-inline text-muted">Purchase Date</h5>
 						</div>
-						<div class="col-4">
-							<!--<button type="button" class="btn btn-success repairEditButton" onclick="showLoaner()">Goto Form</button>-->
-							<button id="issueLoanerButton" type="button" class="btn btn-danger repairEditButton" data-bs-toggle="modal" data-bs-target="#loanerModal" disabled>Issue Loaner</button>
+						<div class="col">
+							<h5 class="d-inline-flex header-inline" id="purchLabel"></h5>
 						</div>
 						<div class="col-2" id="datePickedUpLabel">
 							<h5 class="d-inline-flex header-inline text-muted" id="pickedUpText"></h5>
@@ -210,16 +214,25 @@
 					</div>
 					<div class="row">
 						<div class="col-2">
-							<h5 class="d-inline-flex header-inline text-muted">Intake Notes</h5>
+							<h5 class="d-inline-flex header-inline text-muted">Loaner Computer</h5>
 						</div>
 						<div class="col-4">
-							<h5 class="d-inline-flex header-inline" id="intakeNotesLabel"></h5>
+							<!--<button type="button" class="btn btn-success repairEditButton" onclick="showLoaner()">Goto Form</button>-->
+							<button id="issueLoanerButton" type="button" class="btn btn-danger repairEditButton" data-bs-toggle="modal" data-bs-target="#loanerModal" disabled>Issue Loaner</button>
 						</div>
 						<div class="col-2 iPadSerialNumberLabels" style="display:none;">
 							<h5 class="d-inline-flex header-inline text-muted">iPad Serial Number</h5>
 						</div>
 						<div class="col-4 iPadSerialNumberLabels" style="display:none;">
 							<h5 class="d-inline-flex header-inline copiable" id="iPadSNLabel" data-text=""></h5>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-2">
+							<h5 class="d-inline-flex header-inline text-muted">Intake Notes</h5>
+						</div>
+						<div class="col">
+							<h5 class="d-inline-flex header-inline" id="intakeNotesLabel"></h5>
 						</div>
 					</div>
 					<div class="row">
@@ -622,7 +635,7 @@
 						</div>
 						<div class="row">
 							<div class="input-group mb-3 col">
-								<span class="input-group-text const-width-1">Accesories</span>
+								<span class="input-group-text const-width-1">Accessories</span>
 								<input id="accEditForm" type="text" class="form-control" placeholder="">
 							</div>
 						</div>

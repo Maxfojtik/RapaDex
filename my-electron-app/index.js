@@ -19,7 +19,7 @@ function doneLoadingSaving()
 }
 var stopShaking = false;
 var building = "";
-var version = "1.0.8b";
+var version = "1.0.8c";
 function keyDownHandler(event)
 {
 	if(event.key=='Escape' && !$("#savingDisplay").is(":visible"))//hacky but each screen has their own variables to tell if they are frozen or whatever
@@ -255,7 +255,15 @@ function loadConfiguration()
 	window.api.send("toMain", "configPls");
 }
 window.api.receive("fromMainWaiting", (data) => {
-	$("#savingDisplay").css("color", "red");
+	$("#savingDisplay").css("color", "yellow");
+});
+window.api.receive("fromMainDisconnected", (data) => {
+	$("#container").hide();
+	$("#disconnectedMessage").fadeIn();
+});
+window.api.receive("fromMainConnected", (data) => {
+	$("#disconnectedMessage").hide();
+	$("#container").show();
 });
 var collectKeyboard = false;
 function startCollectKeyboard()

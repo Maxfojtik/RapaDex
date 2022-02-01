@@ -25,8 +25,16 @@ function lockFile()
 	fs.access(lockedPath, fs.F_OK, (err) => {
 		//console.log("try");
 		if (err) {
-			fs.closeSync(fs.openSync(lockedPath, 'w'));//create it
+			try {
+				fs.closeSync(fs.openSync(lockedPath, 'w'));//create it
+			} catch (e) {
+				win.webContents.send("fromMainDisconnected", "");
+				setTimeout(lockFile, 2000);//try again in 2
+				console.log(e);
+				return;
+			}
 		}
+		win.webContents.send("fromMainConnected", "");
 		//file exists now
 		if(saving)
 		{
