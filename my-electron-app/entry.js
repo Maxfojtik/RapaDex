@@ -11,6 +11,7 @@ var configPathLocalFolder = process.env.APPDATA+"/repadex/";
 var configPathLocal = configPathLocalFolder+"configuration.json";
 var backendPath = "";//JSON.parse(configTxt).backendPath;
 var lockedPath = "";//JSON.parse(configTxt).lockFilePath;
+var versionFile = "";
 
 var saving = false;
 var goodToSave = false;
@@ -245,6 +246,7 @@ app.whenReady().then(() => {
 		var txt = fs.readFileSync(configPathLocal, 'utf8');
 		backendPath = JSON.parse(txt).backendPath;
 		lockedPath = JSON.parse(txt).lockFilePath;
+		versionFile = JSON.parse(txt).versionFilePath;
 		startup();
 	});
 });
