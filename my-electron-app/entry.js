@@ -1,4 +1,5 @@
 const { app, BrowserWindow, ipcMain} = require('electron');
+const { spawn } = require('child_process');
 const path = require("path");
 const fs = require("fs");
 const crypto = require("crypto");
@@ -247,7 +248,19 @@ app.whenReady().then(() => {
 		startup();
 	});
 });
-
+function checkAndSendRemoteVersion()
+{
+	fs.readFile(versionFile, 'utf8' , (err, txt) => {
+		if(err)
+		{
+			console.log("version read error: "+err);
+		}
+		else
+		{
+			win.webContents.send("fromMainRemoteVersion", txt);
+		}
+	});	
+}
 ipcMain.on("toMain", (event, args) => 
 {
 	if(!doneSaving && saving)
@@ -275,6 +288,10 @@ ipcMain.on("toMain", (event, args) =>
 	else if(args=="incRefNum")
 	{
 		incRefNum();
+	}
+	else if(args=="checkVersion")
+	{
+		checkAndSendRemoteVersion();
 	}
 	else if(args.substr(0,1)=="s")
 	{
@@ -305,6 +322,15 @@ function createWindow ()
 		}
 	});
 	win.loadFile('index.html');
+}
+function restartMyself()
+{
+	const subprocess = spawn(configPathLocalFolder+"electron.exe", [''], {
+		detached: true,
+		stdio: 'ignore'
+	});
+	subprocess.unref();
+	win.close();
 }
 function startup()
 {

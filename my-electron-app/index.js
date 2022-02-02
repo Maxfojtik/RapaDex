@@ -1,3 +1,19 @@
+var currentlySaveingSomething = false;
+var stopShaking = false;
+var building = "";
+var version = "1.0.8c";
+var newVersion = "";
+function checkVersion()
+{
+	window.api.send("toMain", "checkVersion");
+}
+window.api.receive("fromMainRemoteVersion", (data) => {
+	if(data!=version)
+	{
+		newVersion = data;
+		console.log("update");
+	}
+});
 function startLoadingSaving(message)
 {
 	$("#saveText").text(message);
@@ -10,19 +26,18 @@ function startLoadingSaving(message)
 	$(".starImage").css("visibility", "shown");
 	$("#pokeStars").hide();
 	stopShaking = false;
+	currentlySaveingSomething = true;
 }
 function doneLoadingSaving()
 {
 	$("#savingDisplay").css("color", "black");
 	//$("#saveSpinner").css("visibility", "hidden");
+	currentlySaveingSomething = false;
 	stopShaking = true;
 }
-var stopShaking = false;
-var building = "";
-var version = "1.0.8c";
 function keyDownHandler(event)
 {
-	if(event.key=='Escape' && !$("#savingDisplay").is(":visible"))//hacky but each screen has their own variables to tell if they are frozen or whatever
+	if(event.key=='Escape' && !currentlySaveingSomething)//hacky but works?
 	{
 		backToMain();
 	}
@@ -56,6 +71,7 @@ $( document ).ready(function() {
 	$( "#searchInput" ).select();
 	document.addEventListener('keydown', keyDownHandler);
 	setTimeout(initPopovers, 500);
+	//setInterval(checkVersion, 60*1000);//every minute
 	$("#versionLabel").text("v"+version);
 	$('#pokeImage').on('animationiteration', function () {
 		if(stopShaking)
