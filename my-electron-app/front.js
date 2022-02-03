@@ -20,6 +20,7 @@ function clickRow(number)
 		$("#mainTable").hide();
 		$("#repairContextButtons").hide();
 		$("#repairEdit").show();
+		shownPanel = 1;
 	}
 	else
 	{
@@ -90,6 +91,8 @@ function createNewRepair()
 	$("#repairForm").show();
 	logOut();
 	resetRepairForm();
+	resetVersionStyling();
+	shownPanel = 2;
 }
 function showRepairs(repairsIn, showArchived, start, length)
 {

@@ -5,8 +5,10 @@ const fs = require("fs");
 const crypto = require("crypto");
 var win;
 
-var configPath = "K:/BF/PRSM/TechHub/RepaDex/configuration.json";
-//var configPath = "C:/Users/Maxwell/Documents/GitHub/RapaDex/configuration.json";
+
+//var remotePath = "K:/BF/PRSM/TechHub/RepaDex";
+var remotePath = "C:/Users/Maxwell/Documents/GitHub/RapaDex";
+var configPath = remotePath+"/configuration.json";
 var configPathLocalFolder = process.env.APPDATA+"/repadex/";
 var configPathLocal = configPathLocalFolder+"configuration.json";
 var backendPath = "";//JSON.parse(configTxt).backendPath;
@@ -265,39 +267,46 @@ function checkAndSendRemoteVersion()
 }
 ipcMain.on("toMain", (event, args) => 
 {
-	if(!doneSaving && saving)
-	{
-		console.log("ignoring "+args+" because we are already loading something...");
-		return;
-	}
-	if(args=="configPls")
-	{
-		var txt = fs.readFileSync(configPathLocal, 'utf8');
-		win.webContents.send("fromMainConfig", txt);
-	}
-	else if(args=="loadAll")
-	{
-		loadMessageName = "fromMainLoadAll";
-		loadRepairs();
-		//var txt = fs.readFileSync(backendPath, 'utf8');
-		//jsonData = JSON.parse(txt);
-	}
-	else if(args=="updateRepairs")
-	{
-		loadMessageName = "fromMainUpdateRepairs";
-		loadRepairs();
-	}
-	else if(args=="incRefNum")
-	{
-		incRefNum();
-	}
-	else if(args=="checkVersion")
+	if(args=="checkVersion")
 	{
 		checkAndSendRemoteVersion();
 	}
-	else if(args.substr(0,1)=="s")
+	else
 	{
-		saveRepair(args.substr(1));
+		if(!doneSaving && saving)
+		{
+			console.log("ignoring "+args+" because we are already loading something...");
+			return;
+		}
+		if(args=="configPls")
+		{
+			var txt = fs.readFileSync(configPathLocal, 'utf8');
+			win.webContents.send("fromMainConfig", txt);
+		}
+		else if(args=="loadAll")
+		{
+			loadMessageName = "fromMainLoadAll";
+			loadRepairs();
+			//var txt = fs.readFileSync(backendPath, 'utf8');
+			//jsonData = JSON.parse(txt);
+		}
+		else if(args=="updateRepairs")
+		{
+			loadMessageName = "fromMainUpdateRepairs";
+			loadRepairs();
+		}
+		else if(args=="incRefNum")
+		{
+			incRefNum();
+		}
+		else if(args=="update")
+		{
+			update();
+		}
+		else if(args.substr(0,1)=="s")
+		{
+			saveRepair(args.substr(1));
+		}
 	}
 });
 function createWindow () 
@@ -325,8 +334,58 @@ function createWindow ()
 	});
 	win.loadFile('index.html');
 }
+var totalFilesToDelete = 0;
+var filesDeleted = 0;
+function deleteMyself()
+{
+	console.log("deleteMyself");
+	var directory = configPathLocalFolder+"/resources/app";
+	fs.readdir(directory, (err, files) => {
+		if (err) throw err;
+		totalFilesToDelete = files.length;
+		filesDeleted = 0;
+		for (const file of files) {
+			fs.unlink(path.join(directory, file), err => {
+				if (err) throw err;
+				filesDeleted++;
+				win.webContents.send("fromMainUpdateProgress", ((filesDeleted/totalFilesToDelete)/2*100)+"");
+				if(filesDeleted==totalFilesToDelete)
+				{
+					copyANewVersion();
+				}
+			});
+		}
+	});
+}
+function copyANewVersion()
+{
+	console.log("copyANewVersion");
+	var directoryRemote = remotePath+"repadex/resources/app";
+	var directoryLocal = configPathLocalFolder+"/resources/app";
+	fs.readdir(directoryRemote, (err, files) => {
+		if (err) throw err;
+		totalFilesToCopy = files.length;
+		filesCopied = 0;
+		for (const file of files) {
+			fs.copyFile(path.join(directoryRemote, file), path.join(directoryLocal, file), err => {
+				if (err) throw err;
+				filesCopied++;
+				win.webContents.send("fromMainUpdateProgress", ((filesCopied/totalFilesToCopy)/2*100+50)+"");
+				if(filesCopied==totalFilesToCopy)
+				{
+					restartMyself();
+				}
+			});
+		}
+	});
+}
+function update()
+{
+	deleteMyself();
+}
 function restartMyself()
 {
+	console.log("restartMyself");
 	const subprocess = spawn(configPathLocalFolder+"electron.exe", [''], {
 		detached: true,
 		stdio: 'ignore'

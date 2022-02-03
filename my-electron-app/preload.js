@@ -15,7 +15,7 @@ contextBridge.exposeInMainWorld(
             }
         },
         receive: (channel, func) => {
-            let validChannels = ["fromMainConfig", "fromMainLoadAll", "fromMainSaveSuc", "fromMainSaveFail", "fromMainRefNum", "fromMainRefNumFail", "fromMainWaiting", "fromMainUpdateRepairs", "fromMainDisconnected", "fromMainConnected", "fromMainRemoteVersion"];
+            let validChannels = ["fromMainConfig", "fromMainLoadAll", "fromMainSaveSuc", "fromMainSaveFail", "fromMainRefNum", "fromMainRefNumFail", "fromMainWaiting", "fromMainUpdateRepairs", "fromMainDisconnected", "fromMainConnected", "fromMainRemoteVersion", "fromMainUpdateProgress"];
             if (validChannels.includes(channel)) {
                 // Deliberately strip event as it includes `sender` 
                 ipcRenderer.on(channel, (event, ...args) => func(...args));

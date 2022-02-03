@@ -393,6 +393,24 @@ body {
 	padding-left: 10px;
 	margin-left: 0px!important;
 }
+.versionClickable {
+	cursor: pointer;
+}
+@keyframes rotateCenter {
+  0% {transform: rotate(0deg);}
+  50% {transform: rotate(180deg);}
+  100% {transform: rotate(360deg);}
+}
+.rotate {
+	animation: rotateCenter 2s forwards linear;
+	animation-iteration-count: infinite;
+}
+.updatingProgress {
+	width: 600px;
+	margin-top: 20px;
+	padding-left: initial;
+	padding-right: initial;
+}
 th {
 	border-color: #333;
 }

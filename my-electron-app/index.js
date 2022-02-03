@@ -1,17 +1,72 @@
 var currentlySaveingSomething = false;
 var stopShaking = false;
 var building = "";
-var version = "1.0.8c";
+var version = "1.0.9";
 var newVersion = "";
+var shownPanel = 0;//0 = main table, 1 = repairEdit, 2 = repairForm, 3 = loanerForm, 4 = repair warning, 5 = updating
 function checkVersion()
 {
+	console.log("check");
 	window.api.send("toMain", "checkVersion");
 }
+function resetVersionStyling()
+{
+	$("#versionLabel").removeClass("versionClickable");
+	$("#versionLabel").addClass("text-muted");
+	//$("#versionLabel").css("color", "yellow");
+}
+var versionPopover;
+function versionUnhover()
+{
+	versionPopover.hide();
+	console.log("hidden");
+}
+function versionHover()
+{
+	if($("#versionLabel").hasClass("versionClickable"))
+	{
+		var versionElement = document.getElementById('versionLabel');
+		var options = {"placement": "bottom", "title": version+" -> "+newVersion};
+		if(versionPopover!=null)
+		{
+			console.log("disposed");
+			versionPopover.dispose();
+		}
+		versionPopover = new bootstrap.Popover(versionElement, options);
+		versionPopover.show();
+		console.log("shown");
+	}
+}
+function versionClick()
+{
+	if(!currentlySaveingSomething)
+	{
+		shownPanel = 5;
+		$("#container").hide();
+		$("#updatingMessage").fadeIn();
+		window.api.send("toMain", "update");
+	}
+}
+window.api.receive("fromMainUpdateProgress", (data) => {
+	$("#updateProgressInside").css("width", data+"%");
+});
 window.api.receive("fromMainRemoteVersion", (data) => {
+	console.log("callback");
 	if(data!=version)
 	{
 		newVersion = data;
-		console.log("update");
+		if(shownPanel<2)
+		{
+			$("#versionLabel").addClass("versionClickable");
+			$("#versionLabel").removeClass("text-muted");
+			$("#versionLabel").css("color", "#cccc00");
+		}
+		//console.log("update");
+	}
+	else
+	{		
+		$("#versionLabel").removeClass("versionClickable");
+		$("#versionLabel").addClass("text-muted");
 	}
 });
 function startLoadingSaving(message)
@@ -71,7 +126,8 @@ $( document ).ready(function() {
 	$( "#searchInput" ).select();
 	document.addEventListener('keydown', keyDownHandler);
 	setTimeout(initPopovers, 500);
-	//setInterval(checkVersion, 60*1000);//every minute
+	checkVersion();
+	setInterval(checkVersion, 60*1000);//every minute
 	$("#versionLabel").text("v"+version);
 	$('#pokeImage').on('animationiteration', function () {
 		if(stopShaking)
@@ -274,12 +330,22 @@ window.api.receive("fromMainWaiting", (data) => {
 	$("#savingDisplay").css("color", "yellow");
 });
 window.api.receive("fromMainDisconnected", (data) => {
-	$("#container").hide();
-	$("#disconnectedMessage").fadeIn();
+	if(shownPanel < 4)
+	{
+		$("#container").hide();
+		$("#disconnectedMessage").fadeIn();
+	}
 });
 window.api.receive("fromMainConnected", (data) => {
 	$("#disconnectedMessage").hide();
-	$("#container").show();
+	if(shownPanel < 4)
+	{
+		$("#container").show();
+	}
+	else
+	{
+		//$("#container").show();
+	}
 });
 var collectKeyboard = false;
 function startCollectKeyboard()

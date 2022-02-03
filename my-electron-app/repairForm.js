@@ -648,6 +648,8 @@ function backToMain()
 	$( "#repairForm" ).hide();
 	$( "#repairEdit" ).hide();
 	$("#startNewRepairButton").prop('disabled', true);
+	shownPanel = 0;
+	checkVersion();
 }
 var appleCareWarningRequired;
 function showRelaText()
@@ -689,6 +691,7 @@ function saveRepairForm()
 		showRelaText();
 		$("#container").hide();
 		$("#repairFormWarning").show();
+		shownPanel = 4;
 	}
 	else
 	{
@@ -704,6 +707,7 @@ function saveAndPrintRepairForm()
 		showRelaText();
 		$("#container").hide();
 		$("#repairFormWarning").show();
+		shownPanel = 4;
 	}
 	else
 	{
@@ -736,6 +740,7 @@ function okayWarning()
 	$("#container").show();
 	$("#repairFormWarning").hide();
 	$(".saveButton").prop('disabled', true);
+	shownPanel = 2;
 	if(referenceNumber==-1)
 	{
 		getNextRefNum();
@@ -867,9 +872,23 @@ function makeRepairPrintable()
 	});
 	$("#phoneForm").prop("placeholder", "");
 	$("#allTheMakes").hide();
-	$("#printMake").val(selectedMakeName);
+	if(selectedMakeName=="Other")
+	{
+		$("#printMake").val($("#makeOtherBox").val());
+	}
+	else
+	{
+		$("#printMake").val(selectedMakeName);
+	}
 	$("#allTheModels").hide();
-	$("#printModel").val(selectedModelName+subType);
+	if(selectedModelName=="Other" || selectedMakeName=="Other")
+	{
+		$("#printModel").val($("#typeOtherBox").val());
+	}
+	else
+	{
+		$("#printModel").val(selectedModelName+subType);
+	}
 	var isFlagship = $("#flexSwitchCheckCheckedFlagship").is(":checked") && $("#flexSwitchCheckCheckedFlagship").is(":visible");
 	var isDepartmental = $("#flexSwitchCheckCheckedDepartmental").is(":checked") && $("#flexSwitchCheckCheckedDepartmental").is(":visible");
 	var intakeText = $("#intakeTextArea").val();
@@ -904,7 +923,7 @@ function makeRepairPrintable()
 	dateTimeText += " "+hours+":"+String(d.getMinutes()).padStart(2, '0')+" "+ampmindicator;
 	$("#dateTimeLabel").text(dateTimeText);
 	$("#nameLabelBottom").text($("#nameForm").val());
-	$("#versionLabel").css("padding-top", "75px");
+	$("#versionLabel").css("margin-top", "75px");
 	$("#versionLabel").css("font-size", "1rem");
 	//$("#loggedInAsLabel").text("v"+version);
 }
@@ -937,7 +956,7 @@ function unMakeRepairPrintable()
 	$("#passwordForm").val("Written in after printing");
 	$("#mainTitle").css("font-size", "");
 	$("#techLogo").css("height", "");
-	$("#versionLabel").css("padding-top", "94px");
+	$("#versionLabel").css("margin-top", "94px");
 	$("#versionLabel").css("font-size", "1.25rem");
 	//$("#loggedInAsLabel").text("");
 }
