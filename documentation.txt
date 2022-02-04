@@ -75,3 +75,5 @@ ChangeLog:
 1.0.9:
 	added update button
 	fixed making name and phone copiable
+1.0.9a:
+	changed color of stuck
