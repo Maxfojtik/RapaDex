@@ -360,7 +360,7 @@ function deleteMyself()
 function copyANewVersion()
 {
 	console.log("copyANewVersion");
-	var directoryRemote = remotePath+"repadex/resources/app";
+	var directoryRemote = remotePath+"/repadex/resources/app";
 	var directoryLocal = configPathLocalFolder+"/resources/app";
 	fs.readdir(directoryRemote, (err, files) => {
 		if (err) throw err;
