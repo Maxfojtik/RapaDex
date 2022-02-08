@@ -79,3 +79,5 @@ ChangeLog:
 	changed color of stuck
 1.0.9b:
 	when no work, says repair form created
+1.0.9c:
+	changed update color for chloe
