@@ -77,3 +77,5 @@ ChangeLog:
 	fixed making name and phone copiable
 1.0.9a:
 	changed color of stuck
+1.0.9b:
+	when no work, says repair form created

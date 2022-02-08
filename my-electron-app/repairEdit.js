@@ -613,6 +613,12 @@ function figureOutColorAndStatus()
 				status = "Finished";
 				break;
 			}
+			if(work["what"]=="Created Repair Form")
+			{
+				color = "default";
+				status = "Created Repair Form";
+				break;
+			}
 		}
 	}
 	currentRepairJSON["color"] = color;
