@@ -562,7 +562,7 @@ function figureOutColorAndStatus()
 	}
 	else
 	{
-		for(var i = currentRepairJSON["workCompleted"].length-1; i > 0; i--)
+		for(var i = currentRepairJSON["workCompleted"].length-1; i >= 0; i--)
 		{
 			var work = currentRepairJSON["workCompleted"][i];
 			if(work["what"]=="Sent Out")
