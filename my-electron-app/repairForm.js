@@ -644,7 +644,7 @@ function backToMain()
 		unMakeRepairPrintable();
 	}
 	loadAll();
-	$( "#mainTable" ).show();
+	$( "#mainTable" ).fadeIn();
 	$( "#repairForm" ).hide();
 	$( "#repairEdit" ).hide();
 	$("#startNewRepairButton").prop('disabled', true);

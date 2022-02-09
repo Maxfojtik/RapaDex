@@ -81,3 +81,4 @@ ChangeLog:
 	when no work, says repair form created
 1.0.9c:
 	changed update color for chloe
+	made some fades and changed some underline stuff

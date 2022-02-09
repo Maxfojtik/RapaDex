@@ -412,8 +412,12 @@ body {
 	padding-right: initial;
 }
 th {
-	border-color: #333;
+	border: 0;
 }
 td {
+	border: 0;
+}
+tr {
 	border-color: #333;
+	border-top-width: 1px;
 }

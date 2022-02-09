@@ -446,6 +446,7 @@ function showRepair(data, refNum)
 	{
 		$(".iPadSerialNumberLabels").hide();
 	}
+	var isTop = true;
 	for(var i = 0; i < repair["workCompleted"].length; i++)
 	{
 		var date = new Date(repair["workCompleted"][i]["when"]);
@@ -489,7 +490,14 @@ function showRepair(data, refNum)
 			}
 		}
 		html += "</tr>";
-		$("#workTableBody").append(html);
+		var toAppend = $(html);
+		var time = Math.random()*2000;
+		if(isTop)
+		{
+			toAppend.css("border-top-width", "0px");
+			isTop = false;
+		}
+		$("#workTableBody").append(toAppend);
 	}
 }
 function showLogs()

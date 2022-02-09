@@ -19,7 +19,7 @@ function clickRow(number)
 		startUpdate(number);
 		$("#mainTable").hide();
 		$("#repairContextButtons").hide();
-		$("#repairEdit").show();
+		$("#repairEdit").fadeIn();
 		shownPanel = 1;
 	}
 	else
@@ -88,7 +88,7 @@ function loadAll()
 function createNewRepair()
 {
 	$("#mainTable").hide();
-	$("#repairForm").show();
+	$("#repairForm").fadeIn();
 	logOut();
 	resetRepairForm();
 	resetVersionStyling();
