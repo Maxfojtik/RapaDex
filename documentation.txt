@@ -84,3 +84,7 @@ ChangeLog:
 	made some fades and changed some underline stuff
 1.0.9d:
 	fixed iPadSN requirement not updated when selecting Other make or model
+1.0.9e:
+	fixed phone being weird and 
+	close subtype when backing
+	make the phone number less strict as per cory's suggestion

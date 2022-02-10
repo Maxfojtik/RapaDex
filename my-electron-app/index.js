@@ -1,12 +1,12 @@
 var currentlySaveingSomething = false;
 var stopShaking = false;
 var building = "";
-var version = "1.0.9d";
+var version = "1.0.9e";
 var newVersion = "";
 var shownPanel = 0;//0 = main table, 1 = repairEdit, 2 = repairForm, 3 = loanerForm, 4 = repair warning, 5 = updating
 function checkVersion()
 {
-	console.log("check");
+	//console.log("check");
 	window.api.send("toMain", "checkVersion");
 }
 function resetVersionStyling()
@@ -19,7 +19,7 @@ var versionPopover;
 function versionUnhover()
 {
 	versionPopover.hide();
-	console.log("hidden");
+	//console.log("hidden");
 }
 function versionHover()
 {
@@ -29,12 +29,12 @@ function versionHover()
 		var options = {"placement": "bottom", "title": version+" -> "+newVersion};
 		if(versionPopover!=null)
 		{
-			console.log("disposed");
+			//console.log("disposed");
 			versionPopover.dispose();
 		}
 		versionPopover = new bootstrap.Popover(versionElement, options);
 		versionPopover.show();
-		console.log("shown");
+		//console.log("shown");
 	}
 }
 function versionClick()
@@ -51,7 +51,7 @@ window.api.receive("fromMainUpdateProgress", (data) => {
 	$("#updateProgressInside").css("width", data+"%");
 });
 window.api.receive("fromMainRemoteVersion", (data) => {
-	console.log("callback");
+	//console.log("callback");
 	if(data!=version)
 	{
 		newVersion = data;

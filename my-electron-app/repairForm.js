@@ -662,6 +662,7 @@ function backToMain()
 	$("#startNewRepairButton").prop('disabled', true);
 	shownPanel = 0;
 	checkVersion();
+	disposePopover();
 }
 var appleCareWarningRequired;
 function showRelaText()
@@ -1014,14 +1015,15 @@ const enforceFormat = (event) => {
 const formatToPhone = (event) => {
     if(isModifierKey(event)) {return;}
 
-    const input = event.target.value.replace(/\D/g,'').substring(0,10); // First ten digits of input only
+    const input = event.target.value.replace(/\D/g,''); // First ten digits of input only
     const areaCode = input.substring(0,3);
     const middle = input.substring(3,6);
-    const last = input.substring(6,10);
-
+    const last = input.substring(6);
+	
     if(input.length > 6){event.target.value = '('+areaCode+') '+middle +'-'+last;}
     else if(input.length > 3){event.target.value = '('+areaCode+') '+middle;}
     else if(input.length > 0){event.target.value = '('+areaCode;}
+	validatePhoneElement();
 };
 const upperSerial = (event) => {
     event.target.value = event.target.value.toUpperCase();
