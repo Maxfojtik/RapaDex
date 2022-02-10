@@ -352,6 +352,9 @@ function makeSelect(name)
 	{
 		$("#makeOtherBox").show();
 		showProblemSelector(["Click here to enter problem"]);
+		neediPadSN = false;
+		$("#iPadSNDiv").hide();
+		$("#passwordDiv").show();
 	}
 	else
 	{
