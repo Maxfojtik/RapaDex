@@ -581,10 +581,19 @@ function typeSelect(id)
 				$("#digitalFlagshipSwitch").hide();
 			}
 		}
+		else
+		{
+			neediPadSN = false;
+			$("#iPadSNDiv").hide();
+			$("#passwordDiv").show();
+		}
 	}
 	else
 	{
 		$("#digitalFlagshipSwitch").hide();
+		neediPadSN = false;
+		$("#iPadSNDiv").hide();
+		$("#passwordDiv").show();
 	}
 	showProblemSelector(commonProblems);
 	if(theTypeElement.innerHTML=='Other')

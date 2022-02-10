@@ -82,3 +82,5 @@ ChangeLog:
 1.0.9c:
 	changed update color for chloe
 	made some fades and changed some underline stuff
+1.0.9d:
+	fixed iPadSN requirement not updated when selecting Other make or model
