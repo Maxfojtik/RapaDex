@@ -750,8 +750,11 @@ function saveDatePickedUp()
 		
 		var logEntry = JSON.parse("{}");
 		logEntry["who"] = currentRepairJSON["datePicked"]["who"];
-		logEntry["when"] = currentRepairJSON["datePicked"]["when"];
-		logEntry["what"] = "Marked repair as picked up";
+		//logEntry["when"] = currentRepairJSON["datePicked"]["when"];
+		logEntry["when"] = new Date().toJSON();
+		var date = new Date(currentRepairJSON["datePicked"]["when"]);
+		var dateText = String(date.getMonth()+1).padStart(2, '0')+"/"+String(date.getDate()).padStart(2, '0')+"/"+date.getFullYear();
+		logEntry["what"] = "Marked repair as picked up as "+dateText;
 		currentRepairJSON["logs"].push(logEntry);
 	}
 	figureOutColorAndStatus();

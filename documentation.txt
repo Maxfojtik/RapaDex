@@ -88,3 +88,6 @@ ChangeLog:
 	fixed phone being weird and 
 	close subtype when backing
 	make the phone number less strict as per cory's suggestion
+1.0.9f:
+	fixed log not being updated correctly when marking picked up.
+	also changed what the log says when picked up
