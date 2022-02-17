@@ -984,6 +984,15 @@ function genbar()
 	$("#barcode").css("float", "right");
 }
 
+function checkSerialClosed()
+{
+	var serial = $("#serialForm").val();
+	for(var refNum in backendData["repairs"])
+	{
+		
+	}
+}
+
 
 //code from https://stackoverflow.com/questions/30058927/format-a-phone-number-as-a-user-types-using-pure-javascript, modified by me
 const isNumericInput = (event) => {

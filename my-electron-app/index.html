@@ -524,8 +524,26 @@
 			</div>
 		</div>
 		
+		<!-- Old Repair Open Modal -->
+		<div class="modal"  id="oldRepairOpenModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">There is an open repair with this serial number</h5>
+					</div>
+					<div class="modal-body">
+						<p>In order to continue you have to choose what to do</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" onclick="cancelRepairForm()" data-bs-dismiss="modal">Cancel this repair</button>
+						<button type="button" class="btn btn-primary" onclick="closeOldRepair()" data-bs-dismiss="modal">Close out the old repair</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		
-		<!-- Add Work Modal -->
+		<!-- Add Work Toast -->
 		<div class="position-fixed top-50 start-50 translate-middle" style="z-index: 11">
 			<div class="toast align-items-center border-0" role="alert" id="addWorkToast" aria-live="assertive" aria-atomic="true" data-bs-autohide="false" style="width: 700px">
 				<div class="toast-header">
@@ -614,7 +632,7 @@
 						<div class="row">
 							<div class="input-group mb-3 col">
 								<span class="input-group-text const-width-1">Serial Number</span>
-								<input id="serialEditForm" type="text" class="form-control" placeholder="">
+								<input id="serialEditForm" type="text" class="form-control" placeholder="" onblur="checkSerialClosed();">
 							</div>
 						</div>
 						<div class="row">
