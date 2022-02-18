@@ -6,10 +6,10 @@ const crypto = require("crypto");
 var win;
 
 
-//var remotePath = "K:/BF/PRSM/TechHub/RepaDex";
-var remotePath = "C:/Users/Maxwell/Documents/GitHub/RapaDex";
+var remotePath = "K:/BF/PRSM/TechHub/RepaDex";
+//var remotePath = "/home/maxwell/Documents/GitHub/RapaDex";
 var configPath = remotePath+"/configuration.json";
-var configPathLocalFolder = process.env.APPDATA+"/repadex/";
+var configPathLocalFolder = (process.env.APPDATA || process.env.HOME)+"/repadex/";
 var configPathLocal = configPathLocalFolder+"configuration.json";
 var backendPath = "";//JSON.parse(configTxt).backendPath;
 var lockedPath = "";//JSON.parse(configTxt).lockFilePath;
@@ -263,9 +263,9 @@ function checkAndSendRemoteVersion()
 		{
 			win.webContents.send("fromMainRemoteVersion", txt);
 		}
-	});	
+	});
 }
-ipcMain.on("toMain", (event, args) => 
+ipcMain.on("toMain", (event, args) =>
 {
 	if(args=="checkVersion")
 	{
@@ -309,13 +309,13 @@ ipcMain.on("toMain", (event, args) =>
 		}
 	}
 });
-function createWindow () 
+function createWindow ()
 {
 	win = new BrowserWindow(
 	{
 		minWidth: 1220,
-		width: 1600, 
-		height: 900, 
+		width: 1600,
+		height: 900,
 		autoHideMenuBar: true,
 		icon: __dirname + '/RepaDexFin.ico',
 		webPreferences: {

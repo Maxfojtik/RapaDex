@@ -7,8 +7,7 @@ var dontOverrideWarranty = false;
 var dontOverrideProblem = false;
 $(document).on("keyup", '#assetTagForm', function(e) {
 	if (e.keyCode == 13 && !repairEditFrozen) {
-		var value = $("#assetTagForm").val();
-		console.log(value);
+		issueLoaner();
 	}
 });
 $( document ).ready(function() {
@@ -126,7 +125,7 @@ function startUpdate(refNum)
 	startLoadingSaving("Looking for updated information...");
 	freezeForm();
 }
-window.api.receive("fromMainUpdateRepairs", (data) => 
+window.api.receive("fromMainUpdateRepairs", (data) =>
 {
 	doneLoadingSaving();
 	backendData = JSON.parse(data);
@@ -169,7 +168,7 @@ function saveWorkAs(name)
 	repairWork["when"] = new Date(date).toJSON();
 	repairWork["what"] = $("#addWorkSelector").val();
 	repairWork["note"] = $("#noteTextInput").val();
-	
+
 	var logEntry = JSON.parse("{}");
 	logEntry["who"] = name;
 	logEntry["when"] = repairWork["when"];
@@ -249,17 +248,18 @@ function selectLoginPill(name)
 	$("#addWorkButton").addClass("btn-success");
 	$("#loggedInAsLabel").text("Logged in as: "+name);
 	$("#issueLoanerButton").prop('disabled', false);
+	$("#checkInLoanerButton").prop('disabled', false);
 	loginToast.hide();
 }
 function showLoginToast()
-{	
+{
 	loginToast = new bootstrap.Toast($('#loginToast'));
 	loginToast.show();
 }
 function addWorkLogin()
 {
 	if(loggedInAs=="")
-	{	
+	{
 		showLoginToast();
 	}
 	else
@@ -387,12 +387,12 @@ function showRepair(data, refNum)
 {
 	unfreezeForm();
 	if(loggedInAs!="")
-	{	
+	{
 		setRepaColor(config.employees[loggedInAs].color);
 	}
 	var repair = data[refNum];
 	currentRepairJSON = repair;
-	showRelatedRepairs(refNum);	
+	showRelatedRepairs(refNum);
 	$("#nameLabel").text(repair["name"]);
 	$("#nameLabel").attr("data-text", repair["name"]);
 	$("#emailLabel").text(repair["email"]);
@@ -446,6 +446,18 @@ function showRepair(data, refNum)
 	{
 		$(".iPadSerialNumberLabels").hide();
 	}
+
+	if(repair["loaner"] && repair["loaner"]["has"])
+	{
+		$("#issueLoanerButton").hide();
+		$("#checkInLoanerButton").show();
+	}
+	else
+	{
+		$("#issueLoanerButton").show();
+		$("#checkInLoanerButton").hide();
+	}
+
 	var isTop = true;
 	for(var i = 0; i < repair["workCompleted"].length; i++)
 	{
@@ -545,16 +557,56 @@ function logOut()
 	$("#addWorkButton").removeClass("btn-success");
 	$("#loggedInAsLabel").text("");
 	$("#issueLoanerButton").prop('disabled', true);
+	$("#checkInLoanerButton").prop('disabled', true);
 }
 function issueLoaner()
 {
 	if(loggedInAs=="")
-	{	
+	{
 		showLoginToast();
 	}
 	else
 	{
-		
+		var value = $("#assetTagForm").val();
+		currentRepairJSON["loaner"] = {};
+		currentRepairJSON["loaner"]["has"] = true;
+		currentRepairJSON["loaner"]["assetTag"] = value;
+		var loanerModalElement = document.getElementById('loanerModal');
+		var modal = bootstrap.Modal.getInstance(loanerModalElement);
+		modal.hide();
+
+		var logEntry = JSON.parse("{}");
+		logEntry["who"] = loggedInAs;
+		logEntry["when"] = new Date().toJSON();
+		logEntry["what"] = "Issued a loaner: "+value;
+		currentRepairJSON["logs"].push(logEntry);
+
+		freezeForm();
+		startLoadingSaving("Saving loaner information...");
+		addedWorkRefNum = refNumIn;
+		window.api.send("toMain", "s"+JSON.stringify(currentRepairJSON));
+	}
+}
+function checkInLoaner()
+{
+	if(loggedInAs=="")
+	{
+		showLoginToast();
+	}
+	else
+	{
+		currentRepairJSON["loaner"]["has"] = false;
+
+		var logEntry = JSON.parse("{}");
+		logEntry["who"] = loggedInAs;
+		logEntry["when"] = new Date().toJSON();
+		logEntry["what"] = "Checked loaner in";
+		currentRepairJSON["logs"].push(logEntry);
+
+		freezeForm();
+		startLoadingSaving("Checking in loaner...");
+		addedWorkRefNum = refNumIn;
+		window.api.send("toMain", "s"+JSON.stringify(currentRepairJSON));
 	}
 }
 function figureOutColorAndStatus()
@@ -562,7 +614,7 @@ function figureOutColorAndStatus()
 	var color = "default";
 	var status = "Unknown";
 	if(currentRepairJSON["datePicked"])
-	{		
+	{
 		var date = new Date(currentRepairJSON["datePicked"]["when"]);
 		var dateText = String(date.getMonth()+1).padStart(2, '0')+"/"+String(date.getDate()).padStart(2, '0')+"/"+date.getFullYear();
 		status = "Picked up on "+dateText;
@@ -710,7 +762,7 @@ function removeFirstEditWorkEmployee()
 	if($("#editDateWorkerSelector").find("option:first").text()=="")
 	{
 		$("#editDateWorkerSelector").find("option:first").remove();
-	}	
+	}
 	if(repairEditFrozen)
 	{
 		$("#saveDatePickedUpButton").addClass("editWorkButtons");
@@ -726,7 +778,7 @@ function removeFirstEditRepairEmployee()
 	if($("#editRepairWorkerSelector").find("option:first").text()=="")
 	{
 		$("#editRepairWorkerSelector").find("option:first").remove();
-	}	
+	}
 	$("#saveEditRepairButton").prop("disabled", false);
 }
 function saveDatePickedUp()
@@ -734,7 +786,7 @@ function saveDatePickedUp()
 	if($("#dateEditPickedUpForm").val()=='')//cleared out
 	{
 		delete currentRepairJSON["datePicked"];
-		
+
 		var logEntry = JSON.parse("{}");
 		logEntry["who"] = $("#editDateWorkerSelector").val();
 		logEntry["when"] = new Date().toJSON();
@@ -747,7 +799,7 @@ function saveDatePickedUp()
 		currentRepairJSON["datePicked"] = {};
 		currentRepairJSON["datePicked"]["when"] = date.toJSON();
 		currentRepairJSON["datePicked"]["who"] = $("#editDateWorkerSelector").val();
-		
+
 		var logEntry = JSON.parse("{}");
 		logEntry["who"] = currentRepairJSON["datePicked"]["who"];
 		//logEntry["when"] = currentRepairJSON["datePicked"]["when"];

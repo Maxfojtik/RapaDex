@@ -1,7 +1,7 @@
 {
-	"backendPath": "C:/be/examplebe.json",
-	"lockFilePath": "C:/be/locked.lock",
-	"versionFilePath": "C:/Users/Maxwell/Documents/GitHub/RapaDex/remoteVersion.txt",
+	"backendPath": "/home/maxwell/Documents/GitHub/RapaDex/be.json",
+	"lockFilePath": "/home/maxwell/Documents/GitHub/RapaDex/locked.lock",
+	"versionFilePath": "/home/maxwell/Documents/GitHub/RapaDex/remoteVersion.txt",
 	"repairables": {
 		"apple": {
 			"warningOnAppleDevices": true,
@@ -59,17 +59,17 @@
 						"Enclosure Damage"
 					]
 				},
-				"keyboard": {		
+				"keyboard": {
 					"digitalFlagshipSwitch": true,
 					"iPadSerialNumber": true,
-					"commonName": "Keyboard",		
+					"commonName": "Keyboard",
 					"commonProblems": [
 						"Sticky Keys",
 						"Does not connect",
 						"Damaged Enclosure"
 					]
 				},
-				"imac": {		
+				"imac": {
 					"commonName": "iMac",
 					"findMy": true,
 					"commonProblems": [
@@ -105,7 +105,7 @@
 				},
 				"inspiron": {
 					"commonName": "Inspiron"
-					
+
 				},
 				"Other":true
 			}

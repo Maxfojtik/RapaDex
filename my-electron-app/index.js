@@ -1,7 +1,7 @@
 var currentlySaveingSomething = false;
 var stopShaking = false;
 var building = "";
-var version = "1.0.9f";
+var version = "1.0.10";
 var newVersion = "";
 var shownPanel = 0;//0 = main table, 1 = repairEdit, 2 = repairForm, 3 = loanerForm, 4 = repair warning, 5 = updating
 function checkVersion()
@@ -52,7 +52,7 @@ window.api.receive("fromMainUpdateProgress", (data) => {
 });
 window.api.receive("fromMainRemoteVersion", (data) => {
 	//console.log("callback");
-	if(data!=version)
+	if(data.trim()!=version)
 	{
 		newVersion = data;
 		if(shownPanel<2)
@@ -64,7 +64,7 @@ window.api.receive("fromMainRemoteVersion", (data) => {
 		//console.log("update");
 	}
 	else
-	{		
+	{
 		$("#versionLabel").removeClass("versionClickable");
 		$("#versionLabel").addClass("text-muted");
 	}
@@ -173,7 +173,7 @@ var appleFindMyWarning;
 function setupMakes()
 {
 	$("#makeSelector").empty();
-	for (var brand in config.repairables) 
+	for (var brand in config.repairables)
 	{
 		if(brand=="apple")
 		{
@@ -271,11 +271,11 @@ function loadConfiguration()
 			$("body").get(0).style.setProperty("--waitingOnDEPColorHover", pSBC(amountDim, config["waitingForDEPColor"]));
 			$("body").get(0).style.setProperty("--finishedColor", config["finishedColor"]);
 			$("body").get(0).style.setProperty("--finishedColorHover", pSBC(amountDim, config["finishedColor"]));
-			
+
 			//<span id="selectEmployeeTodd" class="badge rounded-pill badge-not-selected text-dark badge-spaced" onclick="selectPill('Todd')">Todd</span>
 			var building = "<div class=\"overflow-auto insideSaveAs\">";
 			var buildingLogin = "<h5>";
-			for (var employee in config.employees) 
+			for (var employee in config.employees)
 			{
 				if(!config.employees[employee].active)//skip if not active
 				{
@@ -307,8 +307,8 @@ function loadConfiguration()
 			$("#toastTextLogin").append(buildingLogin);
 			//setupMakes(); called with resetRepairForm
 			//setupWarranties(); called like above
-			$("#dropOffStatement").text(config.dropOffStatement);	
-			$("#pickUpStatement").text(config.pickUpStatement);	
+			$("#dropOffStatement").text(config.dropOffStatement);
+			$("#pickUpStatement").text(config.pickUpStatement);
 			$("#tooManyResultsWarning").text("There are more than "+config["maxRowsAtOnce"]+" results for your search, please refine your parameters");
 			//console.log(config);
 		}
@@ -372,7 +372,7 @@ function changeEmployee()
 function fallbackCopyTextToClipboard(text) {
   var textArea = document.createElement("textarea");
   textArea.value = text;
-  
+
   // Avoid scrolling to bottom
   textArea.style.top = "0";
   textArea.style.left = "0";

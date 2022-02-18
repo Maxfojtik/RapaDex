@@ -13,7 +13,7 @@
 		<title>RepaDex</title>
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@900&family=Work+Sans:wght@600&display=swap" rel="stylesheet"> 
+		<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@900&family=Work+Sans:wght@600&display=swap" rel="stylesheet">
 		<script src="JsBarcode.all.min.js"></script>
 	</head>
 	<body>
@@ -80,10 +80,10 @@
 					<img id="techLogo" class="showWhenPrint" src="TechLogo.png" style="display:none; height:120px; float: right; margin-top: 35px; margin-bottom: -10px"></img>
 				</div>
 			</div>
-			
-			
-			
-			
+
+
+
+
 			<div id="mainTable" style="display:block;">
 				<div class="row">
 					<div class="col-4">
@@ -124,10 +124,10 @@
 					</table>
 				</div>
 			</div>
-			
-			
-			
-			
+
+
+
+
 			<div id="repairEdit" style="display:none;">
 				<ul class="nav nav-tabs" id="repairNav">
 					<li class="nav-item" id="repairBackButtonItem">
@@ -157,9 +157,9 @@
 							<h5 class="d-inline-flex header-inline text-muted">Employee</h5>
 						</div>
 						<div class="col-4" id="employeeLabel">
-							
+
 						</div>
-						
+
 					</div>
 					<div class="row">
 						<div class="col-2">
@@ -214,7 +214,7 @@
 							<h5 class="d-inline-flex header-inline text-muted" id="pickedUpText"></h5>
 						</div>
 						<div class="col-4" id="datePickedUpContext" style="display:none;">
-							
+
 						</div>
 						<div class="col-4" id="datePickedUpButton">
 							<button id="pickUpButton" type="button" class="btn btn-danger btn-primary repairEditButton" data-bs-toggle="modal" data-bs-target="#pickupModal" onclick="fillPickedUpDate()">Pick Up</button>
@@ -225,7 +225,7 @@
 							<h5 class="d-inline-flex header-inline text-muted">Loaner Computer</h5>
 						</div>
 						<div class="col-4">
-							<!--<button type="button" class="btn btn-success repairEditButton" onclick="showLoaner()">Goto Form</button>-->
+							<button id="checkInLoanerButton" style="display:none;" type="button" class="btn btn-success repairEditButton" onclick="checkInLoaner()" disabled>Check In</button>
 							<button id="issueLoanerButton" type="button" class="btn btn-danger repairEditButton" data-bs-toggle="modal" data-bs-target="#loanerModal" disabled>Issue Loaner</button>
 						</div>
 						<div class="col-2 iPadSerialNumberLabels" style="display:none;">
@@ -265,19 +265,19 @@
 					  <td></td>
 					  <td><span class="badge rounded-pill badge-todd">Todd</span></td>
 					</tr>-->
-					
+
 				  </tbody>
 				</table>
 				<button type="button" class="btn btn-secondary workButton" id="addWorkButton" onclick="addWorkLogin()">Log in as a Repair Technician</button>
 			</div>
-			
-			
-			
-			
+
+
+
+
 			<div id="repairForm" style="display:none">
 				<div class="row">
 					<div class="col-1 hideWhenPrint" id="inputBackButton" style="width: 50px;">
-						<button id="repairFormBack" type="button" class="btn btn-secondary" onclick="backToMain()"><-</button> 
+						<button id="repairFormBack" type="button" class="btn btn-secondary" onclick="backToMain()"><-</button>
 					</div>
 					<div class="col-auto" style="padding-right:5px;">
 						<h4><span id="printingPill" class="badge rounded-pill badge-spaced text-dark showWhenPrint" style="border-color: black; display:none;">Example</span></h4>
@@ -305,7 +305,7 @@
 						<input class="showWhenPrint form-control" id="dateFormPrint" type="text" placeholder="" aria-label="" aria-describedby="basic-addon14" style="display:none;">
 					</div>
 					<!--<div class="col-2" style="padding-top:6px; padding-left:15px; padding-right:15px; width: 220px;">
-						
+
 					</div>-->
 				</div>
 				<div class="row">
@@ -344,7 +344,7 @@
 					<div class="input-group mb-3 col">
 						<span class="input-group-text const-width-2 modelSpan" id="basic-addon7">Model</span>
 						<div id="typeSelectors" class="btn-group hideWhenPrint" role="group" aria-label="Model Select">
-							
+
 							<!--Generated in js-->
 						</div>
 						<input id='typeOtherBox' type="text" class="form-control validable is-invalid hideWhenPrint" placeholder="Specify" aria-label="Specify" style="display:block;" oninput="validateSaveButtons()">
@@ -441,12 +441,12 @@
 					</div>
 				</div>
 			</div>
-			
-			
-			
-			
+
+
+
+
 			<div id="loanerForm" style="display:none;">
-			
+
 				<div class="row">
 					<div class="input-group mb-3 col">
 						<span class="input-group-text const-width-1">Asset Tag</span>
@@ -511,8 +511,8 @@
 				</div>
 			</div>
 		</div>
-		
-		
+
+
 		<!-- Copy Toast -->
 		<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
 			<div class="toast align-items-center text-white bg-primary border-0" role="alert" id="liveToast" aria-live="assertive" aria-atomic="true">
@@ -523,7 +523,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<!-- Old Repair Open Modal -->
 		<div class="modal"  id="oldRepairOpenModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
 			<div class="modal-dialog modal-dialog-centered">
@@ -542,7 +542,7 @@
 			</div>
 		</div>
 
-		
+
 		<!-- Add Work Toast -->
 		<div class="position-fixed top-50 start-50 translate-middle" style="z-index: 11">
 			<div class="toast align-items-center border-0" role="alert" id="addWorkToast" aria-live="assertive" aria-atomic="true" data-bs-autohide="false" style="width: 700px">
@@ -569,25 +569,25 @@
 							</select>
 						</div>
 						<div class="col saveWorkCol">
-							<button id="saveWorkButton" type="button" style="width: 100%" class="btn btn-primary header-inline editWorkButtons" onclick="saveWork()" disabled>Save</button>		
-						</div>	
+							<button id="saveWorkButton" type="button" style="width: 100%" class="btn btn-primary header-inline editWorkButtons" onclick="saveWork()" disabled>Save</button>
+						</div>
 						<div class="col saveWorkCol">
 							<!--More generated in javascript-->
-							<button type="button" id="saveWorkAsButton" style="width: 100%" class="btn btn-primary header-inline editWorkButtons" onclick="changeEmployee()" data-bs-toggle="popover" data-bs-html="true" title="Save As" disabled>Save As</button>		
-						</div>		
+							<button type="button" id="saveWorkAsButton" style="width: 100%" class="btn btn-primary header-inline editWorkButtons" onclick="changeEmployee()" data-bs-toggle="popover" data-bs-html="true" title="Save As" disabled>Save As</button>
+						</div>
 					</div>
 					<div class="row secondRowAddWork">
 						<div class="col">
 							<input type="text" class="form-control header-inline" id="noteTextInput" placeholder="notes (optional)">
 						</div>
-						<div id="deleteButtonCol" class="col-auto" style="padding-left: 0px;" style="display:none;">					
-							<button id="deleteWorkButton" type="button" class="btn btn-danger header-inline editWorkButtons" onclick="deleteWork()" data-bs-content="Click 5 more times to delete." disabled>Delete</button>	
+						<div id="deleteButtonCol" class="col-auto" style="padding-left: 0px;" style="display:none;">
+							<button id="deleteWorkButton" type="button" class="btn btn-danger header-inline editWorkButtons" onclick="deleteWork()" data-bs-content="Click 5 more times to delete." disabled>Delete</button>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		
+
 		<!-- Login Modal -->
 		<div class="position-fixed top-50 start-50 translate-middle" style="z-index: 13">
 			<div class="toast align-items-center border-0" role="alert" id="loginToast" aria-live="assertive" aria-atomic="true" data-bs-autohide="false" style="width: initial;">
@@ -600,8 +600,8 @@
 				</div>
 			</div>
 		</div>
-		
-		
+
+
 		<!-- Edit Repair Modal -->
 		<div class="modal fade" id="editRepairModal" tabindex="-1" aria-labelledby="editRepairModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
 			<div class="modal-dialog">
@@ -695,8 +695,8 @@
 				</div>
 			</div>
 		</div>
-		
-		
+
+
 		<!-- Journal Modal -->
 		<div class="modal fade" id="logsModel" tabindex="-1" aria-labelledby="logsModel" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-scrollable modal-lg">
@@ -725,7 +725,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<!-- Issue Loaner Model -->
 		<div class="modal fade" id="loanerModal" tabindex="-1" aria-labelledby="loanerModal" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-scrollable">
@@ -740,8 +740,8 @@
 				</div>
 			</div>
 		</div>
-		
-		
+
+
 		<!-- Picked Up Model -->
 		<div class="modal fade" id="pickupModal" tabindex="-1" aria-labelledby="pickupModal" aria-hidden="true">
 			<div class="modal-dialog">
@@ -762,7 +762,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 		<!-- Footer -->
 		<div style="height: 30px; line-height: initial;">
 			<div style="float: right; padding-right: 10px;">
