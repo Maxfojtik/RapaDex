@@ -277,7 +277,7 @@
 			<div id="repairForm" style="display:none">
 				<div class="row">
 					<div class="col-1 hideWhenPrint" id="inputBackButton" style="width: 50px;">
-						<button id="repairFormBack" type="button" class="btn btn-secondary" onclick="backToMain()"><-</button>
+						<button id="repairFormBack" type="button" class="btn btn-secondary" onclick="backToMain()" tabindex="-1"><-</button>
 					</div>
 					<div class="col-auto" style="padding-right:5px;">
 						<h4><span id="printingPill" class="badge rounded-pill badge-spaced text-dark showWhenPrint" style="border-color: black; display:none;">Example</span></h4>
@@ -290,18 +290,18 @@
 					</div>
 				</div>
 				<h4>
-					<div id="workerSelector" class="workerSelect hideWhenPrint" tabindex="0" onfocus="startCollectKeyboard()" onblur="stopCollectKeyboard()">
+					<div id="workerSelector" class="workerSelect hideWhenPrint" tabindex="1" onfocus="startCollectKeyboard()" onblur="stopCollectKeyboard()">
 						<!--HTML generated within Javascript from configuration.json-->
 					</div>
 				</h4>
 				<div class="row">
 					<div class="input-group mb-3 col">
 						<span class="input-group-text const-width-1" id="basic-addon3">Customer Name</span>
-						<input id="nameForm" type="text" class="form-control is-invalid validable" placeholder="Brutus Buckeye" aria-label="Brutus Buckeye" aria-describedby="basic-addon3" oninput="validateSaveButtons()">
+						<input id="nameForm" type="text" class="form-control is-invalid validable" placeholder="Brutus Buckeye" aria-label="Brutus Buckeye" aria-describedby="basic-addon3" oninput="validateSaveButtons()" tabindex="2">
 					</div>
 					<div class="input-group mb-3 col">
 						<span class="input-group-text const-width-2" id="basic-addon14">Date Started</span>
-						<input class="hideWhenPrint dateTimeForm" id="dateForm" type="datetime-local" value="">
+						<input class="hideWhenPrint dateTimeForm" id="dateForm" type="datetime-local" value="" tabindex="-1">
 						<input class="showWhenPrint form-control" id="dateFormPrint" type="text" placeholder="" aria-label="" aria-describedby="basic-addon14" style="display:none;">
 					</div>
 					<!--<div class="col-2" style="padding-top:6px; padding-left:15px; padding-right:15px; width: 220px;">
@@ -311,17 +311,17 @@
 				<div class="row">
 					<div class="input-group mb-3 col">
 						<span class="input-group-text" id="basic-addon5">Email</span>
-						<input id="emailForm" type="text" class="form-control is-invalid" placeholder="buckeye.1@osu.edu (searchable)" aria-label="buckeye.1@osu.edu" aria-describedby="basic-addon5" oninput="validateSaveButtons()">
+						<input id="emailForm" type="text" class="form-control is-invalid" placeholder="buckeye.1@osu.edu (searchable)" aria-label="buckeye.1@osu.edu" aria-describedby="basic-addon5" oninput="validateSaveButtons()" tabindex="3">
 					</div>
 					<div class="input-group mb-3 col">
 						<span class="input-group-text const-width-2" id="basic-addon2">Serial Number</span>
-						<input id="serialForm" type="text" class="form-control is-invalid validable" placeholder="" aria-label="" aria-describedby="basic-addon2" oninput="validateSaveButtons(); genbar();" onblur="checkSerialClosed();">
+						<input id="serialForm" type="text" class="form-control is-invalid validable" placeholder="" aria-label="" aria-describedby="basic-addon2" oninput="validateSaveButtons(); genbar();" onblur="checkSerialClosed();" tabindex="9">
 					</div>
 				</div>
 				<div class="row">
 					<div class="input-group mb-3 col">
 						<span class="input-group-text const-width-1" id="basic-addon6">Phone Number</span>
-						<input id="phoneForm" type="text" class="form-control is-invalid phoneValidable" placeholder="(614) 292-8883" aria-label="614-292-8883" aria-describedby="basic-addon6" oninput="validateSaveButtons();">
+						<input id="phoneForm" type="text" class="form-control is-invalid phoneValidable" placeholder="(614) 292-8883" aria-label="614-292-8883" aria-describedby="basic-addon6" oninput="validateSaveButtons();" tabindex="4">
 					</div>
 					<div class="input-group mb-3 col">
 						<span class="input-group-text const-width-2" id="basic-addon4">Make</span>
@@ -336,7 +336,7 @@
 					<div class="input-group mb-3 col">
 						<span class="input-group-text const-width-1" id="basic-addon13">Warranty</span>
 						<!--<input type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon13">-->
-						<select style="border-top-right-radius: .25rem;  border-bottom-right-radius: .25rem;" id="warrantySelector" class="form-select header-inline warrantySelector is-invalid hideWhenPrint" aria-label="Select warranty" onclick="warrantySelected(); validateSaveButtons();" onmousedown="removeFirstWarranty();">
+						<select style="border-top-right-radius: .25rem;  border-bottom-right-radius: .25rem;" id="warrantySelector" class="form-select header-inline warrantySelector is-invalid hideWhenPrint" aria-label="Select warranty" onclick="warrantySelected(); validateSaveButtons();" onmousedown="removeFirstWarranty();"  tabindex="5">
 							<!--generated in js-->
 						</select>
 						<input id="warrantyOtherText" type="text" class="form-control validable is-invalid showWhenPrint" placeholder="Specify" aria-label="" style="display:none;" oninput="validateSaveButtons()">
@@ -354,7 +354,7 @@
 				<div class="row">
 					<div class="input-group mb-3 col">
 						<span class="input-group-text const-width-1" id="basic-addon8">Purchase Date</span>
-						<input id="purchForm" type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon8">
+						<input id="purchForm" type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon8" tabindex="6">
 					</div>
 					<div class="input-group mb-3 col" id="passwordDiv">
 						<span class="input-group-text const-width-2" id="basic-addon7">Password</span>
@@ -370,17 +370,17 @@
 				<div class="row" style="height: 54px">
 					<div class="input-group mb-3 col">
 						<span class="input-group-text const-width-1" id="basic-addon8">Accessories</span>
-						<input id="accForm" type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon8">
+						<input id="accForm" type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon8" tabindex="7">
 					</div>
 					<div class="form-check form-switch col-3 hideWhenPrint" style="padding-left: 12px">
 						<h4>
-							<input class="form-check-input" style="margin-left: 0px;" type="checkbox" id="flexSwitchCheckCheckedDepartmental" oninput="departmentalSwitched();">
+							<input class="form-check-input" style="margin-left: 0px;" type="checkbox" id="flexSwitchCheckCheckedDepartmental" oninput="departmentalSwitched();" tabindex="12">
 							<label class="form-check-label" style="margin-top: 3px; padding-left: 10px;" for="flexSwitchCheckCheckedDepartmental">Departmental</label>
 						</h4>
 					</div>
 					<div class="form-check form-switch col-3 hideWhenPrint" style="padding-left: 12px">
 						<h4 id="digitalFlagshipSwitch"  style="display:none;">
-							<input class="form-check-input" style="margin-left: 0px;" type="checkbox" id="flexSwitchCheckCheckedFlagship">
+							<input class="form-check-input" style="margin-left: 0px;" type="checkbox" id="flexSwitchCheckCheckedFlagship" tabindex="13">
 							<label class="form-check-label" style="margin-top: 3px; padding-left: 10px;" for="flexSwitchCheckCheckedFlagship">Digital Flagship</label>
 						</h4>
 					</div>
@@ -389,7 +389,7 @@
 					<div class="input-group mb-3 col">
 						<span class="input-group-text const-width-1" id="basic-addon9">Intake Notes</span>
 						<!--<input type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon9">-->
-						<textarea style="white-space: pre-wrap;" class="form-control" id="intakeTextArea" rows="1" oninput=""></textarea>
+						<textarea style="white-space: pre-wrap;" class="form-control" id="intakeTextArea" rows="1" oninput="" tabindex="8"></textarea>
 					</div>
 				</div>
 				<div class="row hideWhenPrint" id="problemSelectorRow">
@@ -413,10 +413,10 @@
 				</div>
 				<div class="row hideWhenPrint" id="saveButtons">
 					<div class="col">
-						<button id="saveAndPrintRepairForm" type="button" class="btn btn-primary saveButton" onclick="saveAndPrintRepairForm()" style="width: 100%" disabled>Save and Print</button>
+						<button id="saveAndPrintRepairForm" type="button" class="btn btn-primary saveButton" onclick="saveAndPrintRepairForm()" style="width: 100%" disabled tabindex="15">Save and Print</button>
 					</div>
 					<div class="col">
-						<button id="saveRepairForm" type="button" class="btn btn-primary saveButton" onclick="saveRepairForm()" style="width: 100%" disabled>Save</button>
+						<button id="saveRepairForm" type="button" class="btn btn-primary saveButton" onclick="saveRepairForm()" style="width: 100%" disabled tabindex="16">Save</button>
 					</div>
 				</div>
 				<div class="row showWhenPrint" style="display:none; margin-bottom: -15px;">

@@ -9,7 +9,7 @@ Version formatting:
 
 
 ChangeLog:
-1.0.2: 
+1.0.2:
 	Changed how incRefNum works, now gets it if the save buttons become enabled because Im annoyed how we are missing numbers
 	Also cleaned up how selector for picked up looks
 	made search happen every type
@@ -85,9 +85,15 @@ ChangeLog:
 1.0.9d:
 	fixed iPadSN requirement not updated when selecting Other make or model
 1.0.9e:
-	fixed phone being weird and 
+	fixed phone being weird and
 	close subtype when backing
 	make the phone number less strict as per cory's suggestion
 1.0.9f:
 	fixed log not being updated correctly when marking picked up.
 	also changed what the log says when picked up
+1.0.10:
+	added simple loaners
+1.0.11:
+	added spell check and if there is an old repair it tells you when entering new serial
+1.0.11a:
+	changed tab orderering
