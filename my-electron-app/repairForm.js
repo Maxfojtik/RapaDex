@@ -993,7 +993,7 @@ var wasSavingDatePickedOld;
 function cancelRepairForm()
 {
 	blockProgress = false;
-	oldRepairOpen.hide();
+	oldRepairOpenModal.hide();
 	backToMain();
 }
 function closeOldRepair()
