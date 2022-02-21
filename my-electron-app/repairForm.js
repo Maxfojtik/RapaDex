@@ -110,7 +110,7 @@ function resetRepairForm()
 	setupMakes();
 	setupWarranties();
 	selectPill();
-	
+
 	$("#iPadSN").val("");
 	$("#intakeTextArea").val("");
 	$("#nameForm").val("");
@@ -241,7 +241,7 @@ function selectPill(name)//pass null if you want to reset pills
 	}
 }
 function fillPrintingFill(theName)
-{	
+{
 	$("#printingPill").css("background-color", config.employees[theName].color);
 	$("#printingPill").css("border-color", config.employees[theName].color);
 	$("#printingPill").text(config.employees[theName]["name"]);
@@ -455,7 +455,7 @@ function updateTypes()
 							//<button id="typeOtherMicrosoft" type="button" class="btn btn-outline-primary" onclick="typeSelect('typeOtherMicrosoft')">Other</button>
 }
 function showProblemSelector(commonProblems)
-{	
+{
 	$("#problemSelector").addClass("is-invalid");
 	$("#problemSelector").removeClass("is-valid");
 	for(var i = 0;i < commonProblems.length; i++)//compile them all
@@ -505,7 +505,7 @@ function typeSelect(id)
 			theTypeElement = allTypes[i];
 		}
 	}
-	disposePopover();	
+	disposePopover();
 	//console.log(theTypeElement);
 	hasSubType = false;
 	if(theTypeElement.getAttribute('data-bs-toggle')=="popover")//has popover stuff
@@ -628,14 +628,14 @@ function removeFirstWarranty()
 		$("#warrantySelector").find("option:first").remove();
 	}
 }
-window.api.receive("fromMainSaveFail", (data) => 
+window.api.receive("fromMainSaveFail", (data) =>
 {
 	console.log(e);
 	$("#mainError").show();
 	$("#container").hide();
 	$("#mainError").text("There is an error with the backend json file, can't load");
 });
-window.api.receive("fromMainSaveSuc", (data) => 
+window.api.receive("fromMainSaveSuc", (data) =>
 {
 	doneLoadingSaving();
 	if(addedWorkRefNum>0)
@@ -643,6 +643,10 @@ window.api.receive("fromMainSaveSuc", (data) =>
 		backendData = JSON.parse(data);
 		showRepair(backendData["repairs"], addedWorkRefNum);
 		addedWorkRefNum = 0;
+	}
+	else if(wasSavingDatePickedOld)//hacky but should be fine????
+	{
+		wasSavingDatePickedOld = false;
 	}
 	else
 	{
@@ -771,7 +775,7 @@ function jsonifyTheRepairForm()
 	json["refNum"] = referenceNumber;
 	//json["employee"] = selectedEmployee; taken care of in first work entry
 	//json["dotNumber"] = $("#dotForm").val();
-	//json["dateForm"] = $("#dateForm").val(); 
+	//json["dateForm"] = $("#dateForm").val();
 	json["name"] = $("#nameForm").val();
 	json["serial"] = $("#serialForm").val();
 	json["email"] = $("#emailForm").val();
@@ -831,7 +835,7 @@ function jsonifyTheRepairForm()
 	json["workCompleted"] = [{"who": selectedEmployee, "when": date.toJSON(), "what": "Created Repair Form", "note": ""}];
 	return JSON.stringify(json);
 }
-window.api.receive("fromMainRefNum", (data) => 
+window.api.receive("fromMainRefNum", (data) =>
 {
 	doneLoadingSaving();
 	$("#RefNumLabel").text("Ref. Number: "+data);
@@ -983,16 +987,50 @@ function genbar()
 	});
 	$("#barcode").css("float", "right");
 }
-
+var oldRepairOpenModal;
+var oldRepairRefNum;
+var wasSavingDatePickedOld;
+function cancelRepairForm()
+{
+	blockProgress = false;
+	oldRepairOpen.hide();
+	backToMain();
+}
+function closeOldRepair()
+{
+	blockProgress = false;
+	oldRepairOpenModal.hide();
+	currentRepairJSON = backendData["repairs"][oldRepairRefNum];
+	wasSavingDatePickedOld = true;
+	editDatePickedUp();
+}
 function checkSerialClosed()
 {
 	var serial = $("#serialForm").val();
-	for(var refNum in backendData["repairs"])
+	console.log("checking: "+serial);
+	var otherOpen = checkSNForOtherOpen(serial);
+	if(otherOpen)
 	{
-		
+		oldRepairRefNum = otherOpen;
+		oldRepairOpenModal = new bootstrap.Modal($('#oldRepairOpenModal'));
+		oldRepairOpenModal.show();
+		blockProgress = true;
 	}
 }
-
+function checkSNForOtherOpen(serial)
+{
+	for(var refNum in backendData["repairs"])
+	{
+		console.log(backendData["repairs"][refNum]);
+		var checkRepair = backendData["repairs"][refNum];
+		var checkSN = checkRepair["serial"];
+		if(checkSN==serial && !checkRepair["datePicked"])
+		{
+			return refNum;
+		}
+	}
+	return false;
+}
 
 //code from https://stackoverflow.com/questions/30058927/format-a-phone-number-as-a-user-types-using-pure-javascript, modified by me
 const isNumericInput = (event) => {
@@ -1028,7 +1066,7 @@ const formatToPhone = (event) => {
     const areaCode = input.substring(0,3);
     const middle = input.substring(3,6);
     const last = input.substring(6);
-	
+
     if(input.length > 6){event.target.value = '('+areaCode+') '+middle +'-'+last;}
     else if(input.length > 3){event.target.value = '('+areaCode+') '+middle;}
     else if(input.length > 0){event.target.value = '('+areaCode;}

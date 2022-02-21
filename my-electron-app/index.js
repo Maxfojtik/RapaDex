@@ -1,7 +1,7 @@
-var currentlySaveingSomething = false;
+var blockProgress = false;
 var stopShaking = false;
 var building = "";
-var version = "1.0.10";
+var version = "1.0.11";
 var newVersion = "";
 var shownPanel = 0;//0 = main table, 1 = repairEdit, 2 = repairForm, 3 = loanerForm, 4 = repair warning, 5 = updating
 function checkVersion()
@@ -39,7 +39,7 @@ function versionHover()
 }
 function versionClick()
 {
-	if(!currentlySaveingSomething)
+	if(!blockProgress)
 	{
 		shownPanel = 5;
 		$("#container").hide();
@@ -81,18 +81,18 @@ function startLoadingSaving(message)
 	$(".starImage").css("visibility", "shown");
 	$("#pokeStars").hide();
 	stopShaking = false;
-	currentlySaveingSomething = true;
+	blockProgress = true;
 }
 function doneLoadingSaving()
 {
 	$("#savingDisplay").css("color", "black");
 	//$("#saveSpinner").css("visibility", "hidden");
-	currentlySaveingSomething = false;
+	blockProgress = false;
 	stopShaking = true;
 }
 function keyDownHandler(event)
 {
-	if(event.key=='Escape' && !currentlySaveingSomething)//hacky but works?
+	if(event.key=='Escape' && !blockProgress)//hacky but works?
 	{
 		backToMain();
 	}

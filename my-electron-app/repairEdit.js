@@ -828,11 +828,17 @@ function fillPickedUpDate()
 }
 function editDatePickedUp()
 {
-	setupEditDateWorkerSelector();
-	var date = new Date(currentRepairJSON["datePicked"]["when"]);
-	date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-	$("#dateEditPickedUpForm").val(date.toISOString().slice(0,16));
-	$("#editDateWorkerSelector").val(currentRepairJSON["datePicked"]["who"]);
+	if(currentRepairJSON["datePicked"])
+	{
+		setupEditDateWorkerSelector();
+		var date = new Date(currentRepairJSON["datePicked"]["when"]);
+		date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+		$("#dateEditPickedUpForm").val(date.toISOString().slice(0,16));
+		$("#editDateWorkerSelector").val(currentRepairJSON["datePicked"]["who"]);
+	}
+	else {
+		fillPickedUpDate();
+	}
 	var pickedUpModal = new bootstrap.Modal($('#pickupModal'));
 	pickedUpModal.show();
 }

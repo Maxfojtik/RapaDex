@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain} = require('electron');
+const { app, BrowserWindow, ipcMain, Menu, MenuItem} = require('electron');
 const { spawn } = require('child_process');
 const path = require("path");
 const fs = require("fs");
@@ -6,8 +6,8 @@ const crypto = require("crypto");
 var win;
 
 
-var remotePath = "K:/BF/PRSM/TechHub/RepaDex";
-//var remotePath = "/home/maxwell/Documents/GitHub/RapaDex";
+//var remotePath = "K:/BF/PRSM/TechHub/RepaDex";
+var remotePath = "/home/maxwell/Documents/GitHub/RapaDex";
 var configPath = remotePath+"/configuration.json";
 var configPathLocalFolder = (process.env.APPDATA || process.env.HOME)+"/repadex/";
 var configPathLocal = configPathLocalFolder+"configuration.json";
@@ -24,6 +24,15 @@ var repairJSON;
 var savingTimer;
 var loadingTimer;
 
+function sendBack(key, val)
+{
+	try {
+		win.webContents.send(key, val);
+	} catch (e) {
+		console.log(e);
+	}
+}
+
 function lockFile()
 {
 	fs.access(lockedPath, fs.F_OK, (err) => {
@@ -32,13 +41,13 @@ function lockFile()
 			try {
 				fs.closeSync(fs.openSync(lockedPath, 'w'));//create it
 			} catch (e) {
-				win.webContents.send("fromMainDisconnected", "");
+				sendBack("fromMainDisconnected", "");
 				setTimeout(lockFile, 2000);//try again in 2
 				console.log(e);
 				return;
 			}
 		}
-		win.webContents.send("fromMainConnected", "");
+		sendBack("fromMainConnected", "");
 		//file exists now
 		if(saving)
 		{
@@ -52,7 +61,7 @@ function lockFile()
 				{
 					if(id!=txt)
 					{
-						win.webContents.send("fromMainWaiting", "");
+						sendBack("fromMainWaiting", "");
 						console.log("waiting on lock");
 						goodToSave = false;
 						setTimeout(lockFile, 2000);
@@ -147,14 +156,14 @@ function saveRepairPart()
 			var stringified = JSON.stringify(jsonData);
 			fs.writeFileSync(backendPath, stringified);
 			doneSaving = true;
-			win.webContents.send("fromMainSaveSuc", stringified);
+			sendBack("fromMainSaveSuc", stringified);
 		}
 		catch(err)
 		{
 			//savingTimer = setInterval(saveRepairPart, 2000);
 			console.log(err);
 			doneSaving = true;
-			win.webContents.send("fromMainSaveFail", "");
+			sendBack("fromMainSaveFail", "");
 		}
 	}
 }
@@ -180,14 +189,14 @@ function loadRepairPart()
 			//console.log(repairJSON);
 			//repairJSONIn = JSON.parse(txt);
 			doneSaving = true;
-			win.webContents.send(loadMessageName, txt);
+			sendBack(loadMessageName, txt);
 		}
 		catch(err)
 		{
 			//loadingTimer = setInterval(loadRepairPart, 2000);
 			console.log(err);
 			doneSaving = true;
-			win.webContents.send("fromMainSaveFail", "");
+			sendBack("fromMainSaveFail", "");
 		}
 	}
 }
@@ -222,14 +231,14 @@ function incRefPart()
 			jsonData.nextRefNumber = refNum+1;
 			fs.writeFileSync(backendPath, JSON.stringify(jsonData));
 			doneSaving = true;
-			win.webContents.send("fromMainRefNum", refNum);
+			sendBack("fromMainRefNum", refNum);
 		}
 		catch(err)
 		{
 			//loadingTimer = setInterval(loadRepairPart, 2000);
 			console.log(err);
 			doneSaving = true;
-			win.webContents.send("fromMainRefNumFail", "");
+			sendBack("fromMainRefNumFail", "");
 		}
 	}
 }
@@ -261,7 +270,7 @@ function checkAndSendRemoteVersion()
 		}
 		else
 		{
-			win.webContents.send("fromMainRemoteVersion", txt);
+			sendBack("fromMainRemoteVersion", txt);
 		}
 	});
 }
@@ -281,7 +290,7 @@ ipcMain.on("toMain", (event, args) =>
 		if(args=="configPls")
 		{
 			var txt = fs.readFileSync(configPathLocal, 'utf8');
-			win.webContents.send("fromMainConfig", txt);
+			sendBack("fromMainConfig", txt);
 		}
 		else if(args=="loadAll")
 		{
@@ -332,6 +341,30 @@ function createWindow ()
 			e.preventDefault();
 		}
 	});
+	win.webContents.on('context-menu', (event, params) => {
+		//console.log(params);
+	  const menu = new Menu();
+
+	  // Add each spelling suggestion
+	  for (const suggestion of params.dictionarySuggestions) {
+	    menu.append(new MenuItem({
+	      label: suggestion,
+	      click: () => win.webContents.replaceMisspelling(suggestion)
+	    }));
+	  }
+
+	  // Allow users to add the misspelled word to the dictionary
+	  /*if (params.misspelledWord) {
+	    menu.append(
+	      new MenuItem({
+	        label: 'Add to dictionary',
+	        click: () => win.webContents.session.addWordToSpellCheckerDictionary(params.misspelledWord)
+	      })
+	    )
+	  }*/
+
+	  menu.popup();
+	});
 	win.loadFile('index.html');
 }
 var totalFilesToDelete = 0;
@@ -348,7 +381,7 @@ function deleteMyself()
 			fs.unlink(path.join(directory, file), err => {
 				if (err) throw err;
 				filesDeleted++;
-				win.webContents.send("fromMainUpdateProgress", ((filesDeleted/totalFilesToDelete)/2*100)+"");
+				sendBack("fromMainUpdateProgress", ((filesDeleted/totalFilesToDelete)/2*100)+"");
 				if(filesDeleted==totalFilesToDelete)
 				{
 					copyANewVersion();
@@ -370,7 +403,7 @@ function copyANewVersion()
 			fs.copyFile(path.join(directoryRemote, file), path.join(directoryLocal, file), err => {
 				if (err) throw err;
 				filesCopied++;
-				win.webContents.send("fromMainUpdateProgress", ((filesCopied/totalFilesToCopy)/2*100+50)+"");
+				sendBack("fromMainUpdateProgress", ((filesCopied/totalFilesToCopy)/2*100+50)+"");
 				if(filesCopied==totalFilesToCopy)
 				{
 					restartMyself();
