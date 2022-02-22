@@ -97,3 +97,5 @@ ChangeLog:
 	added spell check and if there is an old repair it tells you when entering new serial
 1.0.11a:
 	changed tab orderering
+1.0.11b:
+	added error screen for when we can't start
