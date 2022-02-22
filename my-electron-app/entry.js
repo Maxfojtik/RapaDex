@@ -250,9 +250,40 @@ function incRefNum()
 	doneSaving = false;
 	loadingTimer = setInterval(incRefPart, 1000);
 }
-app.whenReady().then(() => {
+var errorWin;
+function displayError(errorText)
+{
+	if(!errorWin)
+	{
+		errorWin = new BrowserWindow(
+		{
+			minWidth: 1220,
+			width: 1600,
+			height: 900,
+			autoHideMenuBar: true,
+			icon: __dirname + '/RepaDexFin.ico',
+			webPreferences: {
+				nodeIntegration: false, // is default value after Electron v5
+				contextIsolation: true, // protect against prototype pollution
+				enableRemoteModule: false, // turn off remote
+			}
+		});
+		errorWin.loadFile("error.html");
+	}
+	setTimeout(copyConfigAndStart, 1000);
+}
+function cancelError()
+{
+	if(errorWin)
+	{
+		errorWin.close();
+	}
+}
+function copyConfigAndStart()
+{
 	fs.copyFile(configPath, configPathLocal, (err) => {
-		if (err){ throw err};
+		if (err){ displayError("Can't open configuration.json... Are we connected to the K drive?"); return;}//throw err};
+		cancelError();
 		console.log('File was copied to destination');
 		var txt = fs.readFileSync(configPathLocal, 'utf8');
 		backendPath = JSON.parse(txt).backendPath;
@@ -260,6 +291,9 @@ app.whenReady().then(() => {
 		versionFile = JSON.parse(txt).versionFilePath;
 		startup();
 	});
+}
+app.whenReady().then(() => {
+	copyConfigAndStart();
 });
 function checkAndSendRemoteVersion()
 {
