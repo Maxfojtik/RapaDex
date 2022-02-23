@@ -940,8 +940,9 @@ function makeRepairPrintable()
 	dateTimeText += " "+hours+":"+String(d.getMinutes()).padStart(2, '0')+" "+ampmindicator;
 	$("#dateTimeLabel").text(dateTimeText);
 	$("#nameLabelBottom").text($("#nameForm").val());
-	$("#versionLabel").css("margin-top", "75px");
+	$("#versionLabel").css("margin-top", "77px");
 	$("#versionLabel").css("font-size", "1rem");
+	$("#versionLabel").css("margin-left", "315px");
 	//$("#loggedInAsLabel").text("v"+version);
 }
 function unMakeRepairPrintable()
@@ -975,6 +976,7 @@ function unMakeRepairPrintable()
 	$("#techLogo").css("height", "");
 	$("#versionLabel").css("margin-top", "94px");
 	$("#versionLabel").css("font-size", "1.25rem");
+	$("#versionLabel").css("margin-left", "425px");
 	//$("#loggedInAsLabel").text("");
 }
 function genbar()

@@ -71,9 +71,9 @@
 			<div id="topBar" class="row">
 				<!--<img style="float:left; margin-left:-25px" src="Logo.png" ></img>-->
 				<div class="col">
-					<span style="display: flex;">
+					<span style="display: flex; position:relative">
 						<h1 class="repaLogo" id="mainTitle"><span id="RepaPartTop" class="RepaPartBefore">Repa</span><span id="RepaPart" class="RepaPart">Repa</span><span style="color: #000000">Dex</span></h1>
-						<h5 style="margin-top: 94px; padding-left: 10px; height: 20px;" class="text-muted" id="versionLabel" onmouseover="versionHover()" onmouseout="versionUnhover()" onclick="versionClick()"></h5>
+						<h5 style="margin-top: 94px; margin-left: 425px; padding-left: 10px; height: 20px; position:absolute; float:left" class="text-muted" id="versionLabel" onmouseover="versionHover()" onmouseout="versionUnhover()" onclick="versionClick()"></h5>
 					</span>
 				</div>
 				<div class="col">
@@ -446,11 +446,15 @@
 
 
 			<div id="loanerForm" style="display:none;">
-
+				<h4>
+					<div id="loanerWorkerSelector" class="workerSelect hideWhenPrint" tabindex="1">
+						<!--HTML generated within Javascript from configuration.json, also handled by repairForm code?-->
+					</div>
+				</h4>
 				<div class="row">
 					<div class="input-group mb-3 col">
-						<span class="input-group-text const-width-1">Asset Tag</span>
-						<input id="loanerNameForm" type="text" class="form-control" placeholder="">
+						<span class="input-group-text const-width-1">Ref Number</span>
+						<input id="loanerRefNum" type="text" class="form-control" disabled>
 					</div>
 					<div class="input-group mb-3 col">
 						<span class="input-group-text const-width-2">Date Started</span>
@@ -465,46 +469,59 @@
 					</div>
 					<div class="input-group mb-3 col">
 						<span class="input-group-text const-width-2">Make/Model</span>
-						<input id="loanerMakeModel" type="text" class="form-control" placeholder="">
+						<input id="loanerMakeModel" type="text" class="form-control" placeholder="" disabled>
 					</div>
 				</div>
 				<div class="row">
-					<div class="input-group mb-3 col">
-						<span class="input-group-text">Email</span>
-						<input id="loanerEmailForm" type="text" class="form-control" placeholder="buckeye.1@osu.edu">
-					</div>
+				<div class="input-group mb-3 col">
+					<span class="input-group-text">Email</span>
+					<input id="loanerEmailForm" type="text" class="form-control" placeholder="buckeye.1@osu.edu">
+				</div>
 					<div class="input-group mb-3 col">
 						<span class="input-group-text const-width-2">Serial Number</span>
-						<input id="loanerSerialForm" type="text" class="form-control" placeholder="">
+						<input id="loanerSerialForm" type="text" class="form-control" placeholder="" disabled>
 					</div>
 				</div>
 				<div class="row">
 					<div class="input-group mb-3 col">
-						<span class="input-group-text const-width-1">Something</span>
-						<input id="loanerNameForm" type="text" class="form-control" placeholder="Brutus Buckeye">
+						<span class="input-group-text const-width-1" id="basic-addon6">Phone Number</span>
+						<input id="loanerPhoneForm" type="text" class="form-control phoneValidable" placeholder="(614) 292-8883" aria-label="614-292-8883" aria-describedby="basic-addon6">
+					</div>
+					<div class="input-group mb-3 col">
+						<span class="input-group-text const-width-2">Asset Tag</span>
+						<input id="loanerTagForm" type="text" class="form-control" placeholder="" disabled>
+					</div>
+				</div>
+				<div class="row">
+					<div class="input-group mb-3 col">
+						<span class="input-group-text const-width-1">Accessories</span>
+						<input id="loanerAccForm" type="text" class="form-control">
 					</div>
 					<div class="input-group mb-3 col">
 						<span class="input-group-text const-width-2">Device Value</span>
 						<input id="loanerDeviceValue" type="text" class="form-control" placeholder="">
 					</div>
 				</div>
-				<div class="row" style="margin-bottom: -15px;">
+				<div class="col-1 hideWhenPrint" id="inputBackButton" style="width: 50px;">
+					<button id="repairFormBack" type="button" class="btn btn-secondary" onclick="backToRepair()" tabindex="-1">Cancel</button>
+				</div>
+				<div class="row showWhenPrint" style="margin-bottom: -15px; display:none;">
 					<p id="dropOffStatement" class="statement"></p>
 				</div>
-				<div class="row">
+				<div class="row showWhenPrint" style="display:none;">
 					<div class="col">
 						<h5 class="dropOffSig" id="dropOffSigLine" style="background-color: yellow"><span style="padding-top:10px;">Customer Pick-Up Signature:</span><span id="dateTimeLabel" class="dateDropOffSig">xx/xx/xxxx xx:xx pm</span></h5>
 					</div>
 				</div>
-				<div class="row" style="margin-bottom: -15px; margin-top: 20px;">
+				<div class="row showWhenPrint" style="margin-bottom: -15px; margin-top: 20px; display:none;">
 					<p id="pickUpStatement" class="statement"></p>
 				</div>
-				<div class="row">
+				<div class="row showWhenPrint" style="display:none;">
 					<div class="col">
 						<h5 class="dropOffSig"><span style="padding-right: 19px; padding-top:10px;">Customer Drop-Off Signature:</span><span class="dateDropOffSig" style="padding-left: 90px; margin-top: -13;">__/__/____</span></h5>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row showWhenPrint" style="display:none;">
 					<div class="col">
 						<p style="padding-left: 210px" id="nameLabelBottom">Customer Name</p>
 					</div>
