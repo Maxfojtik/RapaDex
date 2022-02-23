@@ -99,3 +99,7 @@ ChangeLog:
 	changed tab orderering
 1.0.11b:
 	added error screen for when we can't start
+1.0.11c:
+	version kicking down techhub logOut
+1.0.11d:
+	worker select not working
