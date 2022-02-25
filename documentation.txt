@@ -103,3 +103,7 @@ ChangeLog:
 	version kicking down techhub logOut
 1.0.11d:
 	worker select not working
+1.0.12:
+	fixed problem with email autosearch with caps
+	fixed problem text area not being resized properly after printing
+	modal for when there is a loaner out and we take the computer back

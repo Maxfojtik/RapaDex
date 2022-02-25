@@ -808,6 +808,11 @@ function saveDatePickedUp()
 		var dateText = String(date.getMonth()+1).padStart(2, '0')+"/"+String(date.getDate()).padStart(2, '0')+"/"+date.getFullYear();
 		logEntry["what"] = "Marked repair as picked up as "+dateText;
 		currentRepairJSON["logs"].push(logEntry);
+		if(currentRepairJSON["loaner"] && currentRepairJSON["loaner"]["has"])
+		{
+			var loanerWarningModal = new bootstrap.Modal($('#loanerWarningModal'));
+			loanerWarningModal.show();
+		}
 	}
 	figureOutColorAndStatus();
 	addedWorkRefNum = refNumIn;

@@ -1,7 +1,7 @@
 var blockProgress = false;
 var stopShaking = false;
 var building = "";
-var version = "1.0.11d";
+var version = "1.0.12";
 var newVersion = "";
 var shownPanel = 0;//0 = main table, 1 = repairEdit, 2 = repairForm, 3 = loanerForm, 4 = repair warning, 5 = updating
 function checkVersion()
@@ -283,6 +283,9 @@ function loadConfiguration()
 				}
 				$(".workerSelect").append(
 					getOutlinedPill(employee, "selectEmployee"+employee, "selectPill('"+employee+"')")
+				);
+				$("#loanerWorkerSelector").append(
+					getOutlinedPill(employee, "selectLoanerEmployee"+employee, "selectLoanerPill('"+employee+"')")
 				);
 				if(config.employees[employee].repairTeam)
 				{

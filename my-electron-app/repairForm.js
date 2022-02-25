@@ -55,7 +55,7 @@ function validateEmail()
 	validateSaveButtons();
 }
 $(document).on("keyup", '#emailForm', function(e) {
-	var value = $("#emailForm").val();
+	var value = $("#emailForm").val().toLowerCase();
 	if(/^[a-z]*[.,](\d+)$/.test(value))
 	{
 		if (e.keyCode == 13) {
@@ -950,7 +950,7 @@ function unMakeRepairPrintable()
 	$("#intakeTextArea").css("width", "initial");
 	$("#intakeTextArea").css("flex", "");
 	$("#problemTextArea").css("width", "initial");
-	$("#problemTextArea").css("flex", "initial");
+	$("#problemTextArea").css("flex", "1 1 auto");
 	$("#warrantySelector").show();
 	$(".is-invalid").each(function(){
 		$(this).addClass("is-invalid-printed");
