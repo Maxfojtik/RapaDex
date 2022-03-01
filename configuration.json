@@ -1,7 +1,7 @@
 {
-	"backendPath": "/home/maxwell/Documents/GitHub/RapaDex/be.json",
-	"lockFilePath": "/home/maxwell/Documents/GitHub/RapaDex/locked.lock",
-	"versionFilePath": "/home/maxwell/Documents/GitHub/RapaDex/remoteVersion.txt",
+	"backendPath": "C:/Users/Maxwell/github/Rapadex/examplebe/be.json",
+	"lockFilePath": "C:/Users/Maxwell/github/Rapadex/examplebe/locked.lock",
+	"versionFilePath": "C:/Users/Maxwell/github/Rapadex/remoteVersion.txt",
 	"repairables": {
 		"apple": {
 			"warningOnAppleDevices": true,
