@@ -17,6 +17,6 @@
   },
   "homepage": "https://github.com/Maxfojtik/RapaDex#readme",
   "devDependencies": {
-    "electron": "^15.3.7"
+    "electron": "^15.4.0"
   }
 }
