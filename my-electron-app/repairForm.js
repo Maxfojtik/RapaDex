@@ -860,6 +860,7 @@ function getNextRefNum()
 }
 function makeRepairPrintable()
 {
+	genbar();
 	$("#intakeTextArea").css("width", "587px");
 	$("#intakeTextArea").css("flex", "initial");
 	$("#intakeTextArea").css("height", "auto");

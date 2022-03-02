@@ -10,6 +10,11 @@ $(document).on("keyup", '#assetTagForm', function(e) {
 		issueLoaner();
 	}
 });
+$(document).on("keyup", '#noteTextInput', function(e) {
+	if (e.keyCode == 13 && !$("#saveWorkButton").is(":disabled")) {
+		saveWork();
+	}
+});
 $( document ).ready(function() {
 	$('#addWorkToast').on('hidden.bs.toast', function () {
 		addWorkToast.dispose();

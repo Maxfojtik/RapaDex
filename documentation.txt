@@ -107,3 +107,6 @@ ChangeLog:
 	fixed problem with email autosearch with caps
 	fixed problem text area not being resized properly after printing
 	modal for when there is a loaner out and we take the computer back
+1.0.12a:
+	serial number barcode has lowercase at the end?
+	enter on note saves the work
