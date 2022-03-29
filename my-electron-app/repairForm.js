@@ -664,6 +664,7 @@ function backToMain()
 	$( "#repairForm" ).hide();
 	$( "#repairEdit" ).hide();
 	$("#startNewRepairButton").prop('disabled', true);
+	$( "#searchInput" ).select();
 	shownPanel = 0;
 	checkVersion();
 	disposePopover();

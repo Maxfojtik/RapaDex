@@ -57,7 +57,7 @@
 			</div>
 		</div>
 		<div id="container" class="container" style="display:block;">
-			<div style="color:black; display:flex; align-items: center;" id="savingDisplay" class="float-right-top" style="">
+			<div style="color:black; display:flex; align-items: center;" id="savingDisplay" class="float-right-top">
 				<strong style="padding-right: 10px;" id="saveText"></strong>
 				<!--<div id="saveSpinner" class="spinner-border ms-auto" role="status" aria-hidden="true"></div>-->
 				<div class="pokeImage shaker" id="pokeImage">
@@ -99,10 +99,12 @@
 						</div>
 					</div>
 					<div class="col" id="">
-						<p id="tooManyResultsWarning" style="display:none;"></p>
+						<p id="tooManyResultsWarning" style="display:none; margin-top: -5px"></p>
+						<p id="similarResultsWarning" style="display:none; color: #cc0000; margin-top: -5px">What you searched for does not exist, here are some similar serial numbers</p>
 					</div>
 					<div class="col">
 						<div style="float: right;">
+							<button id="filterButton" style="height: 38px; flex: initial; margin-right: 5px;" type="button" class="btn btn-primary" onclick="openFilter()" disabled><img src="filter.svg"></img></button>
 							<button id="refreshButton" style="height: 38px; flex: initial; margin-right: 5px;" type="button" class="btn btn-primary" onclick="loadAll()" disabled><img src="arrow-clockwise.svg"></img></button>
 							<button style="width: 300px; height: 38px;" id="startNewRepairButton" type="button" class="btn btn-primary" onclick="createNewRepair()" disabled>Create a new repair</button>
 						</div>
@@ -795,7 +797,6 @@
 				</div>
 			</div>
 		</div>
-
 		<!-- Footer -->
 		<div style="height: 30px; line-height: initial;">
 			<div style="float: right; padding-right: 10px;">

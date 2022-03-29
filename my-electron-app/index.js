@@ -1,9 +1,47 @@
 var blockProgress = false;
 var stopShaking = false;
 var building = "";
-var version = "1.0.12a";
+var version = "1.0.13";
 var newVersion = "";
 var shownPanel = 0;//0 = main table, 1 = repairEdit, 2 = repairForm, 3 = loanerForm, 4 = repair warning, 5 = updating
+$( document ).ready(function() {
+	loadConfiguration();
+	$( "#searchInput" ).select();
+	document.addEventListener('keydown', keyDownHandler);
+	setTimeout(initPopovers, 500);
+	checkVersion();
+	setInterval(checkVersion, 60*1000);//every minute
+	$("#versionLabel").text("v"+version);
+	$('#pokeImage').on('animationiteration', function () {
+		if(stopShaking)
+		{
+			var $this = $(this);
+			$this.removeClass('shaker');
+			$this.addClass('shakers');
+			$("#savingDisplay").fadeOut(1000);
+			$("#pokeStars").show();
+			$("#saveText").text("Done.");
+			//$this.off();
+		}
+	});
+	$("textarea").each(function () {
+		if(this.id!="repairNotesArea")
+		{
+			this.setAttribute("style", "height:" + (this.scrollHeight) + "px;overflow-y:hidden;");
+		}
+	}).on("input", function () {
+		if(this.id!="repairNotesArea")
+		{
+			this.style.height = "auto";
+			this.style.height = (this.scrollHeight) + "px";
+		}
+	});
+	$('#phoneForm').on('keydown', enforceFormat);
+	$('#phoneForm').on('keyup', formatToPhone);
+	$('#serialForm').on('keyup', upperSerial);
+	$('#iPadSN').on('keyup', upperSerial);
+	initFilterPopover();
+});
 function checkVersion()
 {
 	//console.log("check");
@@ -121,43 +159,6 @@ function initPopovers()
 		return new bootstrap.Popover(popoverTriggerEl);
 	});
 }
-$( document ).ready(function() {
-	loadConfiguration();
-	$( "#searchInput" ).select();
-	document.addEventListener('keydown', keyDownHandler);
-	setTimeout(initPopovers, 500);
-	checkVersion();
-	setInterval(checkVersion, 60*1000);//every minute
-	$("#versionLabel").text("v"+version);
-	$('#pokeImage').on('animationiteration', function () {
-		if(stopShaking)
-		{
-			var $this = $(this);
-			$this.removeClass('shaker');
-			$this.addClass('shakers');
-			$("#savingDisplay").fadeOut(1000);
-			$("#pokeStars").show();
-			$("#saveText").text("Done.");
-			//$this.off();
-		}
-	});
-	$("textarea").each(function () {
-		if(this.id!="repairNotesArea")
-		{
-			this.setAttribute("style", "height:" + (this.scrollHeight) + "px;overflow-y:hidden;");
-		}
-	}).on("input", function () {
-		if(this.id!="repairNotesArea")
-		{
-			this.style.height = "auto";
-			this.style.height = (this.scrollHeight) + "px";
-		}
-	});
-	$('#phoneForm').on('keydown', enforceFormat);
-	$('#phoneForm').on('keyup', formatToPhone);
-	$('#serialForm').on('keyup', upperSerial);
-	$('#iPadSN').on('keyup', upperSerial);
-});
 $(document).on('click', '.copiable', function () {
 	text = event.target.getAttribute("data-text");
 	copyTextToClipboard(text);

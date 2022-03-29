@@ -108,5 +108,8 @@ ChangeLog:
 	fixed problem text area not being resized properly after printing
 	modal for when there is a loaner out and we take the computer back
 1.0.12a:
-	serial number barcode has lowercase at the end?
+	serial number barcode has lowercase at the end? fixed.
 	enter on note saves the work
+1.0.13:
+	added filters to front screen
+	added the ability for it to find similar serial numbers when the entered one does not match any
