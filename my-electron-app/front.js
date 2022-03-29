@@ -11,6 +11,7 @@ var backendData;
 var freezeFront = false;
 function clickRow(number)
 {
+	filterPopover.hide();
 	//console.log("row: "+number);
 	if(refClicked==number && !freezeFront)
 	{	
@@ -103,6 +104,7 @@ function createNewRepair()
 {
 	$("#mainTable").hide();
 	$("#repairForm").fadeIn();
+	filterPopover.hide();
 	logOut();
 	resetRepairForm();
 	resetVersionStyling();
@@ -137,6 +139,7 @@ function showRepairs(repairsIn, length)
 	{
 		var counter = 0;
 		var bottomRepair = getBottomRepair(repairsIn);
+		topRepair = undefined;
 		for(var i = getTopRepair(repairsIn); i >= bottomRepair; i--)
 		{
 			var refNum = i;
@@ -177,7 +180,10 @@ function showRepairs(repairsIn, length)
 			row += "<td>"+dateText+"</td>";
 			row += "<td>"+repair.status+"</td>";
 			$("#dtBody").append(row);
-			topRepair = repair;
+			if(topRepair==undefined)
+			{
+				topRepair = repair;
+			}
 		}
 	}
 }
