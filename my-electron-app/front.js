@@ -152,7 +152,7 @@ function showRepairs(repairsIn, length)
 			{
 				continue;
 			}
-			console.log(refNum);
+			//console.log(refNum);
 			var thisStatus = repair.status;
 			if(thisStatus.includes("Picked up"))
 			{
@@ -162,7 +162,7 @@ function showRepairs(repairsIn, length)
 			{
 				continue;
 			}
-			console.log(counter+":"+length);
+			//console.log(counter+":"+length);
 			counter++;
 			/*if(repairsIn[refNum]["archived"] && !showArchived)
 			{
@@ -193,7 +193,7 @@ function generateSerialHTML(og, subsitutions)
 	//console.log(subsitutions);
 	for(var i = 0; i < og.length; i++)
 	{
-		console.log(subsitutions[i]);
+		//console.log(subsitutions[i]);
 		if(subsitutions[i] != null)
 		{
 			toReturn += "<span style='color: #ff0000'>"+subsitutions[i]+"</span>";
@@ -450,22 +450,23 @@ function search(wasEnter)
 	//console.log(caughtRepairs);
 	$("#saveSpinner").css("visibility", "hidden");
 }
-var possibleStatuses = ["Created Repair Form", "Diagnosed", "Submitted Claim", "Submitted RFA", "Sent Out", "Ordered Parts", "Parts Arrived", "Waiting on DEP", "Finished", "Picked Up"];
+var possibleStatuses = ["Select All","Created Repair Form", "Diagnosed", "Submitted Claim", "Submitted RFA", "Sent Out", "Ordered Parts", "Parts Arrived", "Waiting on DEP", "Finished", "Picked Up"];
 var idToStatus = {};
 var hiddenStatuses = {};
 var filterPopover;
 
 function initFilterPopover()
 {
-	var body = "";
+	var body = "<div id='filterOptions'>";
 	for(var i in possibleStatuses)
 	{
 		var checkID = possibleStatuses[i].replace(/\s/g, "").toLowerCase()+"filteroption";
 		idToStatus[checkID] = possibleStatuses[i];
 		var rawHTML = "<div class='form-check'><input class='form-check-input' type='checkbox' value='' id='"+checkID+"' checked><label class='form-check-label' for='flexCheckDefault'>"+possibleStatuses[i]+"</label></div>";
-		console.log(rawHTML);
+		//console.log(rawHTML);
 		body += rawHTML;
 	}
+	body += "</div>";
 	var exampleEl = document.getElementById('filterButton');
 	var options = {"content": body, "html": true, "sanitize": false};
 	filterPopover = new bootstrap.Popover(exampleEl, options);
@@ -478,8 +479,40 @@ function openFilter()
 		var checkID = possibleStatuses[i].replace(/\s/g, "").toLowerCase()+"filteroption";
 		$("#"+checkID).off('change');//remove all current change listeners
 		$("#"+checkID).on("change", function() {
-			hiddenStatuses[idToStatus[this.id]] = !this.checked;
-			reDraw();
+			//console.log(this.id);
+			if(this.id=="selectallfilteroption")
+			{
+				if(this.checked)
+				{
+					hiddenStatuses = {};
+					$("#filterOptions input").prop('checked', true);
+				}
+				else
+				{
+					for(k in idToStatus)
+					{
+						hiddenStatuses[idToStatus[k]] = true;
+					}
+					$("#filterOptions input").prop('checked', false);
+					//console.log(hiddenStatuses);
+				}
+				reDraw();
+			}
+			else
+			{
+				hiddenStatuses[idToStatus[this.id]] = !this.checked;
+				var anyDeselected = false;
+				for(var k in hiddenStatuses)
+				{
+					if(hiddenStatuses[k])
+					{
+						anyDeselected = true;
+						break;
+					}
+				}
+				$("#selectallfilteroption").prop('checked', !anyDeselected);
+				reDraw();
+			}
 		});
 	}
 }

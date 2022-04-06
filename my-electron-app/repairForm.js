@@ -665,6 +665,7 @@ function backToMain()
 	$( "#repairEdit" ).hide();
 	$("#startNewRepairButton").prop('disabled', true);
 	$( "#searchInput" ).select();
+	addWorkToast.hide();
 	shownPanel = 0;
 	checkVersion();
 	disposePopover();

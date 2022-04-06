@@ -16,9 +16,6 @@ $(document).on("keyup", '#noteTextInput', function(e) {
 	}
 });
 $( document ).ready(function() {
-	$('#addWorkToast').on('hidden.bs.toast', function () {
-		addWorkToast.dispose();
-	});
 	$('#loginToast').on('hidden.bs.toast', function () {
 		if(loginToast)
 		{
@@ -153,7 +150,6 @@ function editPencil(index)
 		$("#noteTextInput").val(currentRepairJSON["workCompleted"][index]["note"]);
 		$("#addWorkSelector").val(currentRepairJSON["workCompleted"][index]["what"]);
 		editingIndex = index;
-		addWorkToast = new bootstrap.Toast($('#addWorkToast'));
 		addWorkToast.show();
 		var popover = new bootstrap.Popover($("#deleteWorkButton"));
 		deleteClicksLeft = 5;
@@ -240,7 +236,6 @@ function resetAddWork()
 function addWork()
 {
 	resetAddWork();
-	addWorkToast = new bootstrap.Toast($('#addWorkToast'));
 	addWorkToast.show();
 }
 function selectLoginPill(name)

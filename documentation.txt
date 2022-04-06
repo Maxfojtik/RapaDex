@@ -115,3 +115,6 @@ ChangeLog:
 	added the ability for it to find similar serial numbers when the entered one does not match any
 1.0.13a:
 	fixed button being stupid
+1.0.13b:
+	fixed add work not going away when going back to the main menu.
+	added a select all filter option
