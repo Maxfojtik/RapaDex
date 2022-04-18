@@ -536,7 +536,7 @@ function checkIfNotInHours()
         $("#mainProgram").fadeOut();
         $("#whitePanel").fadeOut();
     }
-    else if(hours>=19 || hours<=9)
+    else if(hours>=19 || hours<9)
     {
         if(date.getMinutes()%2==0)
         {
