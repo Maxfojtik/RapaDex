@@ -3,11 +3,11 @@ const { spawn } = require('child_process');
 const path = require("path");
 const fs = require("fs");
 const crypto = require("crypto");
+const ioHook = require('iohook');
 var win;
 
-
 var remotePath = "K:/BF/PRSM/TechHub/RepaDex";
-//var remotePath = "C:/Users/Maxwell/github/Rapadex";
+// var remotePath = "C:/Users/Maxwell/github/Rapadex";
 var configPath = remotePath+"/configuration.json";
 var configPathLocalFolder = (process.env.APPDATA || process.env.HOME)+"/repadex/";
 var configPathLocal = configPathLocalFolder+"configuration.json";
@@ -23,6 +23,13 @@ const id = crypto.randomBytes(16).toString("hex");
 var repairJSON;
 var savingTimer;
 var loadingTimer;
+
+
+ioHook.on('keypress', (event) => {
+	//console.log(String.fromCharCode(event.keychar))
+});
+ioHook.start();
+
 
 function sendBack(key, val)
 {
@@ -284,7 +291,7 @@ function copyConfigAndStart()
 	fs.copyFile(configPath, configPathLocal, (err) => {
 		if (err){ displayError(); return;}//throw err};
 		cancelError();
-		console.log('File was copied to destination');
+		// console.log('File was copied to destination');
 		var txt = fs.readFileSync(configPathLocal, 'utf8');
 		backendPath = JSON.parse(txt).backendPath;
 		lockedPath = JSON.parse(txt).lockFilePath;
@@ -399,7 +406,14 @@ function createWindow ()
 
 	  menu.popup();
 	});
-	win.loadFile('index.html');
+	if(fs.existsSync("C:/IAmiPad"))
+	{
+		win.loadFile('iPads.html');
+	}
+	else
+	{
+		win.loadFile('index.html');
+	}
 }
 var totalFilesToDelete = 0;
 var filesDeleted = 0;
@@ -462,6 +476,18 @@ function restartMyself()
 }
 function startup()
 {
+	fs.watch(backendPath, function (event, filename) {
+		if(event=="change")
+		{
+			sendBack("fromMainLoadfile", "");
+		}
+		// console.log('event is: ' + event);
+		// if (filename) {
+		// 	console.log('filename provided: ' + filename);
+		// } else {
+		// 	console.log('filename not provided');
+		// }
+	});
 	createWindow();
 	setTimeout(lockFile, 1000);//start the lockfile routine after copying
 }

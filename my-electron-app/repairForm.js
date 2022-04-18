@@ -158,10 +158,6 @@ function warrantySelected()
 function findPerson()
 {
 	var osuFindPeopleURL = "https://www.osu.edu/findpeople/";
-	//var xhr = new XMLHttpRequest();
-	//xhr.open("POST", yourUrl, true);
-	//xhr.setRequestHeader('Content-Type', 'application/json');
-	//xhr.send("lastname=&firstname=&name_n=fojtik.6&filter=All");
 	$("#nameForm").removeClass("is-valid");
 	$("#nameForm").removeClass("is-invalid");
 	$("#emailForm").removeClass("is-valid");
@@ -637,6 +633,7 @@ window.api.receive("fromMainSaveFail", (data) =>
 });
 window.api.receive("fromMainSaveSuc", (data) =>
 {
+	console.log(wasSavingDatePickedOld);
 	doneLoadingSaving();
 	if(addedWorkRefNum>0)
 	{
@@ -644,7 +641,7 @@ window.api.receive("fromMainSaveSuc", (data) =>
 		showRepair(backendData["repairs"], addedWorkRefNum);
 		addedWorkRefNum = 0;
 	}
-	else if(wasSavingDatePickedOld)//hacky but should be fine????
+	else if(wasSavingDatePickedOld)//hacky but should be fine???? news flash: it wasnt, but wait maybe it does and something else died
 	{
 		wasSavingDatePickedOld = false;
 	}
@@ -745,6 +742,16 @@ function warningAck()
 }
 function sendSave()
 {
+	//put the stuff in the stupid thing that i am mad about, so much wasted information
+	var isFlagship = $("#flexSwitchCheckCheckedFlagship").is(":checked") && $("#flexSwitchCheckCheckedFlagship").is(":visible");
+	var isDepartmental = $("#flexSwitchCheckCheckedDepartmental").is(":checked") && $("#flexSwitchCheckCheckedDepartmental").is(":visible");
+	var intakeText = $("#intakeTextArea").val();
+	var hasText = $("#intakeTextArea").val()!="";
+	intakeText += isFlagship ? (hasText ? ", " : "")+"Flagship Device" : "";
+	hasText = intakeText!="";
+	intakeText += isDepartmental ? (hasText ? ", " : "")+"Departmental Device" : "";
+	$("#intakeTextArea").val(intakeText);
+
 	startLoadingSaving("Saving...");
 	window.api.send("toMain", "s"+jsonifyTheRepairForm());
 	if(printing)
@@ -784,6 +791,7 @@ function jsonifyTheRepairForm()
 	json["startDate"] = new Date($("#dateForm").val()).toJSON();
 	json["acc"] = $("#accForm").val();
 	json["intakeNotes"] = $("#intakeTextArea").val();
+	// console.log($("#intakeTextArea").val());
 	json["phone"] = $("#phoneForm").val();
 	json["purchaseDate"] = $("#purchForm").val();
 	json["color"] = "default";
@@ -909,14 +917,6 @@ function makeRepairPrintable()
 	{
 		$("#printModel").val(selectedModelName+subType);
 	}
-	var isFlagship = $("#flexSwitchCheckCheckedFlagship").is(":checked") && $("#flexSwitchCheckCheckedFlagship").is(":visible");
-	var isDepartmental = $("#flexSwitchCheckCheckedDepartmental").is(":checked") && $("#flexSwitchCheckCheckedDepartmental").is(":visible");
-	var intakeText = $("#intakeTextArea").val();
-	var hasText = $("#intakeTextArea").val()!="";
-	intakeText += isFlagship ? (hasText ? ", " : "")+"Flagship Device" : "";
-	hasText = intakeText!="";
-	intakeText += isDepartmental ? (hasText ? ", " : "")+"Departmental Device" : "";
-	$("#intakeTextArea").val(intakeText);
 	$(".hideWhenPrint").each(function(){
 		$(this).hide();
 	});
@@ -1016,6 +1016,7 @@ function checkSerialClosed()
 	var otherOpen = checkSNForOtherOpen(serial);
 	if(otherOpen)
 	{
+		unfreezeForm();//for some reason if it is
 		oldRepairRefNum = otherOpen;
 		oldRepairOpenModal = new bootstrap.Modal($('#oldRepairOpenModal'));
 		oldRepairOpenModal.show();
@@ -1026,7 +1027,7 @@ function checkSNForOtherOpen(serial)
 {
 	for(var refNum in backendData["repairs"])
 	{
-		console.log(backendData["repairs"][refNum]);
+		//console.log(backendData["repairs"][refNum]);
 		var checkRepair = backendData["repairs"][refNum];
 		var checkSN = checkRepair["serial"];
 		if(checkSN==serial && !checkRepair["datePicked"])

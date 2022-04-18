@@ -118,3 +118,6 @@ ChangeLog:
 1.0.13b:
 	fixed add work not going away when going back to the main menu.
 	added a select all filter option
+1.0.14:
+	fixed problem with when closing an open repair it does not go back after saving
+	added iPad screen
