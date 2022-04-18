@@ -297,6 +297,12 @@ function copyConfigAndStart()
 		backendPath = JSON.parse(txt).backendPath;
 		lockedPath = JSON.parse(txt).lockFilePath;
 		versionFile = JSON.parse(txt).versionFilePath;
+		if(iPad)
+		{
+			backendPath = backendPath.replace("K:/BF/PRSM", "K:");
+			lockedPath = lockedPath.replace("K:/BF/PRSM", "K:");
+			versionFile = versionFile.replace("K:/BF/PRSM", "K:");
+		}
 		startup();
 	});
 }
