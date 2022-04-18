@@ -5,8 +5,16 @@ const fs = require("fs");
 const crypto = require("crypto");
 var win;
 
+
+
 var remotePath = "K:/BF/PRSM/TechHub/RepaDex";
 // var remotePath = "C:/Users/Maxwell/github/Rapadex";
+var iPad = fs.existsSync("C:/IAmiPad");
+
+if(iPad)
+{
+	remotePath = remotePath.replace("K:/BF/PRSM", "K:");
+}
 var configPath = remotePath+"/configuration.json";
 var configPathLocalFolder = (process.env.APPDATA || process.env.HOME)+"/repadex/";
 var configPathLocal = configPathLocalFolder+"configuration.json";
@@ -22,7 +30,6 @@ const id = crypto.randomBytes(16).toString("hex");
 var repairJSON;
 var savingTimer;
 var loadingTimer;
-
 
 
 function sendBack(key, val)
@@ -400,7 +407,7 @@ function createWindow ()
 
 	  menu.popup();
 	});
-	if(fs.existsSync("C:/IAmiPad"))
+	if(iPad)
 	{
 		win.loadFile('iPads.html');
 	}
