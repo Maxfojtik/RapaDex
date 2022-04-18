@@ -484,10 +484,10 @@ function restartMyself()
 function startup()
 {
 	fs.watchFile(backendPath, function (event, filename) {
-		if(event=="change")
-		{
+		// if(event=="change")
+		// {
 			sendBack("fromMainLoadfile", "");
-		}
+		// }
 		// console.log('event is: ' + event);
 		// if (filename) {
 		// 	console.log('filename provided: ' + filename);
