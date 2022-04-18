@@ -3,7 +3,6 @@ const { spawn } = require('child_process');
 const path = require("path");
 const fs = require("fs");
 const crypto = require("crypto");
-const ioHook = require('iohook');
 var win;
 
 var remotePath = "K:/BF/PRSM/TechHub/RepaDex";
@@ -24,11 +23,6 @@ var repairJSON;
 var savingTimer;
 var loadingTimer;
 
-
-ioHook.on('keypress', (event) => {
-	//console.log(String.fromCharCode(event.keychar))
-});
-ioHook.start();
 
 
 function sendBack(key, val)

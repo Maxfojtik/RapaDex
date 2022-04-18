@@ -18,23 +18,5 @@
   "homepage": "https://github.com/Maxfojtik/RapaDex#readme",
   "devDependencies": {
     "electron": "^15.4.0"
-  },
-  "dependencies": {
-    "iohook": "^0.9.3"
-  },
-  "iohook": {
-    "targets": [
-      "node-93",
-      "electron-98"
-    ],
-    "platforms": [
-      "win32",
-      "darwin",
-      "linux"
-    ],
-    "arches": [
-      "x64",
-      "ia32"
-    ]
   }
 }
