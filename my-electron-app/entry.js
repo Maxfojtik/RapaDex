@@ -7,8 +7,8 @@ var win;
 
 
 
-// var remotePath = "K:/BF/PRSM/TechHub/RepaDex";
-var remotePath = "C:/Users/Maxwell/github/Rapadex";
+var remotePath = "K:/BF/PRSM/TechHub/RepaDex";
+// var remotePath = "C:/Users/Maxwell/github/Rapadex";
 var iPad = fs.existsSync("C:/IAmiPad");
 
 if(iPad)
