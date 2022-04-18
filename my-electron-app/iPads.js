@@ -761,7 +761,7 @@ function showRepairsCalled()
     showRepairTimer = -1;
     showRepairs(backendData["repairs"]);
     //calculate fancy numbers:
-    var date = new Date(1648673662);
+    var date = new Date();
     var padRepairs = getRepairs(date, "iPad");
     var padMean = mean(padRepairs);
     var padSTD = std(padRepairs);
