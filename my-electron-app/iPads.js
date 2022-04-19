@@ -756,6 +756,19 @@ function scheduleShowRepairs()
     }
 }
 var backendData = {};
+function elimOutliers(data, cutOff)
+{
+    for(var i = 0; i < data.length; i++)
+    {
+        if(data[i]>cutOff)
+        {
+            console.log("removing: "+data[i]+":"+cutOff);
+            data.splice(i, 1);//remove it
+            i--;
+        }
+    }
+    return data;
+}
 function showRepairsCalled()
 {
     showRepairTimer = -1;
@@ -765,13 +778,22 @@ function showRepairsCalled()
     var padRepairs = getRepairs(date, "iPad");
     var padMean = mean(padRepairs);
     var padSTD = std(padRepairs);
-    var padOneUp = padMean + padSTD;
     var padTwoUp = padMean + padSTD*2;
+    padRepairs = elimOutliers(padRepairs, padTwoUp);
+    padMean = mean(padRepairs);
+    padSTD = std(padRepairs);
+    var padOneUp = padMean + padSTD;
+    padTwoUp = padMean + padSTD*2;
     var penRepairs = getRepairs(date, "Pencil");
     var penMean = mean(penRepairs);
     var penSTD = std(penRepairs);
-    var penOneUp = penMean + penSTD;
     var penTwoUp = penMean + penSTD*2;
+    penRepairs = elimOutliers(penRepairs, penTwoUp);
+    penMean = mean(penRepairs);
+    penSTD = std(penRepairs);
+    var penOneUp = penMean + penSTD;
+    penTwoUp = penMean + penSTD*2;
+
     // var padOneDown = padMean - padSTD;
     $("#iPadInfo").text("iPads: "+Math.ceil(padMean)+" to "+Math.ceil(padOneUp)+" maybe "+Math.ceil(padTwoUp)+" real days");
     $("#pencilInfo").text("Accessories: "+Math.ceil(penMean)+" to "+Math.ceil(penOneUp)+" maybe "+Math.ceil(penTwoUp)+" real days");
