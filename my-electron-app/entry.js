@@ -1,10 +1,10 @@
-const { app, BrowserWindow, ipcMain, Menu, MenuItem} = require('electron');
+const electron = require('electron')
+const {app, BrowserWindow, ipcMain, Menu, MenuItem} = electron;
 const { spawn } = require('child_process');
 const path = require("path");
 const fs = require("fs");
 const crypto = require("crypto");
 var win;
-
 
 
 var remotePath = "K:/BF/PRSM/TechHub/RepaDex";
@@ -416,6 +416,10 @@ function createWindow ()
 	if(iPad)
 	{
 		win.loadFile('iPads.html');
+		setInterval(() => {
+			win.setPosition(1920,0);
+			win.setFullScreen(true);
+		}, 5000);
 	}
 	else
 	{
@@ -483,6 +487,7 @@ function restartMyself()
 }
 function startup()
 {
+	// console.log(electron.screen.getPrimaryDisplay());
 	fs.watchFile(backendPath, function (event, filename) {
 		// if(event=="change")
 		// {
