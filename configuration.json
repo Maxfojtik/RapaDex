@@ -176,7 +176,7 @@
 			"black-text": true,
 			"repairTeam": false,
 			"abr": "ev",
-			"active": true,
+			"active": false,
 			"name": "Evan"
 		},
 		"finley.267": {
@@ -224,6 +224,7 @@
 			"name": "Johnathan"
 		}
 	},
+	"workerSelectorFontSize": "24",
 	"pickedColor": "#ffab8a",
     "sentOutColor": "#fcf9b0",
     "diagColor": "#ee99ff",

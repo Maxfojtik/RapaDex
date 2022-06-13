@@ -1,7 +1,7 @@
 var blockProgress = false;
 var stopShaking = false;
 var building = "";
-var version = "1.0.14";
+var version = "1.0.15";
 var newVersion = "";
 var shownPanel = 0;//0 = main table, 1 = repairEdit, 2 = repairForm, 3 = loanerForm, 4 = repair warning, 5 = updating
 $( document ).ready(function() {
@@ -131,7 +131,7 @@ function doneLoadingSaving()
 }
 function keyDownHandler(event)
 {
-	if(event.key=='Escape' && !blockProgress)//hacky but works?
+	if(event.key=='Escape' && !blockProgress && shownPanel < 4)//hacky but works?, does not allow esc when showing the warning and updating
 	{
 		backToMain();
 	}
@@ -306,6 +306,7 @@ function loadConfiguration()
 					buildingLogin += getPill(config.employees[employee]["name"], employee, "repairEmployeeLogin"+employee, "selectLoginPill('"+employee+"')");;
 				}
 			}
+			$("#workerSelector").css("font-size", config["workerSelectorFontSize"]);
 			building += "</div>";
 			buildingLogin += "</h5>";
 			$('#saveWorkAsButton').attr("data-bs-content", building);
@@ -439,6 +440,16 @@ function makeid(length) {
    }
    return result;
 }
+var aboutModal;
+function showAbout()
+{
+	if(!aboutModal)
+	{
+		aboutModal = new bootstrap.Modal(document.getElementById('aboutModal'));
+	}
+	aboutModal.show();
+}
+
 function makeDescriptors(repair)
 {
 	var descriptors = [];

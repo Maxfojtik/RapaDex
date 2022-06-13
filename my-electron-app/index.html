@@ -73,7 +73,7 @@
 				<!--<img style="float:left; margin-left:-25px" src="Logo.png" ></img>-->
 				<div class="col">
 					<span style="display: flex; position:relative">
-						<h1 class="repaLogo" id="mainTitle"><span id="RepaPartTop" class="RepaPartBefore">Repa</span><span id="RepaPart" class="RepaPart">Repa</span><span style="color: #000000">Dex</span></h1>
+						<h1 class="repaLogo" id="mainTitle" onclick="showAbout()"><span id="RepaPartTop" class="RepaPartBefore">Repa</span><span id="RepaPart" class="RepaPart">Repa</span><span style="color: #000000">Dex</span></h1>
 						<h5 style="margin-top: 94px; margin-left: 425px; padding-left: 10px; height: 20px; position:absolute; float:left" class="text-muted" id="versionLabel" onmouseover="versionHover()" onmouseout="versionUnhover()" onclick="versionClick()"></h5>
 					</span>
 				</div>
@@ -106,7 +106,7 @@
 						<div style="float: right;">
 							<button id="filterButton" style="height: 38px; flex: initial; margin-right: 5px;" type="button" class="btn btn-primary" onclick="openFilter()" disabled><img src="filter.svg"></img></button>
 							<button id="refreshButton" style="height: 38px; flex: initial; margin-right: 5px;" type="button" class="btn btn-primary" onclick="loadAll()" disabled><img src="arrow-clockwise.svg"></img></button>
-							<button style="width: 250px; height: 38px;" id="startNewRepairButton" type="button" class="btn btn-primary" onclick="createNewRepair()" disabled>Create a new repair</button>
+							<button style="width: 250px; height: 38px;" id="startNewRepairButton" type="button" class="btn btn-primary btn-style510" onclick="createNewRepair()" disabled>Create a new repair</button>
 						</div>
 					</div>
 				</div>
@@ -220,7 +220,7 @@
 
 						</div>
 						<div class="col-4" id="datePickedUpButton">
-							<button id="pickUpButton" type="button" class="btn btn-danger btn-primary repairEditButton" data-bs-toggle="modal" data-bs-target="#pickupModal" onclick="fillPickedUpDate()">Pick Up</button>
+							<button id="pickUpButton" type="button" class="btn btn-danger repairEditButton" data-bs-toggle="modal" data-bs-target="#pickupModal" onclick="fillPickedUpDate()">Pick Up</button>
 						</div>
 					</div>
 					<div class="row">
@@ -236,6 +236,18 @@
 						</div>
 						<div class="col-4 iPadSerialNumberLabels" style="display:none;">
 							<h5 class="d-inline-flex header-inline copiable" id="iPadSNLabel" data-text=""></h5>
+						</div>
+					</div>
+					<div class="row" id="addressRepairRow">
+						<div class="col-2">
+							<h5 class="d-inline-flex header-inline text-muted copiable" id="addressLabel">Address</h5>
+						</div>
+						<div class="col">
+							<h5 class="d-inline-flex header-inline copiable" id="address1Label" data-text=""></h5>
+							<h5 class="d-inline-flex header-inline copiable" id="address2Label" data-text=""></h5>
+							<h5 class="d-inline-flex header-inline copiable" id="cityLabel" data-text=""></h5>
+							<h5 class="d-inline-flex header-inline copiable" id="stateLabel" data-text=""></h5>
+							<h5 class="d-inline-flex header-inline copiable" id="zipLabel" data-text=""></h5>
 						</div>
 					</div>
 					<div class="row">
@@ -292,11 +304,9 @@
 						<svg id="barcode" style="float:right;"></svg>
 					</div>
 				</div>
-				<h4>
-					<div id="workerSelector" class="workerSelect hideWhenPrint" tabindex="1" onfocus="startCollectKeyboard()" onblur="stopCollectKeyboard()">
-						<!--HTML generated within Javascript from configuration.json-->
-					</div>
-				</h4>
+				<div id="workerSelector" class="workerSelect hideWhenPrint" tabindex="1" onfocus="startCollectKeyboard()" onblur="stopCollectKeyboard()">
+					<!--HTML generated within Javascript from configuration.json-->
+				</div>
 				<div class="row">
 					<div class="input-group mb-3 col">
 						<span class="input-group-text const-width-1" id="basic-addon3">Customer Name</span>
@@ -389,10 +399,13 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="input-group mb-3 col">
-						<span class="input-group-text const-width-1" id="basic-addon9">Intake Notes</span>
-						<!--<input type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon9">-->
-						<textarea style="white-space: pre-wrap;" class="form-control" id="intakeTextArea" rows="1" oninput="" tabindex="8"></textarea>
+					<div class="mb-3 col" style="display: flex">
+						<div class="input-group">
+							<span class="input-group-text const-width-1" id="basic-addon9">Intake Notes</span>
+							<!--<input type="text" class="form-control" placeholder="" aria-label="" aria-describedby="basic-addon9">-->
+							<textarea style="white-space: pre-wrap;" class="form-control" id="intakeTextArea" rows="1" oninput="" tabindex="8"></textarea>
+						</div>
+						<button id="addAddressButton" class="btn btn-primary hideWhenPrint" style="margin-left: 10px; width: 150px" data-bs-toggle="modal" data-bs-target="#addAddressModal">Add an address</button>
 					</div>
 				</div>
 				<div class="row hideWhenPrint" id="problemSelectorRow">
@@ -621,7 +634,7 @@
 
 		<!-- Edit Repair Modal -->
 		<div class="modal fade" id="editRepairModal" tabindex="-1" aria-labelledby="editRepairModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-			<div class="modal-dialog">
+			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="modal-header">
 						<h5 class="modal-title" id="exampleModalLabel">Edit Repair</h5>
@@ -645,8 +658,6 @@
 								<span class="input-group-text const-width-1">Phone Number</span>
 								<input id="phoneEditForm" type="text" class="form-control" placeholder="">
 							</div>
-						</div>
-						<div class="row">
 							<div class="input-group mb-3 col">
 								<span class="input-group-text const-width-1">Serial Number</span>
 								<input id="serialEditForm" type="text" class="form-control" placeholder="">
@@ -657,23 +668,19 @@
 								<span class="input-group-text const-width-1">Purch Date</span>
 								<input id="purchaseDateEditForm" type="text" class="form-control" placeholder="">
 							</div>
+							<div class="input-group mb-3 col">
+								<span class="input-group-text const-width-1">Warranty</span>
+								<input id="warrEditForm" type="text" class="form-control" placeholder="">
+							</div>
 						</div>
 						<div class="row">
 							<div class="input-group mb-3 col">
 								<span class="input-group-text const-width-1">Make</span>
 								<input id="makeEditForm" type="text" class="form-control" placeholder="">
 							</div>
-						</div>
-						<div class="row">
 							<div class="input-group mb-3 col">
 								<span class="input-group-text const-width-1">Model</span>
 								<input id="modelEditForm" type="text" class="form-control" placeholder="">
-							</div>
-						</div>
-						<div class="row">
-							<div class="input-group mb-3 col">
-								<span class="input-group-text const-width-1">Warranty</span>
-								<input id="warrEditForm" type="text" class="form-control" placeholder="">
 							</div>
 						</div>
 						<div class="row">
@@ -698,6 +705,32 @@
 							<div class="input-group mb-3 col">
 								<span class="input-group-text const-width-1">iPad SN</span>
 								<input id="iPadSerialEditForm" type="text" class="form-control" placeholder="">
+							</div>
+						</div>
+						<div class="row">
+							<div class="input-group mb-3 col">
+								<span class="input-group-text const-width-1">Address 1</span>
+								<input id="address1EditForm" type="text" class="form-control" placeholder="">
+							</div>
+						</div>
+						<div class="row">
+							<div class="input-group mb-3 col">
+								<span class="input-group-text const-width-1">Address 2</span>
+								<input id="address2EditForm" type="text" class="form-control" placeholder="">
+							</div>
+							<div class="input-group mb-3 col">
+								<span class="input-group-text const-width-1">City</span>
+								<input id="cityEditForm" type="text" class="form-control" placeholder="">
+							</div>
+						</div>
+						<div class="row">
+							<div class="input-group mb-3 col">
+								<span class="input-group-text const-width-1">State</span>
+								<input id="stateEditForm" type="text" class="form-control" placeholder="">
+							</div>
+							<div class="input-group mb-3 col">
+								<span class="input-group-text const-width-1">Zip</span>
+								<input id="zipEditForm" type="text" class="form-control" placeholder="">
 							</div>
 						</div>
 					</div>
@@ -743,6 +776,44 @@
 			</div>
 		</div>
 
+		<!-- Adddress Edit Modal -->
+		<div class="modal fade" id="addAddressModal" tabindex="-1" aria-labelledby="addAddressModal" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-scrollable modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="addAddressModalTitle">Repair Address</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="clearAddressForm()"></button>
+					</div>
+					<div class="modal-body" id="addAddressModelBody" style="margin-right: 12px;">
+						<div class="row address-form" style="padding-top: 0;">
+							<div class="col address-form-input">
+								<input type="text" class="form-control" id="addressForm1" placeholder="123 Main St.">
+							</div>
+						</div>
+						<div class="row address-form">
+							<div class="col address-form-input">
+								<input type="text" class="form-control" id="addressForm2" placeholder="Appt. A">
+							</div>
+						</div>
+						<div class="row address-form">
+							<div class="col-6 address-form-input">
+								<input type="text" class="form-control" id="cityForm" placeholder="Columbus">
+							</div>
+							<div class="col-4 address-form-input">
+								<input type="text" class="form-control" id="stateForm" placeholder="Ohio">
+							</div>
+							<div class="col-2 address-form-input">
+								<input type="text" class="form-control" id="zipForm" placeholder="43210" style="padding-right: 0;">
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button id="addAddressModalOkay" type="button" class="btn btn-primary" data-bs-dismiss="modal">Okay</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		<!-- Issue Loaner Model -->
 		<div class="modal fade" id="loanerModal" tabindex="-1" aria-labelledby="loanerModal" aria-hidden="true">
 			<div class="modal-dialog modal-dialog-scrollable">
@@ -777,7 +848,7 @@
 			</div>
 		</div>
 
-		<!-- Picked Up Model -->
+		<!-- Picked Up Modal -->
 		<div class="modal fade" id="pickupModal" tabindex="-1" aria-labelledby="pickupModal" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -797,6 +868,30 @@
 				</div>
 			</div>
 		</div>
+
+
+		<!-- About Modal -->
+		<div class="modal fade" id="aboutModal" tabindex="-1" aria-labelledby="aboutModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="aboutModalLabel">About RepaDex</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<div style="display: flex;">
+							<img src="Logo.png" height="50px"></img>
+							<h4 style="display: inline; padding-top: 10px;">Created by <a href="javascript:void(0)" onclick='window.api.send("toMain", "openhttp://www.maxfojtik.com");'>Maxwell Fojtik</a> in 2021</h4>
+						</div>
+						<div>
+							<h4 style="padding-left: 50px;"><a href="javascript:void(0)" onclick='window.api.send("toMain", "openhttps://github.com/Maxfojtik/RapaDex");'>Source code</a> and <a href="javascript:void(0)" onclick='window.api.send("toMain", "openhttps://github.com/Maxfojtik/RapaDex/blob/main/documentation.txt");'>changelog</a></h4>
+							<h4 style="padding-left: 50px;"><a href="javascript:void(0)" onclick='window.api.send("toMain", "openK:/BF/PRSM/TechHub/RepaDex/configuration.json");'>Open Configuration</a></h4>
+						</div>
+					</div>
+				</div>
+			</div>
+		  </div>
+
 		<!-- Footer -->
 		<div style="height: 30px; line-height: initial;">
 			<div style="float: right; padding-right: 10px;">

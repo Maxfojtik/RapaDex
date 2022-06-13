@@ -281,6 +281,22 @@ function editRepairPencil()
 	$("#notesEditForm").val(currentRepairJSON["intakeNotes"]);
 	$("#iPadSerialEditForm").val(currentRepairJSON["iPadSN"]);
 	$("#purchaseDateEditForm").val(currentRepairJSON["purchaseDate"]);
+	if(currentRepairJSON["address"])
+	{
+		$("#address1EditForm").val(currentRepairJSON["address"]["address1"]);
+		$("#address2EditForm").val(currentRepairJSON["address"]["address2"]);
+		$("#cityEditForm").val(currentRepairJSON["address"]["city"]);
+		$("#stateEditForm").val(currentRepairJSON["address"]["state"]);
+		$("#zipEditForm").val(currentRepairJSON["address"]["zip"]);
+	}
+	else
+	{
+		$("#address1EditForm").val("");
+		$("#address2EditForm").val("");
+		$("#cityEditForm").val("");
+		$("#stateEditForm").val("");
+		$("#zipEditForm").val("");
+	}
 	setupEditRepairWorkerSelector();
 	if(loggedInAs=="")
 	{
@@ -306,72 +322,133 @@ function saveEditRepair()
 		buildingLog += " name: '"+currentRepairJSON["name"]+"' -> '"+newName+"'";
 	}
 	currentRepairJSON["name"] = newName;
+
 	var newEmail = $("#emailEditForm").val();
 	if(newEmail!=currentRepairJSON["email"])
 	{
 		buildingLog += " email: '"+currentRepairJSON["email"]+"' -> '"+newEmail+"'";
 	}
 	currentRepairJSON["email"] = newEmail;
+
 	var newPhone = $("#phoneEditForm").val();
 	if(newPhone!=currentRepairJSON["phone"])
 	{
 		buildingLog += " phone: '"+currentRepairJSON["phone"]+"' -> '"+newPhone+"'";
 	}
 	currentRepairJSON["phone"] = newPhone;
+
 	var newSerial = $("#serialEditForm").val();
 	if(newSerial!=currentRepairJSON["serial"])
 	{
 		buildingLog += " serial: '"+currentRepairJSON["serial"]+"' -> '"+newSerial+"'";
 	}
 	currentRepairJSON["serial"] = newSerial;
+
 	var newMake = $("#makeEditForm").val();
 	if(newMake!=currentRepairJSON["make"])
 	{
 		buildingLog += " make: '"+currentRepairJSON["make"]+"' -> '"+newMake+"'";
 	}
 	currentRepairJSON["make"] = newMake;
+
 	var newModel = $("#modelEditForm").val();
 	if(newModel!=currentRepairJSON["model"])
 	{
 		buildingLog += " model: '"+currentRepairJSON["model"]+"' -> '"+newModel+"'";
 	}
 	currentRepairJSON["model"] = newModel;
+
 	var newWarr = $("#warrEditForm").val();
 	if(newWarr!=currentRepairJSON["warranty"])
 	{
 		buildingLog += " warranty: '"+currentRepairJSON["warranty"]+"' -> '"+newWarr+"'";
 	}
 	currentRepairJSON["warranty"] = newWarr;
+
 	var newAcc = $("#accEditForm").val();
 	if(newAcc!=currentRepairJSON["acc"])
 	{
 		buildingLog += " acc: '"+currentRepairJSON["acc"]+"' -> '"+newAcc+"'";
 	}
 	currentRepairJSON["acc"] = newAcc;
+
 	var newProblem = $("#probEditForm").val();
 	if(newProblem!=currentRepairJSON["problem"])
 	{
 		buildingLog += " problem: '"+currentRepairJSON["problem"]+"' -> '"+newProblem+"'";
 	}
 	currentRepairJSON["problem"] = newProblem;
+
 	var newiPadSN = $("#iPadSerialEditForm").val();
 	if(newiPadSN!=currentRepairJSON["iPadSN"])
 	{
 		buildingLog += " iPadSN: '"+currentRepairJSON["iPadSN"]+"' -> '"+newiPadSN+"'";
 	}
 	currentRepairJSON["iPadSN"] = newiPadSN;
+
 	var newPurch = $("#purchaseDateEditForm").val();
 	if(newPurch!=currentRepairJSON["purchaseDate"])
 	{
 		buildingLog += " purchaseDate: '"+currentRepairJSON["purchaseDate"]+"' -> '"+newPurch+"'";
 	}
 	currentRepairJSON["purchaseDate"] = newPurch;
+
 	var newIntakeNotes = $("#notesEditForm").val();
 	if(newIntakeNotes!=currentRepairJSON["intakeNotes"])
 	{
 		buildingLog += " intakeNotes: '"+currentRepairJSON["intakeNotes"]+"' -> '"+newIntakeNotes+"'";
 	}
 	currentRepairJSON["intakeNotes"] = newIntakeNotes;
+	
+	var newAdd1 = $("#address1EditForm").val();
+	var newAdd2 = $("#address2EditForm").val();
+	var newCity = $("#cityEditForm").val();
+	var newState = $("#stateEditForm").val();
+	var newZip = $("#zipEditForm").val();
+	if((newAdd1!="" || newAdd2!="" || newCity!="" || newState!="" || newZip!="") && !currentRepairJSON["address"])
+	{
+		currentRepairJSON["address"] = {};//make an address object if we need to so that we can compare stuff later
+		createdAddress = true;
+		buildingLog += "created address: ";
+	}
+	if(currentRepairJSON["address"])
+	{
+		if(newAdd1!=currentRepairJSON["address"]["address1"])
+		{
+			buildingLog += " address address1: '"+currentRepairJSON["address"]["address1"]+"' -> '"+newAdd1+"'";
+		}
+		currentRepairJSON["address"]["address1"] = newAdd1;
+		
+		if(newAdd2!=currentRepairJSON["address"]["address2"])
+		{
+			buildingLog += " address address2: '"+currentRepairJSON["address"]["address2"]+"' -> '"+newAdd2+"'";
+		}
+		currentRepairJSON["address"]["address2"] = newAdd2;
+		
+		if(newCity!=currentRepairJSON["address"]["city"])
+		{
+			buildingLog += " address city: '"+currentRepairJSON["address"]["city"]+"' -> '"+newCity+"'";
+		}
+		currentRepairJSON["address"]["city"] = newCity;
+		
+		if(newState!=currentRepairJSON["address"]["state"])
+		{
+			buildingLog += " address state: '"+currentRepairJSON["address"]["state"]+"' -> '"+newState+"'";
+		}
+		currentRepairJSON["address"]["state"] = newState;
+		
+		if(newZip!=currentRepairJSON["address"]["zip"])
+		{
+			buildingLog += " address zip: '"+currentRepairJSON["address"]["zip"]+"' -> '"+newZip+"'";
+		}
+		currentRepairJSON["address"]["zip"] = newZip;
+		if((newAdd1=="" && newAdd2=="" && newCity=="" && newState=="" && newZip==""))
+		{
+			currentRepairJSON["address"] = false;
+			buildingLog += " and deleted the address";
+		}
+	}
+
 	if(buildingLog!="")//if anything actually changed, save it
 	{
 		buildingLog = "edited repair:"+buildingLog;
@@ -430,6 +507,35 @@ function showRepair(data, refNum)
 		$("#datePickedUpButton").show();
 		$("#datePickedUpContext").hide();
 	}
+
+	if(repair["address"])
+	{
+		$("#addressRepairRow").show();
+		$("#addressLabel").attr("data-text", repair["address"]["address1"].trim()+(repair["address"]["address2"] ? (" "+repair["address"]["address2"]) : "")+", "+repair["address"]["city"]+", "+repair["address"]["state"]+" "+repair["address"]["zip"]);
+		$("#address1Label").text(repair["address"]["address1"]);
+		$("#address1Label").attr("data-text", repair["address"]["address1"]);
+		$("#address2Label").text(repair["address"]["address2"]);
+		$("#address2Label").attr("data-text", repair["address"]["address2"]);
+		$("#cityLabel").text(repair["address"]["city"]);
+		$("#cityLabel").attr("data-text", repair["address"]["city"]);
+		$("#stateLabel").text(repair["address"]["state"]);
+		$("#stateLabel").attr("data-text", repair["address"]["state"]);
+		if(repair["address"]["state"].toLowerCase()=="ohio" || repair["address"]["state"].toLowerCase()=="oh")
+		{
+			$("#stateLabel").css("color", "#BA0C2F");
+		}
+		else
+		{
+			$("#stateLabel").css("color", "initial");
+		}
+		$("#zipLabel").text(repair["address"]["zip"]);
+		$("#zipLabel").attr("data-text", repair["address"]["zip"]);
+	}
+	else
+	{
+		$("#addressRepairRow").show();
+	}
+
 	var lastTouchedDate = new Date();
 	lastTouchedDate.setTime(Date.parse(repair["lastTouched"]));
 	$("#statedProblemLabel").text(repair["problem"]);
@@ -689,6 +795,7 @@ function reprintForm()
 	$("#savingDisplay").hide();
 	$("#repairForm").show();
 	$("#repairEdit").hide();
+	address = currentRepairJSON["address"];
 	var whoDidIt = currentRepairJSON["workCompleted"][0]["who"];
 	$("#RepaPart").css("color", config["employees"][whoDidIt]["color"]);
 	fillPrintingFill(whoDidIt);
@@ -739,9 +846,12 @@ function setupEditDateWorkerSelector()
 	);
 	for(var employee in config.employees)
 	{
-		$("#editDateWorkerSelector").append(
-			"<option value=\""+employee+"\" style=\"background-color: #fff; color: "+config.employees[employee]["color"]+";\">"+config.employees[employee]["name"]+"</option>"
-		);
+		if(config.employees[employee].active)
+		{
+			$("#editDateWorkerSelector").append(
+				"<option value=\""+employee+"\" style=\"background-color: #fff; color: "+config.employees[employee]["color"]+";\">"+config.employees[employee]["name"]+"</option>"
+			);
+		}
 	}
 }
 function setupEditRepairWorkerSelector()
@@ -752,9 +862,12 @@ function setupEditRepairWorkerSelector()
 	);
 	for(var employee in config.employees)
 	{
-		$("#editRepairWorkerSelector").append(
-			"<option value=\""+employee+"\" style=\"background-color: #fff; color: "+config.employees[employee]["color"]+";\">"+config.employees[employee]["name"]+"</option>"
-		);
+		if(config.employees[employee].active)
+		{
+			$("#editRepairWorkerSelector").append(
+				"<option value=\""+employee+"\" style=\"background-color: #fff; color: "+config.employees[employee]["color"]+";\">"+config.employees[employee]["name"]+"</option>"
+			);
+		}
 	}
 }
 function removeFirstEditWorkEmployee()

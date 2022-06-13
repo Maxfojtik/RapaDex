@@ -67,7 +67,14 @@ window.api.receive("fromMainLoadAll", (data) =>
 		}*/
 		if(backendData["repairs"])
 		{
-			showRepairs(backendData["repairs"], 100);
+			if($("#searchInput").val().toLowerCase().length>0)
+			{
+				search(false);
+			}
+			else
+			{
+				showRepairs(backendData["repairs"], 100);
+			}
 		}
 	}
 	catch(e)

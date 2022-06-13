@@ -113,7 +113,7 @@
 	border: 2px solid transparent;
 } 
 .workerSelect {
-   padding-bottom: 4px;
+   padding-bottom: 10px;
    padding-top: 4px;
 } 
 .workButton {
@@ -326,6 +326,7 @@ body {
 	position: relative;
 	font-family: 'Work Sans', sans-serif; 
 	font-size: 100px;
+	cursor: help;
 }
 .RepaPart {
   color: black;
@@ -396,6 +397,67 @@ body {
 .versionClickable {
 	cursor: pointer;
 }
+
+.address-form {
+	padding-top: 10px;
+}
+.address-form-input {
+	padding-right: 0;
+}
+
+.btn-primary {
+	border-color: #094092;
+	background-color: #094092;
+}
+.btn-primary:hover {
+	border-color: #0d6efd;
+	background-color: #0d6efd;
+}
+.btn-primary:disabled {
+	border-color: #466491;
+	background-color: #466491;
+}
+.btn-style510::before,
+.btn-style510::after {
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translateX(-100px) skewX(-15deg);
+  content: "";
+}
+	
+.btn-style510::before {
+  width: 60px;
+  background: rgba(255, 255, 255, 0.5);
+  filter: blur(30px);
+  opacity: 0.5;
+}
+.btn-style510::after {
+  width: 30px;
+  left: 30px;
+  background: rgba(255, 255, 255, 0.2);
+  filter: blur(5px);
+}
+.btn-style510:hover {
+  background-color: #0d6efd;
+  border-color: #0d6efd;
+}
+.btn-style510:hover::before {
+  opacity: 1;
+}
+.btn-style510::before,
+.btn-style510:hover::after {
+  transform: translateX(300px) skewX(-15deg);
+  transition: all 0.9s ease;
+}
+.btn-style510 {
+	position: relative;
+	background-color: #094092;
+	border-color: #094092;
+	color: #fff;
+	overflow: hidden;
+  }
 @keyframes rotateCenter {
   0% {transform: rotate(0deg);}
   50% {transform: rotate(180deg);}

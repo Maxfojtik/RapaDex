@@ -1,3 +1,39 @@
+var address;
+$( document ).ready(function() {
+	$('#addAddressModal').on('hidden.bs.modal', function () {//when hidden save any information in it to a variable for when saved and also when printed, throw it in the intake notes
+		address = {};
+		address["address1"] = $("#addressForm1").val(); 
+		address["address2"] = $("#addressForm2").val(); 
+		address["city"] = $("#cityForm").val(); 
+		address["state"] = $("#stateForm").val(); 
+		address["zip"] = $("#zipForm").val(); 
+		// console.log(address);
+
+		if(address["address1"] == "" && address["address2"] == "" && address["city"] == "" && address["state"] == "" && address["zip"] == "")
+		{
+			address = false;
+			$("#addAddressButton").text("Add an address");
+			$("#addAddressButton").addClass("btn-primary");
+			$("#addAddressButton").removeClass("btn-success");
+			$("#addAddressButton").removeClass("btn-danger");
+		}
+		else if(address["address1"] == "" || address["city"] == "" || address["state"] == "" || address["zip"] == "")
+		{
+			$("#addAddressButton").text("Edit Address!!");
+			$("#addAddressButton").removeClass("btn-primary");
+			$("#addAddressButton").removeClass("btn-success");
+			$("#addAddressButton").addClass("btn-danger");
+		}
+		else
+		{
+			$("#addAddressButton").text("Edit Address");
+			$("#addAddressButton").removeClass("btn-primary");
+			$("#addAddressButton").addClass("btn-success");
+			$("#addAddressButton").removeClass("btn-danger");
+		}
+		console.log(address);
+	});
+});
 $(document).on('input', '.validable', function () {
 	//console.log(event.target.value);
 	validateInputElement(event.target);
@@ -110,7 +146,12 @@ function resetRepairForm()
 	setupMakes();
 	setupWarranties();
 	selectPill();
-
+	clearAddressForm();
+	address = false;//reset address
+	$("#addAddressButton").text("Add an address");
+	$("#addAddressButton").addClass("btn-primary");
+	$("#addAddressButton").removeClass("btn-success");
+	$("#addAddressButton").removeClass("btn-danger");
 	$("#iPadSN").val("");
 	$("#intakeTextArea").val("");
 	$("#nameForm").val("");
@@ -633,7 +674,7 @@ window.api.receive("fromMainSaveFail", (data) =>
 });
 window.api.receive("fromMainSaveSuc", (data) =>
 {
-	console.log(wasSavingDatePickedOld);
+	//console.log(wasSavingDatePickedOld);
 	doneLoadingSaving();
 	if(addedWorkRefNum>0)
 	{
@@ -843,6 +884,12 @@ function jsonifyTheRepairForm()
 	json["logs"] = [{"who": selectedEmployee, "what": "Created the repair", "when": date.toJSON()}];
 	//date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
 	json["workCompleted"] = [{"who": selectedEmployee, "when": date.toJSON(), "what": "Created Repair Form", "note": ""}];
+
+	if(address)
+	{
+		json["address"] = address;
+	}
+
 	return JSON.stringify(json);
 }
 window.api.receive("fromMainRefNum", (data) =>
@@ -946,6 +993,15 @@ function makeRepairPrintable()
 	$("#versionLabel").css("margin-top", "77px");
 	$("#versionLabel").css("font-size", "1rem");
 	$("#versionLabel").css("margin-left", "315px");
+
+	var intakeText = $("#intakeTextArea").val();
+	var hasText = $("#intakeTextArea").val().trim()!="";
+	//throw the address information into intake text as well
+	if(address)
+	{
+		intakeText += (hasText ? ", " : "") + address["address1"]+" "+address["address2"]+", "+address["city"]+", "+address["state"]+" "+address["zip"];
+	}
+	$("#intakeTextArea").val(intakeText);
 	//$("#loggedInAsLabel").text("v"+version);
 }
 function unMakeRepairPrintable()
@@ -1037,6 +1093,26 @@ function checkSNForOtherOpen(serial)
 	}
 	return false;
 }
+
+
+// $('#addAddressModal').on('show.bs.modal', function () {
+	
+// });
+function clearAddressForm()
+{
+ 	$("#addressForm1").val(""); 
+	$("#addressForm2").val(""); 
+	$("#cityForm").val(""); 
+	$("#stateForm").val(""); 
+	$("#zipForm").val(""); 
+}
+
+
+
+
+
+
+
 
 //code from https://stackoverflow.com/questions/30058927/format-a-phone-number-as-a-user-types-using-pure-javascript, modified by me
 const isNumericInput = (event) => {

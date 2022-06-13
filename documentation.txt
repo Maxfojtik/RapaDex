@@ -4,7 +4,7 @@ Never remove employees, it will break old forms... only set them as not active, 
 
 Version formatting:
 
-1.(Major changes to how the code works).(small changes)letter(bugfix and style changes)
+1.(Major changes).(minor changes)letter(bugfix and style changes)
 
 
 
@@ -121,3 +121,12 @@ ChangeLog:
 1.0.14:
 	fixed problem with when closing an open repair it does not go back after saving
 	added iPad screen
+1.0.15:
+	fixed issue with being able to esc when on repair screen
+	added the ability to enter an address into a repair
+	pickup dropdown now takes into account if they are still active
+	make the worker font size configurable
+	make it so if there is something in the search bar when it loads it automatically searches
+	added an about page
+	fancified the create new repair button
+	fixed issue where inactive employees were in the edit repair modal

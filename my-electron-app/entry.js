@@ -7,8 +7,8 @@ const crypto = require("crypto");
 var win;
 
 
-var remotePath = "K:/BF/PRSM/TechHub/RepaDex";
-// var remotePath = "C:/Users/Maxwell/github/Rapadex";
+// var remotePath = "K:/BF/PRSM/TechHub/RepaDex";
+var remotePath = "C:/Users/Maxwell/github/Rapadex";
 var iPad = fs.existsSync("C:/IAmiPad");
 
 if(iPad)
@@ -328,6 +328,11 @@ ipcMain.on("toMain", (event, args) =>
 	{
 		checkAndSendRemoteVersion();
 	}
+	else if(args.substr(0,4)=="open")
+	{
+		var url = args.substr(4);
+		electron.shell.openExternal(url);
+	}
 	else
 	{
 		if(!doneSaving && saving)
@@ -389,6 +394,7 @@ function createWindow ()
 			e.preventDefault();
 		}
 	});
+
 	win.webContents.on('context-menu', (event, params) => {
 		//console.log(params);
 	  const menu = new Menu();
