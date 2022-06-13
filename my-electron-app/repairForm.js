@@ -92,6 +92,7 @@ function validateEmail()
 }
 $(document).on("keyup", '#emailForm', function(e) {
 	var value = $("#emailForm").val().toLowerCase();
+	$("#emailForm").val(value);
 	if(/^[a-z]*[.,](\d+)$/.test(value))
 	{
 		if (e.keyCode == 13) {
@@ -207,7 +208,7 @@ function findPerson()
 	{
 		lastname: "",
 		firstname: "",
-		name_n: $("#emailForm").val(),
+		name_n: $("#emailForm").val().toLowerCase(),
 		filter: "All"
 	},
 	function(data, status){

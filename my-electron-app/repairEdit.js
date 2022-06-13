@@ -533,7 +533,7 @@ function showRepair(data, refNum)
 	}
 	else
 	{
-		$("#addressRepairRow").show();
+		$("#addressRepairRow").hide();
 	}
 
 	var lastTouchedDate = new Date();

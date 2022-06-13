@@ -133,3 +133,6 @@ ChangeLog:
 1.0.15a:
 	fixed appt. -> apt.
 	fixed width of add address
+1.0.15b:
+	make all emails lowercase
+	also clear out addresses when switching repairs
