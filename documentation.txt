@@ -130,3 +130,6 @@ ChangeLog:
 	added an about page
 	fancified the create new repair button
 	fixed issue where inactive employees were in the edit repair modal
+1.0.15a:
+	fixed appt. -> apt.
+	fixed width of add address
