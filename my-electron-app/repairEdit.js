@@ -5,6 +5,94 @@ var loginToast;
 var deleteClicksLeft;
 var dontOverrideWarranty = false;
 var dontOverrideProblem = false;
+var attachModal;
+
+
+document.addEventListener('drop', (event) => {
+	// console.log("drop");
+	// console.log(event);
+	console.log(event.dataTransfer.files);
+    event.preventDefault();
+    event.stopPropagation();
+
+	if(loggedInAs=="" || shownPanel!=1)
+	{
+		return;
+	}
+    for (const f of event.dataTransfer.files) {
+        // Using the path attribute to get absolute file path
+        // console.log('File Path of dragged files: ', f.path);
+
+
+		var repairWork = JSON.parse("{}");
+		repairWork["who"] = loggedInAs;
+		repairWork["when"] = new Date().toJSON();
+		repairWork["what"] = "Attached File";
+		repairWork["note"] = f.path;
+		repairWork["isPath"] = true;
+	
+		var logEntry = JSON.parse("{}");
+		logEntry["who"] = loggedInAs;
+		logEntry["when"] = repairWork["when"];
+		logEntry["what"] = repairWork["what"]+": "+f.path;
+		currentRepairJSON["workCompleted"].push(repairWork);
+		currentRepairJSON["logs"].push(logEntry);
+	}
+	startLoadingSaving("Attaching "+event.dataTransfer.files.length+" file"+(event.dataTransfer.files.length==1 ? "" : "s")+"...");
+	figureOutColorAndStatus();
+	addedWorkRefNum = refNumIn;
+	window.api.send("toMain", "s"+JSON.stringify(currentRepairJSON));
+	freezeForm();
+});
+ 
+// $(document).on('drago')
+
+var hideAttachFileModalTimer = -1;
+document.addEventListener('dragover', (event) => {
+	console.log(event);
+	$(".attachmentPokeball").css("left", (event.clientX-75)+"px");
+	$(".attachmentPokeball").css("top", (event.clientY-100)+"px");
+    event.preventDefault();
+    event.stopPropagation();
+	// console.log("trip");
+	if(hideAttachFileModalTimer>0)
+	{
+		clearTimeout(hideAttachFileModalTimer);
+	}
+	else
+	{
+		$(".balltop").css("margin-top", "-145px");
+		if(shownPanel==1)
+		{
+			if(loggedInAs!="")
+			{
+				$("#attachMessage").text("Attach File");
+				$(".attachmentPokeball").fadeIn();
+			}
+			else
+			{
+				attachModal.show();
+				$("#attachMessage").text("You have to log in to attach files");
+			}
+			// attachModal.show();
+		}
+		// console.log("show");
+	}
+	hideAttachFileModalTimer = setTimeout(hideAttachFileModal, 200);
+    // console.log('dragover');
+  });
+document.addEventListener('dragenter', (event) => {
+	console.log(event.dataTransfer.items[0]);
+});
+function hideAttachFileModal()
+{
+	attachModal.hide();
+	$(".attachmentPokeball").fadeOut();
+	// console.log("hide");
+	hideAttachFileModalTimer = -1;
+}
+
+
 $(document).on("keyup", '#assetTagForm', function(e) {
 	if (e.keyCode == 13 && !repairEditFrozen) {
 		issueLoaner();
@@ -583,7 +671,20 @@ function showRepair(data, refNum)
 		dateTimeText += " "+hours+":"+String(date.getMinutes()).padStart(2, '0')+" "+ampmindicator;
 		var html = "<tr><td scope='row'>"+dateTimeText+"</td>";
 		html +="<td>"+repair["workCompleted"][i]["what"]+"</td>";
-		html +="<td style='max-width: 400px; overflow:auto;'>"+repair["workCompleted"][i]["note"]+"</td>";
+
+		if(repair["workCompleted"][i]["isPath"])
+		{
+			var path = repair["workCompleted"][i]["note"];
+			path = path.replaceAll("\\","/");
+			var name = path.split("/").pop();
+			var link = "<a href=\"javascript:void(0)\" onclick='window.api.send(\"toMain\", \"open"+path+"\");'>"+name+"</a>";
+			html +="<td style='max-width: 400px; overflow:auto;'>"+link+"</td>";
+		}	
+		else
+		{
+			html +="<td style='max-width: 400px; overflow:auto;'>"+repair["workCompleted"][i]["note"]+"</td>";
+		}
+
 		html +="<td>"+getPill(config.employees[repair["workCompleted"][i]["who"]]["name"], repair["workCompleted"][i]["who"], "workCompletedLabelPill"+i, "")+"</td>";
 		if(loggedInAs=="")
 		{
@@ -719,6 +820,8 @@ function figureOutColorAndStatus()
 {
 	var color = "default";
 	var status = "Unknown";
+	var hasOtherWork = false;
+	var hasNote = false;
 	if(currentRepairJSON["datePicked"])
 	{
 		var date = new Date(currentRepairJSON["datePicked"]["when"]);
@@ -731,6 +834,17 @@ function figureOutColorAndStatus()
 		for(var i = currentRepairJSON["workCompleted"].length-1; i >= 0; i--)
 		{
 			var work = currentRepairJSON["workCompleted"][i];
+			if(work["what"]!="Note")
+			{
+				if(work["what"]!="Created Repair Form")
+				{
+					hasOtherWork = true;
+				}
+			}
+			else
+			{
+				hasNote = true;
+			}
 			if(work["what"]=="Sent Out")
 			{
 				color = "sentOutRow";
@@ -785,6 +899,12 @@ function figureOutColorAndStatus()
 				status = "Created Repair Form";
 				break;
 			}
+		}
+		console.log(hasOtherWork+":"+hasNote);
+		if(!hasOtherWork && hasNote)
+		{
+			color = "diagRow";
+			status = "See Notes";
 		}
 	}
 	currentRepairJSON["color"] = color;

@@ -518,3 +518,18 @@ tr {
 	color: #aaaaaa;
 	font-size: 100px;
 }
+
+.attachmentPokeball {
+	width: 150px;
+	height: 150px;
+	position: absolute;
+	display: none;
+}
+
+.balltop {
+	margin-top: -139px;
+	transform: rotate3d(1, 0, 0, 45deg);;
+}
+.ballbottom {
+	transform: rotate(1deg);
+}

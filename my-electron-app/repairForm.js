@@ -1,5 +1,8 @@
 var address;
+
+
 $( document ).ready(function() {
+	attachModal = new bootstrap.Modal($('#attachModal'));
 	$('#addAddressModal').on('hidden.bs.modal', function () {//when hidden save any information in it to a variable for when saved and also when printed, throw it in the intake notes
 		address = {};
 		address["address1"] = $("#addressForm1").val(); 
