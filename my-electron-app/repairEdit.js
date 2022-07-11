@@ -834,61 +834,62 @@ function figureOutColorAndStatus()
 		for(var i = currentRepairJSON["workCompleted"].length-1; i >= 0; i--)
 		{
 			var work = currentRepairJSON["workCompleted"][i];
-			if(work["what"]!="Note")
-			{
-				if(work["what"]!="Created Repair Form")
-				{
-					hasOtherWork = true;
-				}
-			}
-			else
+			if(work["what"]=="Note")
 			{
 				hasNote = true;
 			}
 			if(work["what"]=="Sent Out")
 			{
+				hasOtherWork = true;
 				color = "sentOutRow";
 				status = "Sent Out";
 				break;
 			}
 			if(work["what"]=="Diagnosed")
 			{
+				hasOtherWork = true;
 				color = "diagRow";
 				status = "Diagnosed";
 				break;
 			}
 			if(work["what"]=="Submitted Claim")
 			{
+				hasOtherWork = true;
 				color = "submittedClaimRow";
 				status = "Submitted Claim";
 				break;
 			}
 			if(work["what"]=="Submitted RFA")
 			{
+				hasOtherWork = true;
 				color = "submittedRFARow";
 				status = "Submitted RFA";
 				break;
 			}
 			if(work["what"]=="Ordered Parts")
 			{
+				hasOtherWork = true;
 				color = "orderedPartsRow";
 				status = "Ordered Parts";
 				break;
 			}
 			if(work["what"]=="Parts Arrived")
 			{
+				hasOtherWork = true;
 				color = "partsArrivedRow";
 				status = "Parts Arrived";
 				break;
 			}
 			if(work["what"]=="Waiting on DEP")
 			{
+				hasOtherWork = true;
 				color = "waitingOnDEPRow";
 				status = "Waiting on DEP";
 				break;
 			}
 			if(work["what"]=="Finished")
 			{
+				hasOtherWork = true;
 				color = "finishedRow";
 				status = "Finished";
 				break;
