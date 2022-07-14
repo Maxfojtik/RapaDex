@@ -163,12 +163,6 @@ function saveRepairPart()
 				jsonData["repairs"] = {};
 			}
 			jsonData["repairs"][jsonRepair.refNum] = jsonRepair;
-			for(refNum in jsonData["repairs"])
-			{
-				var repairJSONTEST = jsonData["repairs"][refNum];
-				jsonData["repairs"][repairJSONTEST.refNum]["descriptors"] = makeDescriptors(repairJSONTEST);
-				console.log(jsonData["repairs"][repairJSONTEST.refNum]["descriptors"]);
-			}
 			var stringified = JSON.stringify(jsonData);
 			fs.writeFileSync(backendPath, stringified);
 			doneSaving = true;
