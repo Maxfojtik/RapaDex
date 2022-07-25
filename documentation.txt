@@ -4,7 +4,7 @@ Never remove employees, it will break old forms... only set them as not active, 
 
 Version formatting:
 
-1.(Major changes).(minor changes)letter(bugfix and style changes)
+1.(Major changes).(minor changes)letter(bugfix, quality of life and style changes)
 
 
 
@@ -139,3 +139,7 @@ ChangeLog:
 1.0.16:
 	added the ability to attach files to repairs
 	make notes show in front if there is no other work
+1.0.16a:
+	made make and model in descriptors
+1.0.16b:
+	added another option for when the serial number already has a repair

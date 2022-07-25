@@ -1,7 +1,7 @@
 {
-	"backendPath": "C:/Users/Maxwell/github/Rapadex/examplebe/be.json",
-	"lockFilePath": "C:/Users/Maxwell/github/Rapadex/examplebe/locked.lock",
-	"versionFilePath": "C:/Users/Maxwell/github/Rapadex/remoteVersion.txt",
+	"backendPath": "C:/Users/Maxwell/Documents/GitHub/Rapadex/examplebe/be.json",
+	"lockFilePath": "C:/Users/Maxwell/Documents/GitHub/Rapadex/examplebe/locked.lock",
+	"versionFilePath": "C:/Users/Maxwell/Documents/GitHub/Rapadex/remoteVersion.txt",
 	"repairables": {
 		"apple": {
 			"warningOnAppleDevices": true,
@@ -11,8 +11,7 @@
 			"commonProblems": [
 				"Liquid Damage"
 			],
-			"devices":
-			{
+			"devices": {
 				"macbook": {
 					"commonName": "Macbook",
 					"findMy": true,
@@ -83,7 +82,7 @@
 						"27"
 					]
 				},
-				"Other":true
+				"Other": true
 			}
 		},
 		"dell": {
@@ -95,8 +94,7 @@
 				"Damaged Enclosure",
 				"Liquid Damage"
 			],
-			"devices":
-			{
+			"devices": {
 				"xps15": {
 					"commonName": "XPS 15"
 				},
@@ -105,16 +103,14 @@
 				},
 				"inspiron": {
 					"commonName": "Inspiron"
-
 				},
-				"Other":true
+				"Other": true
 			}
 		},
 		"microsoft": {
 			"commonName": "Microsoft",
-			"devices":
-			{
-				"surfaceLaptop":{
+			"devices": {
+				"surfaceLaptop": {
 					"commonName": "Surface Laptop"
 				},
 				"surfacePro": {
@@ -123,7 +119,7 @@
 				"surfaceBook": {
 					"commonName": "Surface Book"
 				},
-				"Other":true
+				"Other": true
 			}
 		}
 	},
@@ -226,15 +222,15 @@
 	},
 	"workerSelectorFontSize": "22",
 	"pickedColor": "#ffab8a",
-    "sentOutColor": "#fcf9b0",
-    "diagColor": "#ee99ff",
-    "submittedClaimColor": "#bb99ff",
-    "submittedRFAColor": "#99aaff",
-    "orderedPartsColor": "#99ddff",
-    "partsArrivedColor": "#99ffee",
-    "waitingForDEPColor": "#99ffee",
+	"sentOutColor": "#fcf9b0",
+	"diagColor": "#ee99ff",
+	"submittedClaimColor": "#bb99ff",
+	"submittedRFAColor": "#99aaff",
+	"orderedPartsColor": "#99ddff",
+	"partsArrivedColor": "#99ffee",
+	"waitingForDEPColor": "#99ffee",
 	"noteColor": "#fcf9b0",
-    "finishedColor": "#18c912",
+	"finishedColor": "#18c912",
 	"searchRequiresSubmit": false,
 	"maxRowsAtOnce": 1000,
 	"dropOffStatement": "I understand and agree that repairing my computer may involve my data being lost. Data backup is solely my responsibility and Tech Hub is not liable for lost data. I am also aware that there might be a fee associated with my repair.",

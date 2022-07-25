@@ -1,34 +1,31 @@
 var address;
 
 
-$( document ).ready(function() {
+$(document).ready(function () {
 	attachModal = new bootstrap.Modal($('#attachModal'));
 	$('#addAddressModal').on('hidden.bs.modal', function () {//when hidden save any information in it to a variable for when saved and also when printed, throw it in the intake notes
 		address = {};
-		address["address1"] = $("#addressForm1").val(); 
-		address["address2"] = $("#addressForm2").val(); 
-		address["city"] = $("#cityForm").val(); 
-		address["state"] = $("#stateForm").val(); 
-		address["zip"] = $("#zipForm").val(); 
+		address["address1"] = $("#addressForm1").val();
+		address["address2"] = $("#addressForm2").val();
+		address["city"] = $("#cityForm").val();
+		address["state"] = $("#stateForm").val();
+		address["zip"] = $("#zipForm").val();
 		// console.log(address);
 
-		if(address["address1"] == "" && address["address2"] == "" && address["city"] == "" && address["state"] == "" && address["zip"] == "")
-		{
+		if (address["address1"] == "" && address["address2"] == "" && address["city"] == "" && address["state"] == "" && address["zip"] == "") {
 			address = false;
 			$("#addAddressButton").text("Add an address");
 			$("#addAddressButton").addClass("btn-primary");
 			$("#addAddressButton").removeClass("btn-success");
 			$("#addAddressButton").removeClass("btn-danger");
 		}
-		else if(address["address1"] == "" || address["city"] == "" || address["state"] == "" || address["zip"] == "")
-		{
+		else if (address["address1"] == "" || address["city"] == "" || address["state"] == "" || address["zip"] == "") {
 			$("#addAddressButton").text("Edit Address!!");
 			$("#addAddressButton").removeClass("btn-primary");
 			$("#addAddressButton").removeClass("btn-success");
 			$("#addAddressButton").addClass("btn-danger");
 		}
-		else
-		{
+		else {
 			$("#addAddressButton").text("Edit Address");
 			$("#addAddressButton").removeClass("btn-primary");
 			$("#addAddressButton").addClass("btn-success");
@@ -41,63 +38,52 @@ $(document).on('input', '.validable', function () {
 	//console.log(event.target.value);
 	validateInputElement(event.target);
 });
-function validateInputElement(ele)
-{
-	if(ele.value!="")
-	{
-		$("#"+ele.id).addClass("is-valid");
-		$("#"+ele.id).removeClass("is-invalid");
+function validateInputElement(ele) {
+	if (ele.value != "") {
+		$("#" + ele.id).addClass("is-valid");
+		$("#" + ele.id).removeClass("is-invalid");
 	}
-	else
-	{
-		$("#"+ele.id).removeClass("is-valid");
-		$("#"+ele.id).addClass("is-invalid");
+	else {
+		$("#" + ele.id).removeClass("is-valid");
+		$("#" + ele.id).addClass("is-invalid");
 	}
 }
 $(document).on('input', '.phoneValidable', function () {
 	//console.log(event.target.value);
-	if(phoneRequired)
-	{
+	if (phoneRequired) {
 		validatePhoneElement();
 	}
 });
-function validatePhoneElement(ele)
-{
-	if($("#phoneForm").val().length==14)
-	{
+function validatePhoneElement(ele) {
+	if ($("#phoneForm").val().length == 14) {
 		$("#phoneForm").addClass("is-valid");
 		$("#phoneForm").removeClass("is-invalid");
 	}
-	else
-	{
+	else {
 		$("#phoneForm").removeClass("is-valid");
 		$("#phoneForm").addClass("is-invalid");
 	}
 }
 var emailValid = false;
-function validateEmail()
-{
+function validateEmail() {
 	var value = $("#emailForm").val();
 	console.log(value);
-	if(/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(value))
-	{
+	if (/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(value)) {
 		$("#emailForm").addClass("is-valid");
 		$("#emailForm").removeClass("is-invalid");
 		emailValid = true;
 	}
-	else
-	{
+	else {
 		$("#emailForm").removeClass("is-valid");
 		$("#emailForm").addClass("is-invalid");
 		emailValid = false;
 	}
 	validateSaveButtons();
 }
-$(document).on("keyup", '#emailForm', function(e) {
+$(document).on("keyup", '#emailForm', function (e) {
 	var value = $("#emailForm").val().toLowerCase();
 	$("#emailForm").val(value);
-	if(/^[a-z]*[.,](\d+)$/.test(value))
-	{
+	if (/^[a-z]*[.,](\d+)$/.test(value)) {
 		if (e.keyCode == 13) {
 			findPerson();
 		}
@@ -108,32 +94,26 @@ $(document).on("change", "#problemSelector", function () {
 	//text = event.target.innerHTML;
 	//alert();
 	var value = $(this).find("option:selected").attr("showproblem");
-	if(value=="true")
-	{
+	if (value == "true") {
 		$("#problemBox").show();
 	}
-	else
-	{
+	else {
 		$("#problemBox").hide();
 	}
 });
-function departmentalSwitched()
-{
-	if($("#flexSwitchCheckCheckedDepartmental").is(":checked"))
-	{
+function departmentalSwitched() {
+	if ($("#flexSwitchCheckCheckedDepartmental").is(":checked")) {
 		phoneRequired = false;
 		$("#phoneForm").removeClass("is-invalid");
 		$("#phoneForm").removeClass("is-valid");
 	}
-	else
-	{
+	else {
 		phoneRequired = true;
 		validatePhoneElement();
 	}
 	validateSaveButtons();
 }
-function resetRepairForm()
-{
+function resetRepairForm() {
 	gettingNextRefNum = false;
 	emailValid = false;
 	phoneValid = false;
@@ -143,7 +123,7 @@ function resetRepairForm()
 	var date = new Date();
 	//var dateStr = date.getFullYear()+"-"+String(date.getMonth()+1).padStart(2, '0')+"-"+String(date.getDate()).padStart(2, '0');
 	date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-	$("#dateForm").val(date.toISOString().slice(0,16));
+	$("#dateForm").val(date.toISOString().slice(0, 16));
 	//alert(dateStr);
 	//$("#dateForm").val(dateStr);
 	//$("#repairFormBack").prop("disabled", true);
@@ -187,78 +167,68 @@ function resetRepairForm()
 	$("#workerSelector").focus();
 	$(".saveButton").prop('disabled', true);
 }
-function warrantySelected()
-{
-	if($("#warrantySelector").val()=="Other")
-	{
+function warrantySelected() {
+	if ($("#warrantySelector").val() == "Other") {
 		$("#warrantyOtherText").show();
 	}
-	else
-	{
+	else {
 		$("#warrantyOtherText").hide();
 	}
 	$("#warrantySelector").addClass("is-valid");
 	$("#warrantySelector").removeClass("is-invalid");
 }
-function findPerson()
-{
+function findPerson() {
 	var osuFindPeopleURL = "https://www.osu.edu/findpeople/";
 	$("#nameForm").removeClass("is-valid");
 	$("#nameForm").removeClass("is-invalid");
 	$("#emailForm").removeClass("is-valid");
 	$("#emailForm").removeClass("is-invalid");
 	$.post(osuFindPeopleURL,
-	{
-		lastname: "",
-		firstname: "",
-		name_n: $("#emailForm").val().toLowerCase(),
-		filter: "All"
-	},
-	function(data, status){
-		//console.log(data);
-		returnedElements = $($.parseHTML(data));
-		var table = returnedElements.find("#person1");
-		var name = "";
-		var email = "";
-		var child = table.children().eq(1).children().first();
-		//console.log("start");
-		while(child.html())
 		{
-			var type = child.children().first().text();
-			if(type.trim()=="Name:")
-			{
-				name = child.children().eq(1).text();
+			lastname: "",
+			firstname: "",
+			name_n: $("#emailForm").val().toLowerCase(),
+			filter: "All"
+		},
+		function (data, status) {
+			//console.log(data);
+			returnedElements = $($.parseHTML(data));
+			var table = returnedElements.find("#person1");
+			var name = "";
+			var email = "";
+			var child = table.children().eq(1).children().first();
+			//console.log("start");
+			while (child.html()) {
+				var type = child.children().first().text();
+				if (type.trim() == "Name:") {
+					name = child.children().eq(1).text();
+				}
+				if (type.trim() == "Published Email Address:") {
+					email = child.children().eq(1).text();
+				}
+				//console.log(type);
+				//console.log(":"+child.html());
+				child = child.next();
 			}
-			if(type.trim()=="Published Email Address:")
-			{
-				email = child.children().eq(1).text();
+			//validateInputElement($("#dotForm")[0]);
+			if (email != "") {
+				$("#emailForm").val(email);
 			}
-			//console.log(type);
-			//console.log(":"+child.html());
-			child = child.next();
-		}
-		//validateInputElement($("#dotForm")[0]);
-		if(email!="")
-		{
-			$("#emailForm").val(email);
-		}
-		validateInputElement($("#emailForm")[0]);
-		//$("#emailForm").trigger("input");
-		if(name!="")
-		{
-			$("#nameForm").val(name);
-			validateInputElement($("#nameForm")[0]);
-		}
-		else
-		{
-			$("#nameForm").removeClass("is-valid");
-			$("#nameForm").addClass("is-invalid");
-		}
-		//$("#nameForm").trigger("input");
-		//alert(name+"\t"+email);
-		//alert("Data: " + data + "\nStatus: " + status);
-		validateEmail();
-	});
+			validateInputElement($("#emailForm")[0]);
+			//$("#emailForm").trigger("input");
+			if (name != "") {
+				$("#nameForm").val(name);
+				validateInputElement($("#nameForm")[0]);
+			}
+			else {
+				$("#nameForm").removeClass("is-valid");
+				$("#nameForm").addClass("is-invalid");
+			}
+			//$("#nameForm").trigger("input");
+			//alert(name+"\t"+email);
+			//alert("Data: " + data + "\nStatus: " + status);
+			validateEmail();
+		});
 }
 var selectedEmployee;
 function selectPill(name)//pass null if you want to reset pills
@@ -266,94 +236,77 @@ function selectPill(name)//pass null if you want to reset pills
 	selectedEmployee = name;
 	var allPills = $(".workerSelect").children();
 	var thePill;
-	for(var i = 0; i < allPills.length; i++)
-	{
+	for (var i = 0; i < allPills.length; i++) {
 		var theName = allPills[i].getAttribute("employee");
 		markDeselectedPill(allPills[i], theName);
-		if(theName==name)
-		{
+		if (theName == name) {
 			thePill = allPills[i];
 		}
 	}
-	if(thePill)
-	{
+	if (thePill) {
 		markSelectedPill(thePill, name);
 		validateSaveButtons();
 	}
 }
-function fillPrintingFill(theName)
-{
+function fillPrintingFill(theName) {
 	$("#printingPill").css("background-color", config.employees[theName].color);
 	$("#printingPill").css("border-color", config.employees[theName].color);
 	$("#printingPill").text(config.employees[theName]["name"]);
-	if(config.employees[theName]["black-text"])
-	{
+	if (config.employees[theName]["black-text"]) {
 		$("#printingPill").addClass("text-dark");
 	}
-	else
-	{
+	else {
 		$("#printingPill").removeClass("text-dark");
 	}
 }
-function markSelectedPill(thePill, theName)
-{
+function markSelectedPill(thePill, theName) {
 	setRepaColor(config.employees[theName].color);
 	//$("#RepaPart").css("color", config.employees[theName].color);
-	var styling = 'background-color: '+config.employees[theName].color+'; '+'border-color: '+config.employees[theName].color+';';
+	var styling = 'background-color: ' + config.employees[theName].color + '; ' + 'border-color: ' + config.employees[theName].color + ';';
 	thePill.style = styling;
 	fillPrintingFill(theName);
-	if(config.employees[theName]["black-text"])
-	{
+	if (config.employees[theName]["black-text"]) {
 		thePill.className = 'badge rounded-pill badge-spaced text-dark';
 	}
-	else
-	{
+	else {
 		thePill.className = 'badge rounded-pill badge-spaced';
 	}
 }
-function markDeselectedPill(thePill, theName)
-{
+function markDeselectedPill(thePill, theName) {
 	thePill.className = 'badge rounded-pill badge-not-selected text-dark badge-spaced';
-	thePill.style = 'border-color: '+config.employees[theName].color+';';
+	thePill.style = 'border-color: ' + config.employees[theName].color + ';';
 }
 var phoneRequired = true;
-function validateSaveButtons()
-{
+function validateSaveButtons() {
 	var pillSelected = false;
 	var allPills = $(".workerSelect").children();
-	for(var i = 0; i < allPills.length; i++)
-	{
-		if(!allPills[i].className.includes("badge-not-selected"))
-		{
+	for (var i = 0; i < allPills.length; i++) {
+		if (!allPills[i].className.includes("badge-not-selected")) {
 			pillSelected = true;
 		}
 	}
 	//console.log($("#emailForm").val()!="");
-	var good = $("#problemSelector").is(":visible") && $("#nameForm").val()!="" && $("#warrantySelector").val()!="" && $("#serialForm").val()!="" && ($("#phoneForm").val().length==14 || !phoneRequired) && emailValid && pillSelected && ((neediPadSN && $("#iPadSN").val()!="") || !neediPadSN);
-	var makeGood = ($("#makeOtherBox").is(":visible") && $("#makeOtherBox").val()!="") || !$("#makeOtherBox").is(":visible");
-	var typeGood = ($("#typeOtherBox").is(":visible") && $("#typeOtherBox").val()!="") || !$("#typeOtherBox").is(":visible");
-	var warrantyGood = ($("#warrantyOtherText").is(":visible") && $("#warrantyOtherText").val()!="") || !$("#warrantyOtherText").is(":visible");
+	var good = $("#problemSelector").is(":visible") && $("#nameForm").val() != "" && $("#warrantySelector").val() != "" && $("#serialForm").val() != "" && ($("#phoneForm").val().length == 14 || !phoneRequired) && emailValid && pillSelected && ((neediPadSN && $("#iPadSN").val() != "") || !neediPadSN);
+	var makeGood = ($("#makeOtherBox").is(":visible") && $("#makeOtherBox").val() != "") || !$("#makeOtherBox").is(":visible");
+	var typeGood = ($("#typeOtherBox").is(":visible") && $("#typeOtherBox").val() != "") || !$("#typeOtherBox").is(":visible");
+	var warrantyGood = ($("#warrantyOtherText").is(":visible") && $("#warrantyOtherText").val() != "") || !$("#warrantyOtherText").is(":visible");
 	//console.log(hasSubType);
-	var subTypeGood = !hasSubType || (hasSubType && subType!="");
-	var problemGood = $("#problemSelector").val()!="Click here to enter problem";
+	var subTypeGood = !hasSubType || (hasSubType && subType != "");
+	var problemGood = $("#problemSelector").val() != "Click here to enter problem";
 	good = good && makeGood && typeGood && warrantyGood && subTypeGood && problemGood;
-	if(good)
-	{
+	if (good) {
 		getNextRefNum();
 		$(".saveButton").prop('disabled', false);
 	}
-	else
-	{
+	else {
 		$(".saveButton").prop('disabled', true);
 	}
-	var warning = ($("#problemSelector").val()=="" && $("#problemSelector").is(":visible")) || ($("#problemTextArea").val()=="" && $("#problemTextArea").is(":visible"));
-	if(warning)
-	{
+	var warning = ($("#problemSelector").val() == "" && $("#problemSelector").is(":visible")) || ($("#problemTextArea").val() == "" && $("#problemTextArea").is(":visible"));
+	if (warning) {
 		$(".saveButton").removeClass("btn-primary");
 		$(".saveButton").addClass("btn-warning");
 	}
-	else
-	{
+	else {
 		$(".saveButton").addClass("btn-primary");
 		$(".saveButton").removeClass("btn-warning");
 	}
@@ -361,14 +314,11 @@ function validateSaveButtons()
 var commonProblems;
 var selectedMake;
 var selectedMakeName;
-function makeSelect(name)
-{
+function makeSelect(name) {
 	var configBrand = "Other";
-	for(var brand in config.repairables)
-	{
+	for (var brand in config.repairables) {
 		//console.log(config.repairables[brand].commonName+"\t"+selectedMake);
-		if(config.repairables[brand].commonName==name)
-		{
+		if (config.repairables[brand].commonName == name) {
 			configBrand = brand;
 		}
 	}
@@ -379,26 +329,22 @@ function makeSelect(name)
 	//console.log(commonProblems);
 	var allMakes = $("#makeSelector").children();
 	var theMake;
-	for(var i = 0; i < allMakes.length; i++)
-	{
+	for (var i = 0; i < allMakes.length; i++) {
 		var theName = allMakes[i].innerHTML;
 		allMakes[i].className = 'btn btn-outline-success';
-		if(theName==name)
-		{
+		if (theName == name) {
 			theMake = allMakes[i];
 		}
 	}
 	$("#digitalFlagshipSwitch").hide();
-	if(theMake.innerHTML=='Other')
-	{
+	if (theMake.innerHTML == 'Other') {
 		$("#makeOtherBox").show();
 		showProblemSelector(["Click here to enter problem"]);
 		neediPadSN = false;
 		$("#iPadSNDiv").hide();
 		$("#passwordDiv").show();
 	}
-	else
-	{
+	else {
 		$("#makeOtherBox").hide();
 	}
 	selectedMake = theMake.innerHTML;
@@ -411,79 +357,66 @@ function makeSelect(name)
 var subType = "";
 var subTypePopover;
 var hasSubType = false;
-function subTypeSelect(index)
-{
+function subTypeSelect(index) {
 	var subTypeChildren = $("#subTypeButtonGroup").children();
-	for(var i = 0; i < subTypeChildren.length; i++)
-	{
-		$("#"+subTypeChildren[i].id).addClass("is-valid");
-		$("#"+subTypeChildren[i].id).removeClass("is-invalid");
+	for (var i = 0; i < subTypeChildren.length; i++) {
+		$("#" + subTypeChildren[i].id).addClass("is-valid");
+		$("#" + subTypeChildren[i].id).removeClass("is-invalid");
 	}
 	disposePopover();
-	subType = " "+indexToName[index];
+	subType = " " + indexToName[index];
 	validateSaveButtons();
 }
 var indexToName = [];
-function updateTypes()
-{
+function updateTypes() {
 	$("#typeSelectors").empty();
 	subType = "";
 	/*$("#typeSelectors").append(
 		"<span class=\"input-group-text\" id=\"basic-addon11\">Type</span>"
 	);*/
 	var theMake = "Other";
-	for(var brand in config.repairables)
-	{
+	for (var brand in config.repairables) {
 		//console.log(config.repairables[brand].commonName+"\t"+selectedMake);
-		if(config.repairables[brand].commonName==selectedMake)
-		{
+		if (config.repairables[brand].commonName == selectedMake) {
 			theMake = brand;
 		}
 	}
-	if(theMake=="Other")
-	{
+	if (theMake == "Other") {
 		$("#typeOtherBox").show();
 		//$("#typeSelectors").append(
-			//"<input id='typeOtherBox' type=\text\" class=\"form-control validable\" placeholder=\"Specify\" aria-label=\"Specify\">"
+		//"<input id='typeOtherBox' type=\text\" class=\"form-control validable\" placeholder=\"Specify\" aria-label=\"Specify\">"
 		//);
 	}
-	else
-	{
+	else {
 		var typeCounter = 0;
-		for(var device in config.repairables[theMake].devices)
-		{
+		for (var device in config.repairables[theMake].devices) {
 			var deviceProperties = config.repairables[theMake].devices[device];
-			if(device=="Other" && deviceProperties)
-			{
+			if (device == "Other" && deviceProperties) {
 				$("#typeSelectors").append(
 					"<button id=\"typeOther\" type=\"button\" class=\"btn btn-outline-danger\" onclick=\"typeSelect('typeOther')\">Other</button>"
 				);
 			}
-			else
-			{
-				if(deviceProperties.types)
-				{
+			else {
+				if (deviceProperties.types) {
 					var content = "<div class='input-group' id='subTypeButtonGroup'>";
-					for(var i = 0; i < deviceProperties.types.length; i++)
-					{
+					for (var i = 0; i < deviceProperties.types.length; i++) {
 						var subTypeName = deviceProperties.types[i];
 						indexToName[typeCounter] = subTypeName;
-						content += ("<button id='subtype"+subTypeName+"' type='button' class='btn btn-outline-danger' onclick='subTypeSelect("+typeCounter+")'>"+subTypeName+"</button>");
+						content += ("<button id='subtype" + subTypeName + "' type='button' class='btn btn-outline-danger' onclick='subTypeSelect(" + typeCounter + ")'>" + subTypeName + "</button>");
 						typeCounter++;//have to do this hacky way of talking about types because I cant " or '
 					}
 					content += "</div>";
 					$("#typeSelectors").append(
-						"<button id=\"type"+device+"\" type=\"button\" class=\"btn btn-outline-danger\" data-bs-container=\"body\" data-bs-toggle=\"popover\" data-bs-placement=\"bottom\" data-bs-content=\""+content+"\" onclick=\"typeSelect('type"+device+"')\">"+deviceProperties.commonName+"</button>"
+						"<button id=\"type" + device + "\" type=\"button\" class=\"btn btn-outline-danger\" data-bs-container=\"body\" data-bs-toggle=\"popover\" data-bs-placement=\"bottom\" data-bs-content=\"" + content + "\" onclick=\"typeSelect('type" + device + "')\">" + deviceProperties.commonName + "</button>"
 					);
-					$("#type"+device).on('hidden.bs.popover', function (arg) {
+					$("#type" + device).on('hidden.bs.popover', function (arg) {
 						//console.log(arg);
 						bootstrap.Popover.getInstance(arg.target).dispose();
 					});
 				}
-				else
-				{
+				else {
 					$("#typeSelectors").append(
-						"<button id=\"type"+device+"\" type=\"button\" class=\"btn btn-outline-danger\" onclick=\"typeSelect('type"+device+"')\">"+deviceProperties.commonName+"</button>"
+						"<button id=\"type" + device + "\" type=\"button\" class=\"btn btn-outline-danger\" onclick=\"typeSelect('type" + device + "')\">" + deviceProperties.commonName + "</button>"
 					);
 				}
 			}
@@ -493,16 +426,15 @@ function updateTypes()
 			""
 		);*/
 	}
-							//<button id="typeOtherMicrosoft" type="button" class="btn btn-outline-primary" onclick="typeSelect('typeOtherMicrosoft')">Other</button>
+	//<button id="typeOtherMicrosoft" type="button" class="btn btn-outline-primary" onclick="typeSelect('typeOtherMicrosoft')">Other</button>
 }
-function showProblemSelector(commonProblems)
-{
+function showProblemSelector(commonProblems) {
 	$("#problemSelector").addClass("is-invalid");
 	$("#problemSelector").removeClass("is-valid");
-	for(var i = 0;i < commonProblems.length; i++)//compile them all
+	for (var i = 0; i < commonProblems.length; i++)//compile them all
 	{
 		$("#problemSelector").append(
-			"<option value=\""+commonProblems[i]+"\" class=\"clickableProblem\">"+commonProblems[i]+"</option>"
+			"<option value=\"" + commonProblems[i] + "\" class=\"clickableProblem\">" + commonProblems[i] + "</option>"
 		);
 	}
 	$("#problemSelector").append(//add the ends
@@ -519,29 +451,24 @@ var selectedModelName;
 var findMyWarningRequired;
 var appleCareWarningRequired;
 var popoverDisposed = true;
-function disposePopover()
-{
-	if(!popoverDisposed)
-	{
+function disposePopover() {
+	if (!popoverDisposed) {
 		subTypePopover.hide();
 		popoverDisposed = true;
 	}
 }
-function typeSelect(id)
-{
+function typeSelect(id) {
 	subType = "";
 	$("#problemBox").hide();
 	//$("#problemSelectorRow").removeClass("hideWhenPrint");
 	var allTypes = $("#typeSelectors").find('button');
 	var theTypeElement;
-	for(var i = 0; i < allTypes.length; i++)
-	{
+	for (var i = 0; i < allTypes.length; i++) {
 		var theName = allTypes[i].id;
 		allTypes[i].className = 'btn btn-outline-success';
 		//var exampleEl = document.getElementById('example');
-		if(theName==id)
-		{
-			selectedModel = theName.replace("type","");
+		if (theName == id) {
+			selectedModel = theName.replace("type", "");
 			//console.log(selectedModel);
 			theTypeElement = allTypes[i];
 		}
@@ -549,12 +476,12 @@ function typeSelect(id)
 	disposePopover();
 	//console.log(theTypeElement);
 	hasSubType = false;
-	if(theTypeElement.getAttribute('data-bs-toggle')=="popover")//has popover stuff
+	if (theTypeElement.getAttribute('data-bs-toggle') == "popover")//has popover stuff
 	{
-		var popovertype = new bootstrap.Popover(theTypeElement,{
+		var popovertype = new bootstrap.Popover(theTypeElement, {
 			html: true,
 			sanitize: false,
-		 });
+		});
 		popovertype.update();
 		popovertype.show();
 		//console.log(subTypePopover);
@@ -563,268 +490,222 @@ function typeSelect(id)
 		hasSubType = true;
 	}
 	var theMake = "Other";
-	for(var brand in config.repairables)
-	{
+	for (var brand in config.repairables) {
 		//console.log(config.repairables[brand].commonName+"\t"+selectedMake);
-		if(config.repairables[brand].commonName==selectedMake)
-		{
+		if (config.repairables[brand].commonName == selectedMake) {
 			theMake = brand;
 		}
 	}
 	commonProblems = ["Click here to enter problem"];//all devices start with nothing selected
-	if(theMake!="Other")
-	{
+	if (theMake != "Other") {
 		var theType = "Other";
-		for(var type in config.repairables[theMake].devices)
-		{
-			if(config.repairables[theMake].devices[type].commonName==theTypeElement.innerHTML)
-			{
+		for (var type in config.repairables[theMake].devices) {
+			if (config.repairables[theMake].devices[type].commonName == theTypeElement.innerHTML) {
 				theType = type;
 			}
 		}
 		//console.log(config.repairables[theMake].devices[theType]);
-		findMyWarningRequired = config.repairables[theMake].devices[theType].findMy==true;
+		findMyWarningRequired = config.repairables[theMake].devices[theType].findMy == true;
 		selectedModelName = theTypeElement.innerHTML;
 		$("#problemSelector").empty();
-		if(config.repairables[theMake].commonProblems)//get common problems of brand
+		if (config.repairables[theMake].commonProblems)//get common problems of brand
 		{
-			for(var i = 0; i < config.repairables[theMake].commonProblems.length; i++)
-			{
+			for (var i = 0; i < config.repairables[theMake].commonProblems.length; i++) {
 				commonProblems.push(config.repairables[theMake].commonProblems[i]);
 			}
 		}
-		if(theType!="Other")
-		{
-			if(config.repairables[theMake].devices[theType].iPadSerialNumber)
-			{
+		if (theType != "Other") {
+			if (config.repairables[theMake].devices[theType].iPadSerialNumber) {
 				neediPadSN = true;
 				$("#iPadSNDiv").show();
 				$("#passwordDiv").hide();
 			}
-			else
-			{
+			else {
 				neediPadSN = false;
 				$("#iPadSNDiv").hide();
 				$("#passwordDiv").show();
 			}
-			if(config.repairables[theMake].devices[theType].commonProblems)//get common problems of type
+			if (config.repairables[theMake].devices[theType].commonProblems)//get common problems of type
 			{
-				for(var i = 0; i < config.repairables[theMake].devices[theType].commonProblems.length; i++)
-				{
+				for (var i = 0; i < config.repairables[theMake].devices[theType].commonProblems.length; i++) {
 					commonProblems.push(config.repairables[theMake].devices[theType].commonProblems[i]);
 				}
 			}
 			//console.log(commonProblems);
 			i++;
-			if(config.repairables[theMake].devices[theType].digitalFlagshipSwitch)
-			{
+			if (config.repairables[theMake].devices[theType].digitalFlagshipSwitch) {
 				$("#digitalFlagshipSwitch").show();
 			}
-			else
-			{
+			else {
 				$("#digitalFlagshipSwitch").hide();
 			}
 		}
-		else
-		{
+		else {
 			neediPadSN = false;
 			$("#iPadSNDiv").hide();
 			$("#passwordDiv").show();
 		}
 	}
-	else
-	{
+	else {
 		$("#digitalFlagshipSwitch").hide();
 		neediPadSN = false;
 		$("#iPadSNDiv").hide();
 		$("#passwordDiv").show();
 	}
 	showProblemSelector(commonProblems);
-	if(theTypeElement.innerHTML=='Other')
-	{
+	if (theTypeElement.innerHTML == 'Other') {
 		$("#typeOtherBox").show();
 	}
-	else
-	{
+	else {
 		$("#typeOtherBox").hide();
 	}
 	theTypeElement.className = 'btn btn-success';
 	validateSaveButtons();
 }
-function removeFirstProblem()
-{
+function removeFirstProblem() {
 	//console.log("\""+$("#problemSelector").find("option:first")+"\"");
-	if($("#problemSelector").find("option:first").text()=="Click here to enter problem")
-	{
+	if ($("#problemSelector").find("option:first").text() == "Click here to enter problem") {
 		$("#problemSelector").find("option:first").remove();
 	}
 	$("#problemSelector").addClass("is-valid");
 	$("#problemSelector").removeClass("is-invalid");
 }
-function removeFirstWarranty()
-{
+function removeFirstWarranty() {
 	//console.log("\""+$("#problemSelector").find("option:first")+"\"");
-	if($("#warrantySelector").find("option:first").text()=="")
-	{
+	if ($("#warrantySelector").find("option:first").text() == "") {
 		$("#warrantySelector").find("option:first").remove();
 	}
 }
-window.api.receive("fromMainSaveFail", (data) =>
-{
+window.api.receive("fromMainSaveFail", (data) => {
 	console.log(e);
 	$("#mainError").show();
 	$("#container").hide();
 	$("#mainError").text("There is an error with the backend json file, can't load");
 });
-window.api.receive("fromMainSaveSuc", (data) =>
-{
+window.api.receive("fromMainSaveSuc", (data) => {
 	//console.log(wasSavingDatePickedOld);
 	doneLoadingSaving();
-	if(addedWorkRefNum>0)
-	{
+	if (addedWorkRefNum > 0) {
 		backendData = JSON.parse(data);
 		showRepair(backendData["repairs"], addedWorkRefNum);
 		addedWorkRefNum = 0;
 	}
-	else if(wasSavingDatePickedOld)//hacky but should be fine???? news flash: it wasnt, but wait maybe it does and something else died
+	else if (wasSavingDatePickedOld)//hacky but should be fine???? news flash: it wasnt, but wait maybe it does and something else died
 	{
 		wasSavingDatePickedOld = false;
 	}
-	else
-	{
+	else {
 		setTimeout(backToMain, 400);
 	}
 });
-function backToMain()
-{
-	if(printing)
-	{
+function backToMain() {
+	if (printing) {
 		unMakeRepairPrintable();
 	}
 	loadAll();
-	$( "#mainTable" ).fadeIn();
-	$( "#repairForm" ).hide();
-	$( "#repairEdit" ).hide();
+	$("#mainTable").fadeIn();
+	$("#repairForm").hide();
+	$("#repairEdit").hide();
 	$("#startNewRepairButton").prop('disabled', true);
-	$( "#searchInput" ).select();
+	$("#searchInput").select();
 	addWorkToast.hide();
 	shownPanel = 0;
 	checkVersion();
 	disposePopover();
 }
 var appleCareWarningRequired;
-function showRelaText()
-{
+function showRelaText() {
 	var none = true;
-	if(appleCareWarningRequired && appleCareRequiresFee)
-	{
+	if (appleCareWarningRequired && appleCareRequiresFee) {
 		none = false;
 		$("#appleCareWarning").show();
 	}
-	else
-	{
+	else {
 		$("#appleCareWarning").hide();
 	}
-	if(findMyWarningRequired && appleFindMyWarning)
-	{
+	if (findMyWarningRequired && appleFindMyWarning) {
 		none = false;
 		$("#findWarning").show();
 	}
-	else
-	{
+	else {
 		$("#findWarning").hide();
 	}
-	if(none)
-	{
+	if (none) {
 		console.log("configuartion says disable findmy or applecare warning but we need one to show, failsafing....");
 		appleWarningEnabled = false;
 		saveRepairForm();
 	}
 }
 var printing = false;
-function saveRepairForm()
-{
-	appleCareWarningRequired = $("#warrantySelector").val()=="AppleCare+";
+function saveRepairForm() {
+	appleCareWarningRequired = $("#warrantySelector").val() == "AppleCare+";
 	//console.log(appleWarningEnabled+":"+appleCareWarningRequired+":"+findMyWarningRequired);
 	printing = false;
-	if(appleWarningEnabled && (appleCareWarningRequired || findMyWarningRequired))
-	{
+	if (appleWarningEnabled && (appleCareWarningRequired || findMyWarningRequired)) {
 		showRelaText();
 		$("#container").hide();
 		$("#repairFormWarning").show();
 		shownPanel = 4;
 	}
-	else
-	{
+	else {
 		okayWarning();
 	}
 }
-function saveAndPrintRepairForm()
-{
-	appleCareWarningRequired = $("#warrantySelector").val()=="AppleCare+";
+function saveAndPrintRepairForm() {
+	appleCareWarningRequired = $("#warrantySelector").val() == "AppleCare+";
 	printing = true;
-	if(appleWarningEnabled && (appleCareWarningRequired || findMyWarningRequired))
-	{
+	if (appleWarningEnabled && (appleCareWarningRequired || findMyWarningRequired)) {
 		showRelaText();
 		$("#container").hide();
 		$("#repairFormWarning").show();
 		shownPanel = 4;
 	}
-	else
-	{
+	else {
 		okayWarning();
 	}
 }
-function warningAck()
-{
+function warningAck() {
 	var acgood = (($("#ACAck").is(":checked") && appleCareWarningRequired) || !appleCareWarningRequired);
 	var fmgood = (($("#FMAck").is(":checked") && findMyWarningRequired) || !findMyWarningRequired);
 	var good = acgood && fmgood;
-	if(good)
-	{
+	if (good) {
 		okayWarning();
 	}
 }
-function sendSave()
-{
+function sendSave() {
 	//put the stuff in the stupid thing that i am mad about, so much wasted information
 	var isFlagship = $("#flexSwitchCheckCheckedFlagship").is(":checked") && $("#flexSwitchCheckCheckedFlagship").is(":visible");
 	var isDepartmental = $("#flexSwitchCheckCheckedDepartmental").is(":checked") && $("#flexSwitchCheckCheckedDepartmental").is(":visible");
 	var intakeText = $("#intakeTextArea").val();
-	var hasText = $("#intakeTextArea").val()!="";
-	intakeText += isFlagship ? (hasText ? ", " : "")+"Flagship Device" : "";
-	hasText = intakeText!="";
-	intakeText += isDepartmental ? (hasText ? ", " : "")+"Departmental Device" : "";
+	var hasText = $("#intakeTextArea").val() != "";
+	intakeText += isFlagship ? (hasText ? ", " : "") + "Flagship Device" : "";
+	hasText = intakeText != "";
+	intakeText += isDepartmental ? (hasText ? ", " : "") + "Departmental Device" : "";
 	$("#intakeTextArea").val(intakeText);
 
 	startLoadingSaving("Saving...");
-	window.api.send("toMain", "s"+jsonifyTheRepairForm());
-	if(printing)
-	{
+	window.api.send("toMain", "s" + jsonifyTheRepairForm());
+	if (printing) {
 		makeRepairPrintable();
 		window.print();
 	}
 }
 var saveNow = false;
-function okayWarning()
-{
+function okayWarning() {
 	$("#container").show();
 	$("#repairFormWarning").hide();
 	$(".saveButton").prop('disabled', true);
 	shownPanel = 2;
-	if(referenceNumber==-1)
-	{
+	if (referenceNumber == -1) {
 		getNextRefNum();
 		saveNow = true;
 	}
-	else
-	{
+	else {
 		sendSave();
 	}
 }
 var referenceNumber = -1;
-function jsonifyTheRepairForm()
-{
+function jsonifyTheRepairForm() {
 	var json = JSON.parse("{}");
 	json["refNum"] = referenceNumber;
 	//json["employee"] = selectedEmployee; taken care of in first work entry
@@ -840,138 +721,116 @@ function jsonifyTheRepairForm()
 	json["phone"] = $("#phoneForm").val();
 	json["purchaseDate"] = $("#purchForm").val();
 	json["color"] = "default";
-	if(neediPadSN && $("#iPadSN").val()!="")
-	{
+	if (neediPadSN && $("#iPadSN").val() != "") {
 		json["iPadSN"] = $("#iPadSN").val();
 	}
-	else
-	{
+	else {
 		json["iPadSN"] = "";
 	}
 	//json["lastTouched"] = new Date().toJSON();
 	var problem = $("#problemSelector").val();
-	if(problem=="Other" || problem=="Multiple")
-	{
+	if (problem == "Other" || problem == "Multiple") {
 		json["problem"] = $("#problemTextArea").val();
 	}
-	else
-	{
+	else {
 		json["problem"] = problem;
 	}
 	var warranty = $("#warrantySelector").val();
-	if(warranty=="Other")
-	{
+	if (warranty == "Other") {
 		json["warranty"] = $("#warrantyOtherText").val();
 	}
-	else
-	{
+	else {
 		json["warranty"] = warranty;
 	}
-	if(selectedMakeName=="Other")
-	{
+	if (selectedMakeName == "Other") {
 		json["make"] = $("#makeOtherBox").val();
 	}
-	else
-	{
+	else {
 		json["make"] = selectedMakeName;
 	}
-	if(selectedModelName=="Other" || selectedMakeName=="Other")
-	{
+	if (selectedModelName == "Other" || selectedMakeName == "Other") {
 		json["model"] = $("#typeOtherBox").val();
 	}
-	else
-	{
-		json["model"] = selectedModelName+subType;
+	else {
+		json["model"] = selectedModelName + subType;
 	}
 	json["status"] = "Created Repair Form";
 	var date = new Date();
-	json["logs"] = [{"who": selectedEmployee, "what": "Created the repair", "when": date.toJSON()}];
+	json["logs"] = [{ "who": selectedEmployee, "what": "Created the repair", "when": date.toJSON() }];
 	//date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-	json["workCompleted"] = [{"who": selectedEmployee, "when": date.toJSON(), "what": "Created Repair Form", "note": ""}];
+	json["workCompleted"] = [{ "who": selectedEmployee, "when": date.toJSON(), "what": "Created Repair Form", "note": "" }];
 
-	if(address)
-	{
+	if (address) {
 		json["address"] = address;
 	}
 
 	return JSON.stringify(json);
 }
-window.api.receive("fromMainRefNum", (data) =>
-{
+window.api.receive("fromMainRefNum", (data) => {
 	doneLoadingSaving();
-	$("#RefNumLabel").text("Ref. Number: "+data);
+	$("#RefNumLabel").text("Ref. Number: " + data);
 	referenceNumber = data;
 	$("#repairFormBack").prop("disabled", false);
-	if(saveNow)
-	{
+	if (saveNow) {
 		sendSave();
 	}
 	//console.log('Received ${'+data+'} from main process');
 });
 var gettingNextRefNum = false;
-function getNextRefNum()
-{
-	if(referenceNumber==-1 && !gettingNextRefNum)
-	{
+function getNextRefNum() {
+	if (referenceNumber == -1 && !gettingNextRefNum) {
 		gettingNextRefNum = true;
 		$("#RefNumLabel").text("Ref. Number: ???");
 		startLoadingSaving("Getting next reference number...");
 		window.api.send("toMain", "incRefNum");
 	}
 }
-function makeRepairPrintable()
-{
+function makeRepairPrintable() {
 	genbar();
 	$("#intakeTextArea").css("width", "587px");
 	$("#intakeTextArea").css("flex", "initial");
 	$("#intakeTextArea").css("height", "auto");
-	$("#intakeTextArea").css("height", $("#intakeTextArea").prop("scrollHeight")+"px");//resize intake, resize problem
+	$("#intakeTextArea").css("height", $("#intakeTextArea").prop("scrollHeight") + "px");//resize intake, resize problem
 	$("#problemTextArea").css("width", "587px");
 	$("#problemTextArea").css("flex", "initial");
 	$("#problemTextArea").css("height", "auto");
-	$("#problemTextArea").css("height", $("#problemTextArea").prop("scrollHeight")+"px");
+	$("#problemTextArea").css("height", $("#problemTextArea").prop("scrollHeight") + "px");
 	$("#warrantySelector").hide();
-	if($("#warrantySelector").val()!="Other" && !dontOverrideWarranty)
-	{
+	if ($("#warrantySelector").val() != "Other" && !dontOverrideWarranty) {
 		//console.log("overriding");
 		$("#warrantyOtherText").val($("#warrantySelector").val());
 	}
-	var needToOverrideProblem = $("#problemSelector").find("option:selected").attr("showproblem")!="true";
-	if(needToOverrideProblem && !dontOverrideProblem)
-	{
+	var needToOverrideProblem = $("#problemSelector").find("option:selected").attr("showproblem") != "true";
+	if (needToOverrideProblem && !dontOverrideProblem) {
 		$("#problemTextArea").val($("#problemSelector").val());
 	}
-	$(".is-invalid").each(function(){
+	$(".is-invalid").each(function () {
 		$(this).addClass("is-invalid-printed");
 		$(this).removeClass("is-invalid");
 	});
-	$(".is-valid").each(function(){
+	$(".is-valid").each(function () {
 		$(this).addClass("is-valid-printed");
 		$(this).removeClass("is-valid");
 	});
 	$("#phoneForm").prop("placeholder", "");
 	$("#allTheMakes").hide();
-	if(selectedMakeName=="Other")
-	{
+	if (selectedMakeName == "Other") {
 		$("#printMake").val($("#makeOtherBox").val());
 	}
-	else
-	{
+	else {
 		$("#printMake").val(selectedMakeName);
 	}
 	$("#allTheModels").hide();
-	if(selectedModelName=="Other" || selectedMakeName=="Other")
-	{
+	if (selectedModelName == "Other" || selectedMakeName == "Other") {
 		$("#printModel").val($("#typeOtherBox").val());
 	}
-	else
-	{
-		$("#printModel").val(selectedModelName+subType);
+	else {
+		$("#printModel").val(selectedModelName + subType);
 	}
-	$(".hideWhenPrint").each(function(){
+	$(".hideWhenPrint").each(function () {
 		$(this).hide();
 	});
-	$(".showWhenPrint").each(function(){
+	$(".showWhenPrint").each(function () {
 		$(this).show();
 	});
 	$("#passwordForm").prop('disabled', false);
@@ -980,18 +839,16 @@ function makeRepairPrintable()
 	$("#techLogo").css("height", "80px");
 	$("#dateFormPrint").val(new Date($("#dateForm").val()).toDateString());
 	const d = new Date();
-	var dateTimeText = String(d.getMonth()+1).padStart(2, '0')+"/"+String(d.getDate()).padStart(2, '0')+"/"+d.getFullYear();
+	var dateTimeText = String(d.getMonth() + 1).padStart(2, '0') + "/" + String(d.getDate()).padStart(2, '0') + "/" + d.getFullYear();
 	var hours = d.getHours();
 	var ampmindicator = "am";
-	if(hours>11)
-	{
+	if (hours > 11) {
 		ampmindicator = "pm";
 	}
-	if(hours>12)
-	{
+	if (hours > 12) {
 		hours -= 12;
 	}
-	dateTimeText += " "+hours+":"+String(d.getMinutes()).padStart(2, '0')+" "+ampmindicator;
+	dateTimeText += " " + hours + ":" + String(d.getMinutes()).padStart(2, '0') + " " + ampmindicator;
 	$("#dateTimeLabel").text(dateTimeText);
 	$("#nameLabelBottom").text($("#nameForm").val());
 	$("#versionLabel").css("margin-top", "77px");
@@ -999,27 +856,25 @@ function makeRepairPrintable()
 	$("#versionLabel").css("margin-left", "315px");
 
 	var intakeText = $("#intakeTextArea").val();
-	var hasText = $("#intakeTextArea").val().trim()!="";
+	var hasText = $("#intakeTextArea").val().trim() != "";
 	//throw the address information into intake text as well
-	if(address)
-	{
-		intakeText += (hasText ? ", " : "") + address["address1"]+" "+address["address2"]+", "+address["city"]+", "+address["state"]+" "+address["zip"];
+	if (address) {
+		intakeText += (hasText ? ", " : "") + address["address1"] + " " + address["address2"] + ", " + address["city"] + ", " + address["state"] + " " + address["zip"];
 	}
 	$("#intakeTextArea").val(intakeText);
 	//$("#loggedInAsLabel").text("v"+version);
 }
-function unMakeRepairPrintable()
-{
+function unMakeRepairPrintable() {
 	$("#intakeTextArea").css("width", "initial");
 	$("#intakeTextArea").css("flex", "");
 	$("#problemTextArea").css("width", "initial");
 	$("#problemTextArea").css("flex", "1 1 auto");
 	$("#warrantySelector").show();
-	$(".is-invalid").each(function(){
+	$(".is-invalid").each(function () {
 		$(this).addClass("is-invalid-printed");
 		$(this).removeClass("is-invalid");
 	});
-	$(".is-valid").each(function(){
+	$(".is-valid").each(function () {
 		$(this).addClass("is-valid-printed");
 		$(this).removeClass("is-valid");
 	});
@@ -1027,10 +882,10 @@ function unMakeRepairPrintable()
 	$("#allTheMakes").show();
 	$("#allTheModels").show();
 	$("#intakeTextArea").val("");
-	$(".hideWhenPrint").each(function(){
+	$(".hideWhenPrint").each(function () {
 		$(this).show();
 	});
-	$(".showWhenPrint").each(function(){
+	$(".showWhenPrint").each(function () {
 		$(this).hide();
 	});
 	$("#passwordForm").prop('disabled', true);
@@ -1042,40 +897,41 @@ function unMakeRepairPrintable()
 	$("#versionLabel").css("margin-left", "425px");
 	//$("#loggedInAsLabel").text("");
 }
-function genbar()
-{
+function genbar() {
 	JsBarcode("#barcode", $("#serialForm").val(), {
-	  width: 1,
-	  height: 20,
-	  displayValue: false,
-	  fontSize: 10
+		width: 1,
+		height: 20,
+		displayValue: false,
+		fontSize: 10
 	});
 	$("#barcode").css("float", "right");
 }
 var oldRepairOpenModal;
 var oldRepairRefNum;
 var wasSavingDatePickedOld;
-function cancelRepairForm()
-{
+function cancelRepairForm() {
 	blockProgress = false;
 	oldRepairOpenModal.hide();
 	backToMain();
 }
-function closeOldRepair()
-{
+function clearSerialOldRepair() {
+	$("#serialForm").val("");
+	blockProgress = false;
+	oldRepairOpenModal.hide();
+	validateInputElement(document.getElementById("serialForm"));
+}
+function closeOldRepair() {
 	blockProgress = false;
 	oldRepairOpenModal.hide();
 	currentRepairJSON = backendData["repairs"][oldRepairRefNum];
 	wasSavingDatePickedOld = true;
 	editDatePickedUp();
 }
-function checkSerialClosed()
-{
+function checkSerialClosed() {
 	var serial = $("#serialForm").val();
-	console.log("checking: "+serial);
+	console.log("checking: " + serial);
 	var otherOpen = checkSNForOtherOpen(serial);
-	if(otherOpen)
-	{
+	if (otherOpen) {
 		unfreezeForm();//for some reason if it is
 		oldRepairRefNum = otherOpen;
 		oldRepairOpenModal = new bootstrap.Modal($('#oldRepairOpenModal'));
@@ -1083,15 +939,12 @@ function checkSerialClosed()
 		blockProgress = true;
 	}
 }
-function checkSNForOtherOpen(serial)
-{
-	for(var refNum in backendData["repairs"])
-	{
+function checkSNForOtherOpen(serial) {
+	for (var refNum in backendData["repairs"]) {
 		//console.log(backendData["repairs"][refNum]);
 		var checkRepair = backendData["repairs"][refNum];
 		var checkSN = checkRepair["serial"];
-		if(checkSN==serial && !checkRepair["datePicked"])
-		{
+		if (checkSN == serial && !checkRepair["datePicked"]) {
 			return refNum;
 		}
 	}
@@ -1100,15 +953,14 @@ function checkSNForOtherOpen(serial)
 
 
 // $('#addAddressModal').on('show.bs.modal', function () {
-	
+
 // });
-function clearAddressForm()
-{
- 	$("#addressForm1").val(""); 
-	$("#addressForm2").val(""); 
-	$("#cityForm").val(""); 
-	$("#stateForm").val(""); 
-	$("#zipForm").val(""); 
+function clearAddressForm() {
+	$("#addressForm1").val("");
+	$("#addressForm2").val("");
+	$("#cityForm").val("");
+	$("#stateForm").val("");
+	$("#zipForm").val("");
 }
 
 
@@ -1120,44 +972,44 @@ function clearAddressForm()
 
 //code from https://stackoverflow.com/questions/30058927/format-a-phone-number-as-a-user-types-using-pure-javascript, modified by me
 const isNumericInput = (event) => {
-    const key = event.keyCode;
-    return ((key >= 48 && key <= 57) || // Allow number line
-        (key >= 96 && key <= 105) // Allow number pad
-    );
+	const key = event.keyCode;
+	return ((key >= 48 && key <= 57) || // Allow number line
+		(key >= 96 && key <= 105) // Allow number pad
+	);
 };
 
 const isModifierKey = (event) => {
-    const key = event.keyCode;
-    return (event.shiftKey === true || key === 35 || key === 36) || // Allow Shift, Home, End
-        (key === 8 || key === 9 || key === 13 || key === 46) || // Allow Backspace, Tab, Enter, Delete
-        (key > 36 && key < 41) || // Allow left, up, right, down
-        (
-            // Allow Ctrl/Command + A,C,V,X,Z
-            (event.ctrlKey === true || event.metaKey === true) &&
-            (key === 65 || key === 67 || key === 86 || key === 88 || key === 90)
-        )
+	const key = event.keyCode;
+	return (event.shiftKey === true || key === 35 || key === 36) || // Allow Shift, Home, End
+		(key === 8 || key === 9 || key === 13 || key === 46) || // Allow Backspace, Tab, Enter, Delete
+		(key > 36 && key < 41) || // Allow left, up, right, down
+		(
+			// Allow Ctrl/Command + A,C,V,X,Z
+			(event.ctrlKey === true || event.metaKey === true) &&
+			(key === 65 || key === 67 || key === 86 || key === 88 || key === 90)
+		)
 };
 
 const enforceFormat = (event) => {
-    // Input must be of a valid number format or a modifier key, and not longer than ten digits
-    if(!isNumericInput(event) && !isModifierKey(event)){
-        event.preventDefault();
-    }
+	// Input must be of a valid number format or a modifier key, and not longer than ten digits
+	if (!isNumericInput(event) && !isModifierKey(event)) {
+		event.preventDefault();
+	}
 };
 
 const formatToPhone = (event) => {
-    if(isModifierKey(event)) {return;}
+	if (isModifierKey(event)) { return; }
 
-    const input = event.target.value.replace(/\D/g,''); // First ten digits of input only
-    const areaCode = input.substring(0,3);
-    const middle = input.substring(3,6);
-    const last = input.substring(6);
+	const input = event.target.value.replace(/\D/g, ''); // First ten digits of input only
+	const areaCode = input.substring(0, 3);
+	const middle = input.substring(3, 6);
+	const last = input.substring(6);
 
-    if(input.length > 6){event.target.value = '('+areaCode+') '+middle +'-'+last;}
-    else if(input.length > 3){event.target.value = '('+areaCode+') '+middle;}
-    else if(input.length > 0){event.target.value = '('+areaCode;}
+	if (input.length > 6) { event.target.value = '(' + areaCode + ') ' + middle + '-' + last; }
+	else if (input.length > 3) { event.target.value = '(' + areaCode + ') ' + middle; }
+	else if (input.length > 0) { event.target.value = '(' + areaCode; }
 	validatePhoneElement();
 };
 const upperSerial = (event) => {
-    event.target.value = event.target.value.toUpperCase();
+	event.target.value = event.target.value.toUpperCase();
 };

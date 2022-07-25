@@ -1,5 +1,5 @@
 const electron = require('electron')
-const {app, BrowserWindow, ipcMain, Menu, MenuItem} = electron;
+const { app, BrowserWindow, ipcMain, Menu, MenuItem } = electron;
 const { spawn } = require('child_process');
 const path = require("path");
 const fs = require("fs");
@@ -8,16 +8,15 @@ var win;
 
 
 var remotePath = "K:/BF/PRSM/TechHub/RepaDex";
-// var remotePath = "C:/Users/Maxwell/github/Rapadex";
+// var remotePath = "C:/Users/Maxwell/Documents/GitHub/Rapadex";
 var iPad = fs.existsSync("C:/IAmiPad");
 
-if(iPad)
-{
+if (iPad) {
 	remotePath = remotePath.replace("K:/BF/PRSM", "K:");
 }
-var configPath = remotePath+"/configuration.json";
-var configPathLocalFolder = (process.env.APPDATA || process.env.HOME)+"/repadex/";
-var configPathLocal = configPathLocalFolder+"configuration.json";
+var configPath = remotePath + "/configuration.json";
+var configPathLocalFolder = (process.env.APPDATA || process.env.HOME) + "/repadex/";
+var configPathLocal = configPathLocalFolder + "configuration.json";
 var backendPath = "";//JSON.parse(configTxt).backendPath;
 var lockedPath = "";//JSON.parse(configTxt).lockFilePath;
 var versionFile = "";
@@ -32,8 +31,7 @@ var savingTimer;
 var loadingTimer;
 
 
-function sendBack(key, val)
-{
+function sendBack(key, val) {
 	try {
 		win.webContents.send(key, val);
 	} catch (e) {
@@ -41,8 +39,7 @@ function sendBack(key, val)
 	}
 }
 
-function lockFile()
-{
+function lockFile() {
 	fs.access(lockedPath, fs.F_OK, (err) => {
 		//console.log("try");
 		if (err) {
@@ -57,29 +54,24 @@ function lockFile()
 		}
 		sendBack("fromMainConnected", "");
 		//file exists now
-		if(saving)
-		{
-			fs.readFile(lockedPath, 'utf8' , (err, txt) => {
+		if (saving) {
+			fs.readFile(lockedPath, 'utf8', (err, txt) => {
 				if (err) {
 					setTimeout(lockFile, 5000);//try again in 5
 					console.error(err);
 					return;
 				}
-				if(txt!="")
-				{
-					if(id!=txt)
-					{
+				if (txt != "") {
+					if (id != txt) {
 						sendBack("fromMainWaiting", "");
 						console.log("waiting on lock");
 						goodToSave = false;
 						setTimeout(lockFile, 2000);
 						return;
 					}
-					else
-					{
+					else {
 						goodToSave = true;
-						if(doneSaving)
-						{
+						if (doneSaving) {
 							fs.writeFile(lockedPath, "", err => {	//unlock it to us
 								if (err) {
 									setTimeout(lockFile, 2000);//try again in 2
@@ -90,15 +82,13 @@ function lockFile()
 								saving = false;
 								console.log("unlocked");
 								setTimeout(lockFile, 1000);
-								if(closeAfterSave)
-								{
+								if (closeAfterSave) {
 									win.close();
 								}
 								return;
 							});
 						}
-						else
-						{
+						else {
 							setTimeout(lockFile, 1000);
 							return;
 						}
@@ -119,18 +109,15 @@ function lockFile()
 				}
 			});
 		}
-		else
-		{
+		else {
 			setTimeout(lockFile, 100);
 			return;
 		}
 	});
 }
-function makeDescriptors(repair)
-{
+function makeDescriptors(repair) {
 	var descriptors = [];
-	if(repair["phone"])
-	{
+	if (repair["phone"]) {
 		descriptors.push(repair["phone"].toLowerCase());
 	}
 	descriptors.push(repair["email"].toLowerCase());
@@ -138,28 +125,23 @@ function makeDescriptors(repair)
 	descriptors.push(repair["name"].toLowerCase());
 	descriptors.push(repair["model"].toLowerCase());
 	descriptors.push(repair["make"].toLowerCase());
-	descriptors.push((repair["refNum"]+"").toLowerCase());//convert to string
-	if(repair["iPadSN"])
-	{
+	descriptors.push((repair["refNum"] + "").toLowerCase());//convert to string
+	if (repair["iPadSN"]) {
 		descriptors.push(repair["iPadSN"].toLowerCase());
 	}
 	return descriptors;
 }
-function saveRepairPart()
-{
+function saveRepairPart() {
 	//console.log("check");
-	if(goodToSave)
-	{
+	if (goodToSave) {
 		clearInterval(savingTimer);
-		try
-		{
+		try {
 			var txt = fs.readFileSync(backendPath, 'utf8');
 			//console.log(repairJSON);
 			var jsonData = JSON.parse(txt);
 			var jsonRepair = JSON.parse(repairJSON);
 			jsonRepair["descriptors"] = makeDescriptors(jsonRepair);//just easier to do it "backend"
-			if(!jsonData["repairs"])
-			{
+			if (!jsonData["repairs"]) {
 				jsonData["repairs"] = {};
 			}
 			jsonData["repairs"][jsonRepair.refNum] = jsonRepair;
@@ -168,8 +150,7 @@ function saveRepairPart()
 			doneSaving = true;
 			sendBack("fromMainSaveSuc", stringified);
 		}
-		catch(err)
-		{
+		catch (err) {
 			//savingTimer = setInterval(saveRepairPart, 2000);
 			console.log(err);
 			doneSaving = true;
@@ -177,8 +158,7 @@ function saveRepairPart()
 		}
 	}
 }
-function saveRepair(inJSON)
-{
+function saveRepair(inJSON) {
 	console.log("saving repair");
 	saving = true;
 	doneSaving = false;
@@ -187,22 +167,18 @@ function saveRepair(inJSON)
 }
 
 var loadMessageName;
-function loadRepairPart()
-{
+function loadRepairPart() {
 	//console.log("check");
-	if(goodToSave)
-	{
+	if (goodToSave) {
 		clearInterval(loadingTimer);
-		try
-		{
+		try {
 			var txt = fs.readFileSync(backendPath, 'utf8');
 			//console.log(repairJSON);
 			//repairJSONIn = JSON.parse(txt);
 			doneSaving = true;
 			sendBack(loadMessageName, txt);
 		}
-		catch(err)
-		{
+		catch (err) {
 			//loadingTimer = setInterval(loadRepairPart, 2000);
 			console.log(err);
 			doneSaving = true;
@@ -210,41 +186,34 @@ function loadRepairPart()
 		}
 	}
 }
-function loadRepairs()
-{
+function loadRepairs() {
 	console.log("loading repairs");
 	saving = true;
 	doneSaving = false;
 	loadingTimer = setInterval(loadRepairPart, 1000);
 }
 
-function incRefPart()
-{
+function incRefPart() {
 	//console.log("check");
-	if(goodToSave)
-	{
+	if (goodToSave) {
 		clearInterval(loadingTimer);
-		try
-		{
+		try {
 			var txt = fs.readFileSync(backendPath, 'utf8');
 			//console.log(repairJSON);
 			var jsonData = JSON.parse(txt);
 			var refNum;
-			if(jsonData.nextRefNumber)
-			{
+			if (jsonData.nextRefNumber) {
 				refNum = jsonData.nextRefNumber;
 			}
-			else
-			{
+			else {
 				refNum = 1;
 			}
-			jsonData.nextRefNumber = refNum+1;
+			jsonData.nextRefNumber = refNum + 1;
 			fs.writeFileSync(backendPath, JSON.stringify(jsonData));
 			doneSaving = true;
 			sendBack("fromMainRefNum", refNum);
 		}
-		catch(err)
-		{
+		catch (err) {
 			//loadingTimer = setInterval(loadRepairPart, 2000);
 			console.log(err);
 			doneSaving = true;
@@ -253,54 +222,47 @@ function incRefPart()
 	}
 }
 var closeAfterSave = false;
-function incRefNum()
-{
+function incRefNum() {
 	console.log("inc ref num");
 	saving = true;
 	doneSaving = false;
 	loadingTimer = setInterval(incRefPart, 1000);
 }
 var errorWin;
-function displayError(errorText)
-{
-	if(!errorWin)
-	{
+function displayError(errorText) {
+	if (!errorWin) {
 		errorWin = new BrowserWindow(
-		{
-			minWidth: 1220,
-			width: 1600,
-			height: 900,
-			autoHideMenuBar: true,
-			icon: __dirname + '/RepaDexFin.ico',
-			webPreferences: {
-				nodeIntegration: false, // is default value after Electron v5
-				contextIsolation: true, // protect against prototype pollution
-				enableRemoteModule: false, // turn off remote
-			}
-		});
+			{
+				minWidth: 1220,
+				width: 1600,
+				height: 900,
+				autoHideMenuBar: true,
+				icon: __dirname + '/RepaDexFin.ico',
+				webPreferences: {
+					nodeIntegration: false, // is default value after Electron v5
+					contextIsolation: true, // protect against prototype pollution
+					enableRemoteModule: false, // turn off remote
+				}
+			});
 		errorWin.loadFile("error.html");
 	}
 	setTimeout(copyConfigAndStart, 1000);
 }
-function cancelError()
-{
-	if(errorWin)
-	{
+function cancelError() {
+	if (errorWin) {
 		errorWin.close();
 	}
 }
-function copyConfigAndStart()
-{
+function copyConfigAndStart() {
 	fs.copyFile(configPath, configPathLocal, (err) => {
-		if (err){ displayError(); return;}//throw err};
+		if (err) { displayError(); return; }//throw err};
 		cancelError();
 		// console.log('File was copied to destination');
 		var txt = fs.readFileSync(configPathLocal, 'utf8');
 		backendPath = JSON.parse(txt).backendPath;
 		lockedPath = JSON.parse(txt).lockFilePath;
 		versionFile = JSON.parse(txt).versionFilePath;
-		if(iPad)
-		{
+		if (iPad) {
 			backendPath = backendPath.replace("K:/BF/PRSM", "K:");
 			lockedPath = lockedPath.replace("K:/BF/PRSM", "K:");
 			versionFile = versionFile.replace("K:/BF/PRSM", "K:");
@@ -311,87 +273,71 @@ function copyConfigAndStart()
 app.whenReady().then(() => {
 	copyConfigAndStart();
 });
-function checkAndSendRemoteVersion()
-{
-	fs.readFile(versionFile, 'utf8' , (err, txt) => {
-		if(err)
-		{
-			console.log("version read error: "+err);
+function checkAndSendRemoteVersion() {
+	fs.readFile(versionFile, 'utf8', (err, txt) => {
+		if (err) {
+			console.log("version read error: " + err);
 		}
-		else
-		{
+		else {
 			sendBack("fromMainRemoteVersion", txt);
 		}
 	});
 }
-ipcMain.on("toMain", (event, args) =>
-{
-	if(args=="checkVersion")
-	{
+ipcMain.on("toMain", (event, args) => {
+	if (args == "checkVersion") {
 		checkAndSendRemoteVersion();
 	}
-	else if(args.substr(0,4)=="open")
-	{
+	else if (args.substr(0, 4) == "open") {
 		var url = args.substr(4);
 		electron.shell.openExternal(url);
 	}
-	else
-	{
-		if(!doneSaving && saving)
-		{
-			console.log("ignoring "+args+" because we are already loading something...");
+	else {
+		if (!doneSaving && saving) {
+			console.log("ignoring " + args + " because we are already loading something...");
 			return;
 		}
-		if(args=="configPls")
-		{
+		if (args == "configPls") {
 			var txt = fs.readFileSync(configPathLocal, 'utf8');
 			sendBack("fromMainConfig", txt);
 		}
-		else if(args=="loadAll")
-		{
+		else if (args == "loadAll") {
 			loadMessageName = "fromMainLoadAll";
 			loadRepairs();
 			//var txt = fs.readFileSync(backendPath, 'utf8');
 			//jsonData = JSON.parse(txt);
 		}
-		else if(args=="updateRepairs")
-		{
+		else if (args == "updateRepairs") {
 			loadMessageName = "fromMainUpdateRepairs";
 			loadRepairs();
 		}
-		else if(args=="incRefNum")
-		{
+		else if (args == "incRefNum") {
 			incRefNum();
 		}
-		else if(args=="update")
-		{
+		else if (args == "update") {
 			update();
 		}
-		else if(args.substr(0,1)=="s")
-		{
+		else if (args.substr(0, 1) == "s") {
 			saveRepair(args.substr(1));
 		}
 	}
 });
-function createWindow ()
-{
+function createWindow() {
 	win = new BrowserWindow(
-	{
-		minWidth: 1220,
-		width: 1600,
-		height: 900,
-		autoHideMenuBar: true,
-		icon: __dirname + '/RepaDexFin.ico',
-		webPreferences: {
-			nodeIntegration: false, // is default value after Electron v5
-			contextIsolation: true, // protect against prototype pollution
-			enableRemoteModule: false, // turn off remote
-			preload: path.join(__dirname, "preload.js") // use a preload script
-		}
-	});
-	win.on('close', (e) => {
-		if(saving)
 		{
+			minWidth: 1220,
+			width: 1600,
+			height: 900,
+			autoHideMenuBar: true,
+			icon: __dirname + '/RepaDexFin.ico',
+			webPreferences: {
+				nodeIntegration: false, // is default value after Electron v5
+				contextIsolation: true, // protect against prototype pollution
+				enableRemoteModule: false, // turn off remote
+				preload: path.join(__dirname, "preload.js") // use a preload script
+			}
+		});
+	win.on('close', (e) => {
+		if (saving) {
 			closeAfterSave = true;
 			e.preventDefault();
 		}
@@ -399,47 +345,44 @@ function createWindow ()
 
 	win.webContents.on('context-menu', (event, params) => {
 		//console.log(params);
-	  const menu = new Menu();
+		const menu = new Menu();
 
-	  // Add each spelling suggestion
-	  for (const suggestion of params.dictionarySuggestions) {
-	    menu.append(new MenuItem({
-	      label: suggestion,
-	      click: () => win.webContents.replaceMisspelling(suggestion)
-	    }));
-	  }
+		// Add each spelling suggestion
+		for (const suggestion of params.dictionarySuggestions) {
+			menu.append(new MenuItem({
+				label: suggestion,
+				click: () => win.webContents.replaceMisspelling(suggestion)
+			}));
+		}
 
-	  // Allow users to add the misspelled word to the dictionary
-	  /*if (params.misspelledWord) {
-	    menu.append(
-	      new MenuItem({
-	        label: 'Add to dictionary',
-	        click: () => win.webContents.session.addWordToSpellCheckerDictionary(params.misspelledWord)
-	      })
-	    )
-	  }*/
+		// Allow users to add the misspelled word to the dictionary
+		/*if (params.misspelledWord) {
+		  menu.append(
+			new MenuItem({
+			  label: 'Add to dictionary',
+			  click: () => win.webContents.session.addWordToSpellCheckerDictionary(params.misspelledWord)
+			})
+		  )
+		}*/
 
-	  menu.popup();
+		menu.popup();
 	});
-	if(iPad)
-	{
+	if (iPad) {
 		win.loadFile('iPads.html');
 		setInterval(() => {
-			win.setPosition(1920,0);
+			win.setPosition(1920, 0);
 			win.setFullScreen(true);
 		}, 5000);
 	}
-	else
-	{
+	else {
 		win.loadFile('index.html');
 	}
 }
 var totalFilesToDelete = 0;
 var filesDeleted = 0;
-function deleteMyself()
-{
+function deleteMyself() {
 	console.log("deleteMyself");
-	var directory = configPathLocalFolder+"/resources/app";
+	var directory = configPathLocalFolder + "/resources/app";
 	fs.readdir(directory, (err, files) => {
 		if (err) throw err;
 		totalFilesToDelete = files.length;
@@ -448,20 +391,18 @@ function deleteMyself()
 			fs.unlink(path.join(directory, file), err => {
 				if (err) throw err;
 				filesDeleted++;
-				sendBack("fromMainUpdateProgress", ((filesDeleted/totalFilesToDelete)/2*100)+"");
-				if(filesDeleted==totalFilesToDelete)
-				{
+				sendBack("fromMainUpdateProgress", ((filesDeleted / totalFilesToDelete) / 2 * 100) + "");
+				if (filesDeleted == totalFilesToDelete) {
 					copyANewVersion();
 				}
 			});
 		}
 	});
 }
-function copyANewVersion()
-{
+function copyANewVersion() {
 	console.log("copyANewVersion");
-	var directoryRemote = remotePath+"/repadex/resources/app";
-	var directoryLocal = configPathLocalFolder+"/resources/app";
+	var directoryRemote = remotePath + "/repadex/resources/app";
+	var directoryLocal = configPathLocalFolder + "/resources/app";
 	fs.readdir(directoryRemote, (err, files) => {
 		if (err) throw err;
 		totalFilesToCopy = files.length;
@@ -470,36 +411,32 @@ function copyANewVersion()
 			fs.copyFile(path.join(directoryRemote, file), path.join(directoryLocal, file), err => {
 				if (err) throw err;
 				filesCopied++;
-				sendBack("fromMainUpdateProgress", ((filesCopied/totalFilesToCopy)/2*100+50)+"");
-				if(filesCopied==totalFilesToCopy)
-				{
+				sendBack("fromMainUpdateProgress", ((filesCopied / totalFilesToCopy) / 2 * 100 + 50) + "");
+				if (filesCopied == totalFilesToCopy) {
 					restartMyself();
 				}
 			});
 		}
 	});
 }
-function update()
-{
+function update() {
 	deleteMyself();
 }
-function restartMyself()
-{
+function restartMyself() {
 	console.log("restartMyself");
-	const subprocess = spawn(configPathLocalFolder+"electron.exe", [''], {
+	const subprocess = spawn(configPathLocalFolder + "electron.exe", [''], {
 		detached: true,
 		stdio: 'ignore'
 	});
 	subprocess.unref();
 	win.close();
 }
-function startup()
-{
+function startup() {
 	// console.log(electron.screen.getPrimaryDisplay());
 	fs.watchFile(backendPath, function (event, filename) {
 		// if(event=="change")
 		// {
-			sendBack("fromMainLoadfile", "");
+		sendBack("fromMainLoadfile", "");
 		// }
 		// console.log('event is: ' + event);
 		// if (filename) {

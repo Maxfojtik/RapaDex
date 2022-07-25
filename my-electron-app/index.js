@@ -1,20 +1,19 @@
 var blockProgress = false;
 var stopShaking = false;
 var building = "";
-var version = "1.0.16a";
+var version = "1.0.16b";
 var newVersion = "";
 var shownPanel = 0;//0 = main table, 1 = repairEdit, 2 = repairForm, 3 = loanerForm, 4 = repair warning, 5 = updating
-$( document ).ready(function() {
+$(document).ready(function () {
 	loadConfiguration();
-	$( "#searchInput" ).select();
+	$("#searchInput").select();
 	document.addEventListener('keydown', keyDownHandler);
 	setTimeout(initPopovers, 500);
 	checkVersion();
-	setInterval(checkVersion, 60*1000);//every minute
-	$("#versionLabel").text("v"+version);
+	setInterval(checkVersion, 60 * 1000);//every minute
+	$("#versionLabel").text("v" + version);
 	$('#pokeImage').on('animationiteration', function () {
-		if(stopShaking)
-		{
+		if (stopShaking) {
 			var $this = $(this);
 			$this.removeClass('shaker');
 			$this.addClass('shakers');
@@ -25,13 +24,11 @@ $( document ).ready(function() {
 		}
 	});
 	$("textarea").each(function () {
-		if(this.id!="repairNotesArea")
-		{
+		if (this.id != "repairNotesArea") {
 			this.setAttribute("style", "height:" + (this.scrollHeight) + "px;overflow-y:hidden;");
 		}
 	}).on("input", function () {
-		if(this.id!="repairNotesArea")
-		{
+		if (this.id != "repairNotesArea") {
 			this.style.height = "auto";
 			this.style.height = (this.scrollHeight) + "px";
 		}
@@ -43,31 +40,25 @@ $( document ).ready(function() {
 	addWorkToast = new bootstrap.Toast($('#addWorkToast'));
 	initFilterPopover();
 });
-function checkVersion()
-{
+function checkVersion() {
 	//console.log("check");
 	window.api.send("toMain", "checkVersion");
 }
-function resetVersionStyling()
-{
+function resetVersionStyling() {
 	$("#versionLabel").removeClass("versionClickable");
 	$("#versionLabel").addClass("text-muted");
 	//$("#versionLabel").css("color", "yellow");
 }
 var versionPopover;
-function versionUnhover()
-{
+function versionUnhover() {
 	versionPopover.hide();
 	//console.log("hidden");
 }
-function versionHover()
-{
-	if($("#versionLabel").hasClass("versionClickable"))
-	{
+function versionHover() {
+	if ($("#versionLabel").hasClass("versionClickable")) {
 		var versionElement = document.getElementById('versionLabel');
-		var options = {"placement": "bottom", "title": version+" -> "+newVersion};
-		if(versionPopover!=null)
-		{
+		var options = { "placement": "bottom", "title": version + " -> " + newVersion };
+		if (versionPopover != null) {
 			//console.log("disposed");
 			versionPopover.dispose();
 		}
@@ -76,10 +67,8 @@ function versionHover()
 		//console.log("shown");
 	}
 }
-function versionClick()
-{
-	if(!blockProgress)
-	{
+function versionClick() {
+	if (!blockProgress) {
 		shownPanel = 5;
 		$("#container").hide();
 		$("#updatingMessage").fadeIn();
@@ -87,29 +76,25 @@ function versionClick()
 	}
 }
 window.api.receive("fromMainUpdateProgress", (data) => {
-	$("#updateProgressInside").css("width", data+"%");
+	$("#updateProgressInside").css("width", data + "%");
 });
 window.api.receive("fromMainRemoteVersion", (data) => {
 	//console.log("callback");
-	if(data.trim()!=version)
-	{
+	if (data.trim() != version) {
 		newVersion = data;
-		if(shownPanel<2)
-		{
+		if (shownPanel < 2) {
 			$("#versionLabel").addClass("versionClickable");
 			$("#versionLabel").removeClass("text-muted");
 			$("#versionLabel").css("color", "#46c46e");
 		}
 		//console.log("update");
 	}
-	else
-	{
+	else {
 		$("#versionLabel").removeClass("versionClickable");
 		$("#versionLabel").addClass("text-muted");
 	}
 });
-function startLoadingSaving(message)
-{
+function startLoadingSaving(message) {
 	$("#saveText").text(message);
 	$("#savingDisplay").css("color", "black");
 	//$("#saveSpinner").css("visibility", "visible");
@@ -122,27 +107,22 @@ function startLoadingSaving(message)
 	stopShaking = false;
 	blockProgress = true;
 }
-function doneLoadingSaving()
-{
+function doneLoadingSaving() {
 	$("#savingDisplay").css("color", "black");
 	//$("#saveSpinner").css("visibility", "hidden");
 	blockProgress = false;
 	stopShaking = true;
 }
-function keyDownHandler(event)
-{
-	if(event.key=='Escape' && !blockProgress && shownPanel < 4)//hacky but works?, does not allow esc when showing the warning and updating
+function keyDownHandler(event) {
+	if (event.key == 'Escape' && !blockProgress && shownPanel < 4)//hacky but works?, does not allow esc when showing the warning and updating
 	{
 		backToMain();
 	}
-	if(collectKeyboard)
-	{
+	if (collectKeyboard) {
 		building += event.key;
-		for(employee in config.employees)
-		{
+		for (employee in config.employees) {
 			var em = config.employees[employee];
-			if(building.includes(em.abr))
-			{
+			if (building.includes(em.abr)) {
 				building = "";
 				selectPill(employee);
 				//alert(employee);
@@ -151,8 +131,7 @@ function keyDownHandler(event)
 	}
 	//console.log(event);
 }
-function initPopovers()
-{
+function initPopovers() {
 	$.fn.tooltip.Constructor.Default.allowList['*'].push('style');
 	$.fn.tooltip.Constructor.Default.allowList['*'].push('onclick');
 	var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
@@ -163,7 +142,7 @@ function initPopovers()
 $(document).on('click', '.copiable', function () {
 	text = event.target.getAttribute("data-text");
 	copyTextToClipboard(text);
-	$('#toastText').text("Copied \""+text+"\" to clipboard");
+	$('#toastText').text("Copied \"" + text + "\" to clipboard");
 	new bootstrap.Toast($('#liveToast')).show();
 });
 var config;
@@ -172,83 +151,69 @@ var selectedMake;
 var appleWarningEnabled;
 var appleCareRequiresFee;
 var appleFindMyWarning;
-function setupMakes()
-{
+function setupMakes() {
 	$("#makeSelector").empty();
-	for (var brand in config.repairables)
-	{
-		if(brand=="apple")
-		{
-			appleWarningEnabled = config.repairables[brand].warningOnAppleDevices==true;
-			appleCareRequiresFee = config.repairables[brand].appleCareRequiresFee==true;
-			appleFindMyWarning = config.repairables[brand].findMyWarning==true;
+	for (var brand in config.repairables) {
+		if (brand == "apple") {
+			appleWarningEnabled = config.repairables[brand].warningOnAppleDevices == true;
+			appleCareRequiresFee = config.repairables[brand].appleCareRequiresFee == true;
+			appleFindMyWarning = config.repairables[brand].findMyWarning == true;
 		}
 		//<button id="makeOther" type="button" class="btn btn-outline-primary" onclick="makeSelect('Other')">Other</button>
 		brandCommonName = config.repairables[brand].commonName;
 		$("#makeSelector").append(
-			"<button id=\"make"+brandCommonName+"\" type=\"button\" class=\"btn btn-outline-danger\" onclick=\"makeSelect('"+brandCommonName+"')\">"+brandCommonName+"</button>"
+			"<button id=\"make" + brandCommonName + "\" type=\"button\" class=\"btn btn-outline-danger\" onclick=\"makeSelect('" + brandCommonName + "')\">" + brandCommonName + "</button>"
 		);
 	}
 	$("#makeSelector").append(
 		"<button id=\"makeOther\" type=\"button\" class=\"btn btn-outline-danger\" onclick=\"makeSelect('Other')\">Other</button>"
 	);
 }
-function setupWarranties()
-{
+function setupWarranties() {
 	$("#warrantySelector").empty();
 	$("#warrantySelector").append(
 		"<option value=\"\" selected></option>"
 	);
-	for(var i = 0; i < config.warranties.length; i++)
-	{
+	for (var i = 0; i < config.warranties.length; i++) {
 		var warranty = config.warranties[i];
 		$("#warrantySelector").append(
-			"<option value=\""+warranty+"\">"+warranty+"</option>"
+			"<option value=\"" + warranty + "\">" + warranty + "</option>"
 		);
 	}
 	$("#warrantySelector").append(
 		"<option value=\"Other\">Other</option>"
 	);
 }
-function getPill(innerName, name, id, functionSelect)
-{
-	var styling = 'background-color: '+config.employees[name].color+'; '+'border-color: '+config.employees[name].color+';';
-	if(functionSelect=="")
-	{
-		styling +=" cursor: initial;"
+function getPill(innerName, name, id, functionSelect) {
+	var styling = 'background-color: ' + config.employees[name].color + '; ' + 'border-color: ' + config.employees[name].color + ';';
+	if (functionSelect == "") {
+		styling += " cursor: initial;"
 	}
 	var classes;
-	if(config.employees[name]["black-text"])
-	{
+	if (config.employees[name]["black-text"]) {
 		classes = 'badge rounded-pill badge-spaced text-dark';
 		//$("#printingPill").addClass("text-dark");
 	}
-	else
-	{
+	else {
 		classes = 'badge rounded-pill badge-spaced';
 		//$("#printingPill").removeClass("text-dark");
 	}
-	return "<span id=\""+id+"\" employee=\""+name+"\" style=\""+styling+"\" class=\""+classes+"\" onclick=\""+functionSelect+"\">"+innerName+"</span>";
+	return "<span id=\"" + id + "\" employee=\"" + name + "\" style=\"" + styling + "\" class=\"" + classes + "\" onclick=\"" + functionSelect + "\">" + innerName + "</span>";
 }
-function getOutlinedPill(name, id, functionSelect)
-{
-	var styling = "border-color: "+config.employees[name].color;
-	if(functionSelect=="")
-	{
-		styling +=" cursor: initial;"
+function getOutlinedPill(name, id, functionSelect) {
+	var styling = "border-color: " + config.employees[name].color;
+	if (functionSelect == "") {
+		styling += " cursor: initial;"
 	}
 	var classes = 'badge rounded-pill badge-not-selected text-dark';
-	return "<span id=\""+id+"\" employee=\""+name+"\" style=\""+styling+"\" class=\""+classes+"\" onclick=\""+functionSelect+"\">"+config.employees[name]["name"]+"</span>";
+	return "<span id=\"" + id + "\" employee=\"" + name + "\" style=\"" + styling + "\" class=\"" + classes + "\" onclick=\"" + functionSelect + "\">" + config.employees[name]["name"] + "</span>";
 }
-function loadConfiguration()
-{
+function loadConfiguration() {
 	// Called when message received from main process
 	window.api.receive("fromMainConfig", (data) => {
-		try
-		{
+		try {
 			config = JSON.parse(data);
-			if(!config["searchRequiresSubmit"])
-			{
+			if (!config["searchRequiresSubmit"]) {
 				$("#searchButton").remove();
 				$("#searchInput").attr("oninput", "search()");
 				//$("#searchInput").css("height: 38px; width:100%");
@@ -277,20 +242,18 @@ function loadConfiguration()
 			//<span id="selectEmployeeTodd" class="badge rounded-pill badge-not-selected text-dark badge-spaced" onclick="selectPill('Todd')">Todd</span>
 			var building = "<div class=\"overflow-auto insideSaveAs\">";
 			var buildingLogin = "<h5>";
-			for (var employee in config.employees)
-			{
-				if(!config.employees[employee].active)//skip if not active
+			for (var employee in config.employees) {
+				if (!config.employees[employee].active)//skip if not active
 				{
 					continue;
 				}
 				$(".workerSelect").append(
-					getOutlinedPill(employee, "selectEmployee"+employee, "selectPill('"+employee+"')")
+					getOutlinedPill(employee, "selectEmployee" + employee, "selectPill('" + employee + "')")
 				);
 				$("#loanerWorkerSelector").append(
-					getOutlinedPill(employee, "selectLoanerEmployee"+employee, "selectLoanerPill('"+employee+"')")
+					getOutlinedPill(employee, "selectLoanerEmployee" + employee, "selectLoanerPill('" + employee + "')")
 				);
-				if(config.employees[employee].repairTeam)
-				{
+				if (config.employees[employee].repairTeam) {
 					/*var pillStyle = 'background-color: '+config.employees[employee].color+'; '+'border-color: '+config.employees[employee].color+';';
 					var pillClasses = '';
 					if(config.employees[employee]["black-text"])
@@ -302,8 +265,8 @@ function loadConfiguration()
 						pillClasses = 'badge rounded-pill badge-spaced';
 					}
 					building += "<span id=\"repairEmployee"+employee+"\" class=\""+pillClasses+"\" onclick=\"selectRepairPill('"+employee+"')\" style=\""+pillStyle+"\">"+employee+"</span>"*/
-					building += getPill(config.employees[employee]["name"], employee, "repairEmployee"+employee, "selectRepairPill('"+employee+"')");;
-					buildingLogin += getPill(config.employees[employee]["name"], employee, "repairEmployeeLogin"+employee, "selectLoginPill('"+employee+"')");;
+					building += getPill(config.employees[employee]["name"], employee, "repairEmployee" + employee, "selectRepairPill('" + employee + "')");;
+					buildingLogin += getPill(config.employees[employee]["name"], employee, "repairEmployeeLogin" + employee, "selectLoginPill('" + employee + "')");;
 				}
 			}
 			$("#workerSelector").css("font-size", config["workerSelectorFontSize"]);
@@ -315,11 +278,10 @@ function loadConfiguration()
 			//setupWarranties(); called like above
 			$("#dropOffStatement").text(config.dropOffStatement);
 			$("#pickUpStatement").text(config.pickUpStatement);
-			$("#tooManyResultsWarning").text("There are more than "+config["maxRowsAtOnce"]+" results for your search, please refine your parameters");
+			$("#tooManyResultsWarning").text("There are more than " + config["maxRowsAtOnce"] + " results for your search, please refine your parameters");
 			//console.log(config);
 		}
-		catch(e)
-		{
+		catch (e) {
 			console.log(e);
 			$("#mainError").show();
 			$("#container").hide();
@@ -336,36 +298,30 @@ window.api.receive("fromMainWaiting", (data) => {
 	$("#savingDisplay").css("color", "#cccc00");
 });
 window.api.receive("fromMainDisconnected", (data) => {
-	if(shownPanel < 4)
-	{
+	if (shownPanel < 4) {
 		$("#container").hide();
 		$("#disconnectedMessage").fadeIn();
 	}
 });
 window.api.receive("fromMainConnected", (data) => {
 	$("#disconnectedMessage").hide();
-	if(shownPanel < 4)
-	{
+	if (shownPanel < 4) {
 		$("#container").show();
 	}
-	else
-	{
+	else {
 		//$("#container").show();
 	}
 });
 var collectKeyboard = false;
-function startCollectKeyboard()
-{
+function startCollectKeyboard() {
 	collectKeyboard = true;
 	//console.log(collectKeyboard);
 }
-function stopCollectKeyboard()
-{
+function stopCollectKeyboard() {
 	collectKeyboard = false;
 	//console.log(collectKeyboard);
 }
-function changeEmployee()
-{
+function changeEmployee() {
 	//var elementEl = $("#saveAsButton");;
 	//var tooltip = new bootstrap.Tooltip(elementEl);
 }
@@ -376,154 +332,144 @@ function changeEmployee()
 	$( "#repairEdit" ).hide();
 }*/
 function fallbackCopyTextToClipboard(text) {
-  var textArea = document.createElement("textarea");
-  textArea.value = text;
+	var textArea = document.createElement("textarea");
+	textArea.value = text;
 
-  // Avoid scrolling to bottom
-  textArea.style.top = "0";
-  textArea.style.left = "0";
-  textArea.style.position = "fixed";
+	// Avoid scrolling to bottom
+	textArea.style.top = "0";
+	textArea.style.left = "0";
+	textArea.style.position = "fixed";
 
-  document.body.appendChild(textArea);
-  textArea.focus();
-  textArea.select();
+	document.body.appendChild(textArea);
+	textArea.focus();
+	textArea.select();
 
-  try {
-    var successful = document.execCommand('copy');
-    var msg = successful ? 'successful' : 'unsuccessful';
-    console.log('Fallback: Copying text command was ' + msg);
-  } catch (err) {
-    console.error('Fallback: Oops, unable to copy', err);
-  }
-  document.body.removeChild(textArea);
+	try {
+		var successful = document.execCommand('copy');
+		var msg = successful ? 'successful' : 'unsuccessful';
+		console.log('Fallback: Copying text command was ' + msg);
+	} catch (err) {
+		console.error('Fallback: Oops, unable to copy', err);
+	}
+	document.body.removeChild(textArea);
 }
 function copyTextToClipboard(text) {
-  if (!navigator.clipboard) {
-    fallbackCopyTextToClipboard(text);
-    return;
-  }
-  navigator.clipboard.writeText(text).then(function() {
-    //console.log('Async: Copying to clipboard was successful!');
-  }, function(err) {
-    //console.error('Async: Could not copy text: ', err);
-  });
+	if (!navigator.clipboard) {
+		fallbackCopyTextToClipboard(text);
+		return;
+	}
+	navigator.clipboard.writeText(text).then(function () {
+		//console.log('Async: Copying to clipboard was successful!');
+	}, function (err) {
+		//console.error('Async: Could not copy text: ', err);
+	});
 }
-function removeTransision()
-{
+function removeTransision() {
 	$("#RepaPart").css("color", oldColor);
 	$("#RepaPartTop").removeClass("RepaPartTrans");
 	timer = 0;
 }
 var oldColor = "#000000";
 var timer = 0;
-function setRepaColor(newColor)
-{
+function setRepaColor(newColor) {
 	//$("#RepaPartTop").removeClass("RepaPartTrans");
 	//$("#RepaPart").css("background", "linear-gradient(to right, "+oldColor+", "+oldColor+" 50%, "+newColor+" 50%);");
 	//$("#RepaPart").css("background-position", "100%");
 	$("#RepaPartTop").css("color", newColor);
 	$("#RepaPartTop").addClass("RepaPartTrans");
 	oldColor = newColor;
-	if(timer!=0)
-	{
+	if (timer != 0) {
 		clearTimeout(timer);
 	}
 	timer = setTimeout(removeTransision, 500);
 	//$("#RepaPart").css("color", newColor);
 }
 function makeid(length) {
-    var result           = '';
-    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var charactersLength = characters.length;
-    for ( var i = 0; i < length; i++ ) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-   }
-   return result;
+	var result = '';
+	var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+	var charactersLength = characters.length;
+	for (var i = 0; i < length; i++) {
+		result += characters.charAt(Math.floor(Math.random() * charactersLength));
+	}
+	return result;
 }
 var aboutModal;
-function showAbout()
-{
-	if(!aboutModal)
-	{
+function showAbout() {
+	if (!aboutModal) {
 		aboutModal = new bootstrap.Modal(document.getElementById('aboutModal'));
 	}
 	aboutModal.show();
 }
 
-function makeDescriptors(repair)
-{
+function makeDescriptors(repair) {
 	var descriptors = [];
-	if(repair["phone"])
-	{
+	if (repair["phone"]) {
 		descriptors.push(repair["phone"].toLowerCase());
 	}
 	descriptors.push(repair["email"].toLowerCase());
 	descriptors.push(repair["serial"].toLowerCase());
 	descriptors.push(repair["name"].toLowerCase());
-	descriptors.push((repair["refNum"]+"").toLowerCase());//convert to string
-	if(repair["iPadSN"])
-	{
+	descriptors.push((repair["refNum"] + "").toLowerCase());//convert to string
+	if (repair["iPadSN"]) {
 		descriptors.push(repair["iPadSN"].toLowerCase());
 	}
 	return descriptors;
 }
-function generateRandomRepair(refNum)
-{
+function generateRandomRepair(refNum) {
 	var json = {};
 	json["refNum"] = refNum;
-	json["name"] = "name"+refNum;
-	json["serial"] = "serial"+makeid(10);
-	json["email"] = "email"+makeid(10)+"@osu.edu";
+	json["name"] = "name" + refNum;
+	json["serial"] = "serial" + makeid(10);
+	json["email"] = "email" + makeid(10) + "@osu.edu";
 	json["startDate"] = new Date().toJSON();
-	json["acc"] = "acc"+makeid(10);
-	json["intakeNotes"] = "notes"+makeid(10);
-	json["phone"] = "phone"+makeid(3)+"-"+makeid(3)+"-"+makeid(4);
-	json["purchaseDate"] = "purch"+makeid(3);
+	json["acc"] = "acc" + makeid(10);
+	json["intakeNotes"] = "notes" + makeid(10);
+	json["phone"] = "phone" + makeid(3) + "-" + makeid(3) + "-" + makeid(4);
+	json["purchaseDate"] = "purch" + makeid(3);
 	//json["lastTouched"] = new Date().toJSON();
-	var problem = "prob"+makeid(10);
-	var warranty = "warr"+makeid(10);
+	var problem = "prob" + makeid(10);
+	var warranty = "warr" + makeid(10);
 	json["make"] = "Apple";
 	json["model"] = "iPad Something";
 	json["status"] = "Created Repair Form";
 	var date = new Date();
-	json["logs"] = [{"who": "fojtik.6", "what": "Created the repair", "when": date.toJSON()}];
+	json["logs"] = [{ "who": "fojtik.6", "what": "Created the repair", "when": date.toJSON() }];
 	//date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
-	json["workCompleted"] = [{"who": "fojtik.6", "when": date.toJSON(), "what": "Created Repair Form", "note": ""}];
+	json["workCompleted"] = [{ "who": "fojtik.6", "when": date.toJSON(), "what": "Created Repair Form", "note": "" }];
 	json["descriptors"] = makeDescriptors(json);
 	//json["archived"] = false;
 	return json;
 }
-function generateLots(amount)
-{
+function generateLots(amount) {
 	var repairs = {};
-	for(var i = 0; i < amount; i++)
-	{
-		repairs[(i+1)+""] = generateRandomRepair(i+1);
+	for (var i = 0; i < amount; i++) {
+		repairs[(i + 1) + ""] = generateRandomRepair(i + 1);
 	}
 	console.log(JSON.stringify(repairs));
 }
 // Version 4.0
-const pSBC=(p,c0,c1,l)=>{
-    let r,g,b,P,f,t,h,i=parseInt,m=Math.round,a=typeof(c1)=="string";
-    if(typeof(p)!="number"||p<-1||p>1||typeof(c0)!="string"||(c0[0]!='r'&&c0[0]!='#')||(c1&&!a))return null;
-    if(!this.pSBCr)this.pSBCr=(d)=>{
-        let n=d.length,x={};
-        if(n>9){
-            [r,g,b,a]=d=d.split(","),n=d.length;
-            if(n<3||n>4)return null;
-            x.r=i(r[3]=="a"?r.slice(5):r.slice(4)),x.g=i(g),x.b=i(b),x.a=a?parseFloat(a):-1
-        }else{
-            if(n==8||n==6||n<4)return null;
-            if(n<6)d="#"+d[1]+d[1]+d[2]+d[2]+d[3]+d[3]+(n>4?d[4]+d[4]:"");
-            d=i(d.slice(1),16);
-            if(n==9||n==5)x.r=d>>24&255,x.g=d>>16&255,x.b=d>>8&255,x.a=m((d&255)/0.255)/1000;
-            else x.r=d>>16,x.g=d>>8&255,x.b=d&255,x.a=-1
-        }return x};
-    h=c0.length>9,h=a?c1.length>9?true:c1=="c"?!h:false:h,f=this.pSBCr(c0),P=p<0,t=c1&&c1!="c"?this.pSBCr(c1):P?{r:0,g:0,b:0,a:-1}:{r:255,g:255,b:255,a:-1},p=P?p*-1:p,P=1-p;
-    if(!f||!t)return null;
-    if(l)r=m(P*f.r+p*t.r),g=m(P*f.g+p*t.g),b=m(P*f.b+p*t.b);
-    else r=m((P*f.r**2+p*t.r**2)**0.5),g=m((P*f.g**2+p*t.g**2)**0.5),b=m((P*f.b**2+p*t.b**2)**0.5);
-    a=f.a,t=t.a,f=a>=0||t>=0,a=f?a<0?t:t<0?a:a*P+t*p:0;
-    if(h)return"rgb"+(f?"a(":"(")+r+","+g+","+b+(f?","+m(a*1000)/1000:"")+")";
-    else return"#"+(4294967296+r*16777216+g*65536+b*256+(f?m(a*255):0)).toString(16).slice(1,f?undefined:-2)
+const pSBC = (p, c0, c1, l) => {
+	let r, g, b, P, f, t, h, i = parseInt, m = Math.round, a = typeof (c1) == "string";
+	if (typeof (p) != "number" || p < -1 || p > 1 || typeof (c0) != "string" || (c0[0] != 'r' && c0[0] != '#') || (c1 && !a)) return null;
+	if (!this.pSBCr) this.pSBCr = (d) => {
+		let n = d.length, x = {};
+		if (n > 9) {
+			[r, g, b, a] = d = d.split(","), n = d.length;
+			if (n < 3 || n > 4) return null;
+			x.r = i(r[3] == "a" ? r.slice(5) : r.slice(4)), x.g = i(g), x.b = i(b), x.a = a ? parseFloat(a) : -1
+		} else {
+			if (n == 8 || n == 6 || n < 4) return null;
+			if (n < 6) d = "#" + d[1] + d[1] + d[2] + d[2] + d[3] + d[3] + (n > 4 ? d[4] + d[4] : "");
+			d = i(d.slice(1), 16);
+			if (n == 9 || n == 5) x.r = d >> 24 & 255, x.g = d >> 16 & 255, x.b = d >> 8 & 255, x.a = m((d & 255) / 0.255) / 1000;
+			else x.r = d >> 16, x.g = d >> 8 & 255, x.b = d & 255, x.a = -1
+		} return x
+	};
+	h = c0.length > 9, h = a ? c1.length > 9 ? true : c1 == "c" ? !h : false : h, f = this.pSBCr(c0), P = p < 0, t = c1 && c1 != "c" ? this.pSBCr(c1) : P ? { r: 0, g: 0, b: 0, a: -1 } : { r: 255, g: 255, b: 255, a: -1 }, p = P ? p * -1 : p, P = 1 - p;
+	if (!f || !t) return null;
+	if (l) r = m(P * f.r + p * t.r), g = m(P * f.g + p * t.g), b = m(P * f.b + p * t.b);
+	else r = m((P * f.r ** 2 + p * t.r ** 2) ** 0.5), g = m((P * f.g ** 2 + p * t.g ** 2) ** 0.5), b = m((P * f.b ** 2 + p * t.b ** 2) ** 0.5);
+	a = f.a, t = t.a, f = a >= 0 || t >= 0, a = f ? a < 0 ? t : t < 0 ? a : a * P + t * p : 0;
+	if (h) return "rgb" + (f ? "a(" : "(") + r + "," + g + "," + b + (f ? "," + m(a * 1000) / 1000 : "") + ")";
+	else return "#" + (4294967296 + r * 16777216 + g * 65536 + b * 256 + (f ? m(a * 255) : 0)).toString(16).slice(1, f ? undefined : -2)
 }
