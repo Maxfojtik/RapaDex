@@ -1,7 +1,7 @@
 var blockProgress = false;
 var stopShaking = false;
 var building = "";
-var version = "1.0.16b";
+var version = "1.0.17";
 var newVersion = "";
 var shownPanel = 0;//0 = main table, 1 = repairEdit, 2 = repairForm, 3 = loanerForm, 4 = repair warning, 5 = updating
 $(document).ready(function () {
@@ -40,6 +40,7 @@ $(document).ready(function () {
 	addWorkToast = new bootstrap.Toast($('#addWorkToast'));
 	initFilterPopover();
 });
+var copyComputerModal;
 function checkVersion() {
 	//console.log("check");
 	window.api.send("toMain", "checkVersion");
@@ -112,6 +113,10 @@ function doneLoadingSaving() {
 	//$("#saveSpinner").css("visibility", "hidden");
 	blockProgress = false;
 	stopShaking = true;
+	if (tryingToGoBack) {
+		tryingToGoBack = false;
+		backToMain();
+	}
 }
 function keyDownHandler(event) {
 	if (event.key == 'Escape' && !blockProgress && shownPanel < 4)//hacky but works?, does not allow esc when showing the warning and updating

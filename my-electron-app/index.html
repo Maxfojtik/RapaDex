@@ -260,8 +260,10 @@
 						<button id="checkInLoanerButton" style="display:none;" type="button"
 							class="btn btn-success repairEditButton" onclick="checkInLoaner()" disabled>Check
 							In</button>
-						<button id="issueLoanerButton" type="button" class="btn btn-danger repairEditButton"
-							data-bs-toggle="modal" data-bs-target="#loanerModal" disabled>Issue Loaner</button>
+						<button id="issueLoanerButton" type="button" onclick="clearLoaner()"
+							class="btn btn-danger repairEditButton" data-bs-toggle="modal" data-bs-target="#loanerModal"
+							disabled>Issue
+							Loaner</button>
 					</div>
 					<div class="col-2 iPadSerialNumberLabels" style="display:none;">
 						<h5 class="d-inline-flex header-inline text-muted">iPad Serial Number</h5>
@@ -367,7 +369,8 @@
 					<span class="input-group-text" id="basic-addon5">Email</span>
 					<input id="emailForm" type="text" class="form-control is-invalid"
 						placeholder="buckeye.1@osu.edu (searchable)" aria-label="buckeye.1@osu.edu"
-						aria-describedby="basic-addon5" oninput="validateSaveButtons()" tabindex="3">
+						aria-describedby="basic-addon5" oninput="validateSaveButtons()" onblur="findPerson()"
+						tabindex="3">
 				</div>
 				<div class="input-group mb-3 col">
 					<span class="input-group-text const-width-2" id="basic-addon2">Serial Number</span>
@@ -945,16 +948,39 @@
 		<div class="modal-dialog modal-dialog-scrollable">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title" id="issueLoanerTitle">Customer has loaner!</h5>
+					<h5 class="modal-title">Customer has loaner!</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
-				<div class="modal-body" id="logsModelBody">
+				<div class="modal-body">
 					<p>The customer has a loaner, please get a manager or repair technician to check it in</p>
 					<p>If the customer does not have the loaner computer, you cannot give their computer back</p>
 				</div>
 				<div class="modal-footer">
 					<button id="loanerWarningOkayButton" type="button" class="btn btn-primary"
 						data-bs-dismiss="modal">Okay</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Already had computer checked in -->
+	<div class="modal fade" id="copyComputerModal" tabindex="-1" aria-labelledby="copyComputerModal" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Customer has had a device here before, copy?</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body" id="copyComputerModalBody">
+					<select id="copyComputerSelector" class="form-select header-inline" aria-label="Select copy">
+						<!--generated in js-->
+					</select>
+				</div>
+				<div class="modal-footer">
+					<button id="copyComputerModalYesButton" type="button" class="btn btn-primary"
+						data-bs-dismiss="modal" onclick="loadCopy()">Yes</button>
+					<button id="copyComputerModalNoButton" type="button" class="btn btn-danger"
+						data-bs-dismiss="modal">No</button>
 				</div>
 			</div>
 		</div>

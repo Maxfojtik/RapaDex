@@ -6,9 +6,8 @@ const fs = require("fs");
 const crypto = require("crypto");
 var win;
 
-
-var remotePath = "K:/BF/PRSM/TechHub/RepaDex";
-// var remotePath = "C:/Users/Maxwell/Documents/GitHub/Rapadex";
+// var remotePath = "K:/BF/PRSM/TechHub/RepaDex";
+var remotePath = "C:/Users/Maxwell/Documents/GitHub/Rapadex";
 var iPad = fs.existsSync("C:/IAmiPad");
 
 if (iPad) {
@@ -302,6 +301,12 @@ ipcMain.on("toMain", (event, args) => {
 		}
 		else if (args == "loadAll") {
 			loadMessageName = "fromMainLoadAll";
+			loadRepairs();
+			//var txt = fs.readFileSync(backendPath, 'utf8');
+			//jsonData = JSON.parse(txt);
+		}
+		else if (args == "loadForSearch") {
+			loadMessageName = "fromMainLoadSearch";
 			loadRepairs();
 			//var txt = fs.readFileSync(backendPath, 'utf8');
 			//jsonData = JSON.parse(txt);

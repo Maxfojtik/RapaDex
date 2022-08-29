@@ -3,6 +3,7 @@ var address;
 
 $(document).ready(function () {
 	attachModal = new bootstrap.Modal($('#attachModal'));
+	copyComputerModal = new bootstrap.Modal($('#copyComputerModal'));
 	$('#addAddressModal').on('hidden.bs.modal', function () {//when hidden save any information in it to a variable for when saved and also when printed, throw it in the intake notes
 		address = {};
 		address["address1"] = $("#addressForm1").val();
@@ -31,8 +32,13 @@ $(document).ready(function () {
 			$("#addAddressButton").addClass("btn-success");
 			$("#addAddressButton").removeClass("btn-danger");
 		}
-		console.log(address);
+		// console.log(address);
 	});
+	// $('#copyComputerSelector').change(function () {
+	// 	var serial = $("#copyComputerSelector option:selected").val();
+	// 	var otherOpen = checkSNForOtherOpen(serial);
+	// 	$("#copyComputerModalYesButton").prop("disabled", otherOpen);
+	// });
 });
 $(document).on('input', '.validable', function () {
 	//console.log(event.target.value);
@@ -67,7 +73,7 @@ function validatePhoneElement(ele) {
 var emailValid = false;
 function validateEmail() {
 	var value = $("#emailForm").val();
-	console.log(value);
+	// console.log(value);
 	if (/[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/.test(value)) {
 		$("#emailForm").addClass("is-valid");
 		$("#emailForm").removeClass("is-invalid");
@@ -83,12 +89,12 @@ function validateEmail() {
 $(document).on("keyup", '#emailForm', function (e) {
 	var value = $("#emailForm").val().toLowerCase();
 	$("#emailForm").val(value);
-	if (/^[a-z]*[.,](\d+)$/.test(value)) {
-		if (e.keyCode == 13) {
-			findPerson();
-		}
+	if (e.keyCode == 13) {
+		// findPerson();
 	}
-	validateEmail();
+	else {
+		validateEmail();
+	}
 });
 $(document).on("change", "#problemSelector", function () {
 	//text = event.target.innerHTML;
@@ -177,58 +183,198 @@ function warrantySelected() {
 	$("#warrantySelector").addClass("is-valid");
 	$("#warrantySelector").removeClass("is-invalid");
 }
+function loadCopy() {
+	var refNum = $("#copyComputerSelector option:selected").val();
+	var repair = backendData["repairs"][refNum];
+	//json["employee"] = selectedEmployee; taken care of in first work entry
+	//json["dotNumber"] = $("#dotForm").val();
+	//json["dateForm"] = $("#dateForm").val();
+	if (!checkSNForOtherOpen(repair["serial"])) {
+		$("#serialForm").val(repair["serial"]);
+	}
+	else {
+		$("#serialForm").val("");
+	}
+	$("#accForm").val(repair["acc"]);
+	$("#purchForm").val(repair["purchaseDate"]);
+	$("#iPadSN").val(repair["iPadSN"]);
+	var intakeNotes = repair["intakeNotes"];
+	if (repair["intakeNotes"].endsWith("Departmental Device")) {
+		intakeNotes = intakeNotes.replace("Departmental Device", "");
+		$("#flexSwitchCheckCheckedDepartmental").prop("checked", true);
+	}
+	$("#intakeTextArea").val(intakeNotes);
+
+	var warranty = repair["warranty"];
+	var options = $('#warrantySelector option');
+
+	var warranies = $.map(options, function (option) {
+		return option.value;
+	});
+	if (warranies.indexOf(warranty) != -1) {
+		$("#warrantySelector").val(repair["warranty"]);
+		warrantySelected();
+	}
+	else {
+		$("#warrantySelector").val("Other");
+		warrantySelected();
+		$("#warrantyOtherText").val(repair["warranty"]);
+	}
+	validateInputElement($("#warrantyOtherText")[0]);
+	validateInputElement($("#serialForm")[0]);
+
+	var options = $('#problemSelector option');
+
+	var problems = $.map(options, function (option) {
+		return option.value;
+	});
+	makeSelect(repair["make"]);
+	// console.log("type" + repair["model"].toLowerCase());
+
+	// we need to have a nested for loop, look for available types that have the full repair["model"] lowercased and removed of spaces ofc,
+	//then if we dont find one, remove the last word from repair["model"] and search again (removing subtype hopefully). repeat while we dont have a match
+	//if we dont come up with anything from there then it must have been an other and just dont copy because the use case is probably gonna happen like once in 5 years and I dont care
+
+
+	var configBrand = "Other";
+	for (var brand in config.repairables) {
+		if (config.repairables[brand].commonName == repair["make"]) {
+			configBrand = brand;
+		}
+	}
+	var modelOptions = config.repairables[configBrand]["devices"];
+	var splitModel = repair["model"].split(" ");
+	var theType = null;
+	var splitPlace;
+	for (var i = splitModel.length; i > 0 && theType == null; i--) {//dont need to include an empty array when searching
+		var splitModelSmaller = splitModel.slice(0, i);
+		var testDeviceCommonName = splitModelSmaller.join(" ");
+		for (var device in modelOptions) {
+			var deviceInfo = modelOptions[device];
+			if (deviceInfo["commonName"] == testDeviceCommonName) {
+				theType = device;
+				splitPlace = i;
+				break;
+			}
+		}
+	}
+	if (theType != null) {
+		typeSelect("type" + theType, true);
+		if (hasSubType) {//gotta figure out the subtype if there is one
+			subType = " " + splitModel.slice(splitPlace, splitModel.length);
+		}
+	}
+
+	var problem = repair["problem"];
+	if (problems.indexOf(problem) != -1) {
+		$("#problemSelector").val(problem);
+		removeFirstProblem();
+		$("#problemTextArea").val("");
+	}
+	else {
+		$("#problemSelector").val("Other");
+		removeFirstProblem();
+		$("#problemBox").show();
+		$("#problemTextArea").val(problem);
+	}
+}
+var searchingNameN;
+window.api.receive("fromMainLoadSearch", (data) => {
+	backendData = JSON.parse(data);
+	var repairs = backendData["repairs"];
+	var foundComputer = false;
+	var repairsUnderThisName = [];
+	for (var refNum in repairs) {
+		var repair = repairs[refNum];
+		var email = repair["email"];
+		var nameN = email.replace("@osu.edu", "");
+		if (nameN == searchingNameN) {
+			foundComputer = true;
+			$("#nameForm").val(repair["name"]);
+			$("#emailForm").val(repair["email"]);
+			$("#phoneForm").val(repair["phone"]);
+			repairsUnderThisName.push(repair);
+		}
+	}
+	if (foundComputer) {
+		$("#copyComputerSelector").empty();
+		// $("#copyComputerModalYesButton").prop("disabled", checkSNForOtherOpen(repairsUnderThisName[0]["serial"]));//disable the yes button if the top one is open
+		for (var i in repairsUnderThisName) {
+			var repair = repairsUnderThisName[i];
+			var otherOpen = checkSNForOtherOpen(repair["serial"]) ? " - OPEN" : "";
+
+			$("#copyComputerSelector").append(
+				"<option value=\"" + repair["refNum"] + "\">" + repair["make"] + " " + repair["model"] + " - " + repair["serial"] + otherOpen + "</option>"
+			);
+		}
+		copyComputerModal.show();
+	}
+	validateInputElement($("#nameForm")[0]);
+	validateEmail();
+	validateInputElement($("#phoneForm")[0]);
+	doneLoadingSaving();
+});
 function findPerson() {
-	var osuFindPeopleURL = "https://www.osu.edu/findpeople/";
+	// var osuFindPeopleURL = "https://www.osu.edu/findpeople/";
 	$("#nameForm").removeClass("is-valid");
 	$("#nameForm").removeClass("is-invalid");
 	$("#emailForm").removeClass("is-valid");
 	$("#emailForm").removeClass("is-invalid");
-	$.post(osuFindPeopleURL,
-		{
-			lastname: "",
-			firstname: "",
-			name_n: $("#emailForm").val().toLowerCase(),
-			filter: "All"
-		},
-		function (data, status) {
-			//console.log(data);
-			returnedElements = $($.parseHTML(data));
-			var table = returnedElements.find("#person1");
-			var name = "";
-			var email = "";
-			var child = table.children().eq(1).children().first();
-			//console.log("start");
-			while (child.html()) {
-				var type = child.children().first().text();
-				if (type.trim() == "Name:") {
-					name = child.children().eq(1).text();
-				}
-				if (type.trim() == "Published Email Address:") {
-					email = child.children().eq(1).text();
-				}
-				//console.log(type);
-				//console.log(":"+child.html());
-				child = child.next();
-			}
-			//validateInputElement($("#dotForm")[0]);
-			if (email != "") {
-				$("#emailForm").val(email);
-			}
-			validateInputElement($("#emailForm")[0]);
-			//$("#emailForm").trigger("input");
-			if (name != "") {
-				$("#nameForm").val(name);
-				validateInputElement($("#nameForm")[0]);
-			}
-			else {
-				$("#nameForm").removeClass("is-valid");
-				$("#nameForm").addClass("is-invalid");
-			}
-			//$("#nameForm").trigger("input");
-			//alert(name+"\t"+email);
-			//alert("Data: " + data + "\nStatus: " + status);
-			validateEmail();
-		});
+	$("#phoneForm").removeClass("is-valid");
+	$("#phoneForm").removeClass("is-invalid");
+
+	searchingNameN = $("#emailForm").val().toLowerCase().replace("@osu.edu", "");
+	window.api.send("toMain", "loadForSearch");
+	startLoadingSaving("Searching...");
+	// $.get("https://www.osu.edu/search/?view=people&query=fojtik.6", function (data, status) {
+	// 	console.log("Data: " + data + "\nStatus: " + status);
+	// });
+	// 	$.post(osuFindPeopleURL,
+	// 		{
+	// 			lastname: "",
+	// 			firstname: "",
+	// 			name_n: $("#emailForm").val().toLowerCase(),
+	// 			filter: "All"
+	// 		},
+	// 		function (data, status) {
+	// 			//console.log(data);
+	// 			returnedElements = $($.parseHTML(data));
+	// 			var table = returnedElements.find("#person1");
+	// 			var name = "";
+	// 			var email = "";
+	// 			var child = table.children().eq(1).children().first();
+	// 			//console.log("start");
+	// 			while (child.html()) {
+	// 				var type = child.children().first().text();
+	// 				if (type.trim() == "Name:") {
+	// 					name = child.children().eq(1).text();
+	// 				}
+	// 				if (type.trim() == "Published Email Address:") {
+	// 					email = child.children().eq(1).text();
+	// 				}
+	// 				//console.log(type);
+	// 				//console.log(":"+child.html());
+	// 				child = child.next();
+	// 			}
+	// 			//validateInputElement($("#dotForm")[0]);
+	// 			if (email != "") {
+	// 				$("#emailForm").val(email);
+	// 			}
+	// 			validateInputElement($("#emailForm")[0]);
+	// 			//$("#emailForm").trigger("input");
+	// 			if (name != "") {
+	// 				$("#nameForm").val(name);
+	// 				validateInputElement($("#nameForm")[0]);
+	// 			}
+	// 			else {
+	// 				$("#nameForm").removeClass("is-valid");
+	// 				$("#nameForm").addClass("is-invalid");
+	// 			}
+	// 			//$("#nameForm").trigger("input");
+	// 			//alert(name+"\t"+email);
+	// 			//alert("Data: " + data + "\nStatus: " + status);
+	// 			validateEmail();
+	// 		});
 }
 var selectedEmployee;
 function selectPill(name)//pass null if you want to reset pills
@@ -457,7 +603,7 @@ function disposePopover() {
 		popoverDisposed = true;
 	}
 }
-function typeSelect(id) {
+function typeSelect(id, ignoreSubtype) {
 	subType = "";
 	$("#problemBox").hide();
 	//$("#problemSelectorRow").removeClass("hideWhenPrint");
@@ -483,7 +629,9 @@ function typeSelect(id) {
 			sanitize: false,
 		});
 		popovertype.update();
-		popovertype.show();
+		if (!ignoreSubtype) {
+			popovertype.show();
+		}
 		//console.log(subTypePopover);
 		subTypePopover = popovertype;
 		popoverDisposed = false;
@@ -598,7 +746,12 @@ window.api.receive("fromMainSaveSuc", (data) => {
 		setTimeout(backToMain, 400);
 	}
 });
+var tryingToGoBack = false;
 function backToMain() {
+	if (blockProgress) {
+		tryingToGoBack = true;
+		return;
+	}
 	if (printing) {
 		unMakeRepairPrintable();
 	}
@@ -612,6 +765,7 @@ function backToMain() {
 	shownPanel = 0;
 	checkVersion();
 	disposePopover();
+	copyComputerModal.hide();
 }
 var appleCareWarningRequired;
 function showRelaText() {
@@ -774,15 +928,16 @@ window.api.receive("fromMainRefNum", (data) => {
 	if (saveNow) {
 		sendSave();
 	}
-	//console.log('Received ${'+data+'} from main process');
 });
 var gettingNextRefNum = false;
 function getNextRefNum() {
 	if (referenceNumber == -1 && !gettingNextRefNum) {
-		gettingNextRefNum = true;
-		$("#RefNumLabel").text("Ref. Number: ???");
-		startLoadingSaving("Getting next reference number...");
-		window.api.send("toMain", "incRefNum");
+		if (!blockProgress) {//if we are not doing something, if what we are doing validates after it is done (which is does if it is searching) then we will get called again
+			gettingNextRefNum = true;
+			$("#RefNumLabel").text("Ref. Number: ???");
+			startLoadingSaving("Getting next reference number...");
+			window.api.send("toMain", "incRefNum");
+		}
 	}
 }
 function makeRepairPrintable() {
