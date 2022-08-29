@@ -6,8 +6,8 @@ const fs = require("fs");
 const crypto = require("crypto");
 var win;
 
-// var remotePath = "K:/BF/PRSM/TechHub/RepaDex";
-var remotePath = "C:/Users/Maxwell/Documents/GitHub/Rapadex";
+var remotePath = "K:/BF/PRSM/TechHub/RepaDex";
+// var remotePath = "C:/Users/Maxwell/Documents/GitHub/Rapadex";
 var iPad = fs.existsSync("C:/IAmiPad");
 
 if (iPad) {
