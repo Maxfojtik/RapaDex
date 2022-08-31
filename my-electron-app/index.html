@@ -65,7 +65,8 @@
 		</div>
 	</div>
 	<div id="container" class="container" style="display:block;">
-		<div style="color:black; display:flex; align-items: center;" id="savingDisplay" class="float-right-top">
+		<div style="color:black; display:flex; align-items: center;" id="savingDisplay" class="float-right-top"
+			onclick="tryOverride()">
 			<strong style="padding-right: 5px;" id="saveText"></strong>
 			<strong style="padding-right: 10px;" id="waitReason"></strong>
 			<!--<div id="saveSpinner" class="spinner-border ms-auto" role="status" aria-hidden="true"></div>-->
@@ -938,6 +939,29 @@
 				</div>
 				<div class="modal-body" id="logsModelBody">
 					<input id="assetTagForm" type="text" class="form-control" placeholder="Asset Tag">
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Emergency Button Model -->
+	<div class="modal fade" id="emButtonModal" tabindex="-1" aria-labelledby="emButtonModal" aria-hidden="true">
+		<div class="modal-dialog modal-lg modal-dialog-scrollable">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">EMERGENCY!!! IT BROKE!!!</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<p>I see Repadex seems to be broken, you can click the Emergency Button below if you would like to
+						override the safe guards of the system, if you decide to do this ONLY ONE PERSON should click
+						this button and it will resolve the problem - Thanks, Max</p>
+					<div style="text-align: center;"><img class="versionClickable" src="embUTTON.png"
+							onclick="overrideSafe()"></div>
+				</div>
+				<div class="modal-footer">
+					<button id="loanerWarningOkayButton" type="button" class="btn btn-primary"
+						data-bs-dismiss="modal">Okay</button>
 				</div>
 			</div>
 		</div>

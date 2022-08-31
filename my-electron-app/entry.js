@@ -7,8 +7,8 @@ const crypto = require("crypto");
 const os = require("os");
 var win;
 
-var remotePath = "K:/BF/PRSM/TechHub/RepaDex";
-// var remotePath = "C:/Users/Maxwell/Documents/GitHub/Rapadex";
+// var remotePath = "K:/BF/PRSM/TechHub/RepaDex";
+var remotePath = "C:/Users/Maxwell/Documents/GitHub/Rapadex";
 var iPad = fs.existsSync("C:/IAmiPad");
 
 if (iPad) {
@@ -274,6 +274,9 @@ function copyConfigAndStart() {
 app.whenReady().then(() => {
 	copyConfigAndStart();
 });
+function overrideSync() {
+	fs.unlinkSync(lockedPath);//delete the lock file!!!
+}
 function checkAndSendRemoteVersion() {
 	fs.readFile(versionFile, 'utf8', (err, txt) => {
 		if (err) {
@@ -287,6 +290,9 @@ function checkAndSendRemoteVersion() {
 ipcMain.on("toMain", (event, args) => {
 	if (args == "checkVersion") {
 		checkAndSendRemoteVersion();
+	}
+	else if (args == "override") {
+		overrideSync();
 	}
 	else if (args.substr(0, 4) == "open") {
 		var url = args.substr(4);

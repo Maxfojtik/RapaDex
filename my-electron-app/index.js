@@ -4,6 +4,8 @@ var building = "";
 var version = "1.0.17a";
 var newVersion = "";
 var shownPanel = 0;//0 = main table, 1 = repairEdit, 2 = repairForm, 3 = loanerForm, 4 = repair warning, 5 = updating
+
+var emButtonModal;
 $(document).ready(function () {
 	loadConfiguration();
 	$("#searchInput").select();
@@ -38,6 +40,7 @@ $(document).ready(function () {
 	$('#serialForm').on('keyup', upperSerial);
 	$('#iPadSN').on('keyup', upperSerial);
 	addWorkToast = new bootstrap.Toast($('#addWorkToast'));
+	emButtonModal = new bootstrap.Modal($('#emButtonModal'));
 	initFilterPopover();
 });
 var copyComputerModal;
@@ -95,7 +98,9 @@ window.api.receive("fromMainRemoteVersion", (data) => {
 		$("#versionLabel").addClass("text-muted");
 	}
 });
+var numberWaits;
 function startLoadingSaving(message) {
+	numberWaits = 0;
 	$("#saveText").text(message);
 	$("#waitReason").text("");
 	$("#savingDisplay").css("color", "black");
@@ -106,6 +111,7 @@ function startLoadingSaving(message) {
 	$("#pokeImage").removeClass('shakers');
 	$(".starImage").css("visibility", "shown");
 	$("#pokeStars").hide();
+	$("#savingDisplay").removeClass("versionClickable");
 	stopShaking = false;
 	blockProgress = true;
 }
@@ -120,6 +126,28 @@ function doneLoadingSaving() {
 		backToMain();
 	}
 }
+function tryOverride() {
+	if (numberWaits >= 30) {//we are ready to try
+		emButtonModal.show();
+	}
+}
+function overrideSafe() {
+	var audio = new Audio('emSound.mp3');
+	audio.play();
+	window.api.send("toMain", "override");
+	emButtonModal.hide();
+}
+window.api.receive("fromMainWaiting", (data) => {
+	numberWaits += 2;
+	$("#waitReason").text("(" + data + "), " + numberWaits + "s");
+	if (numberWaits >= 30) {
+		$("#savingDisplay").css("color", "#cc0000");
+		$("#savingDisplay").addClass("versionClickable");
+	}
+	else {
+		$("#savingDisplay").css("color", "#cccc00");
+	}
+});
 function keyDownHandler(event) {
 	if (event.key == 'Escape' && !blockProgress && shownPanel < 4)//hacky but works?, does not allow esc when showing the warning and updating
 	{
@@ -301,10 +329,6 @@ function loadConfiguration() {
 	// Send a message to the main process
 	window.api.send("toMain", "configPls");
 }
-window.api.receive("fromMainWaiting", (data) => {
-	$("#waitReason").text("(" + data + ")");
-	$("#savingDisplay").css("color", "#cccc00");
-});
 window.api.receive("fromMainDisconnected", (data) => {
 	if (shownPanel < 4) {
 		$("#container").hide();
