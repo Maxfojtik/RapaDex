@@ -4,6 +4,7 @@ const { spawn } = require('child_process');
 const path = require("path");
 const fs = require("fs");
 const crypto = require("crypto");
+const os = require("os");
 var win;
 
 var remotePath = "K:/BF/PRSM/TechHub/RepaDex";
@@ -23,7 +24,8 @@ var versionFile = "";
 var saving = false;
 var goodToSave = false;
 var doneSaving = true;
-const id = crypto.randomBytes(16).toString("hex");
+const id = os.hostname() + "-" + os.userInfo().username + "-" + crypto.randomBytes(1).toString("hex");
+// console.log(id);
 
 var repairJSON;
 var savingTimer;
@@ -62,7 +64,7 @@ function lockFile() {
 				}
 				if (txt != "") {
 					if (id != txt) {
-						sendBack("fromMainWaiting", "");
+						sendBack("fromMainWaiting", txt);
 						console.log("waiting on lock");
 						goodToSave = false;
 						setTimeout(lockFile, 2000);

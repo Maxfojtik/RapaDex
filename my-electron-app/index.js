@@ -1,7 +1,7 @@
 var blockProgress = false;
 var stopShaking = false;
 var building = "";
-var version = "1.0.17";
+var version = "1.0.17a";
 var newVersion = "";
 var shownPanel = 0;//0 = main table, 1 = repairEdit, 2 = repairForm, 3 = loanerForm, 4 = repair warning, 5 = updating
 $(document).ready(function () {
@@ -97,6 +97,7 @@ window.api.receive("fromMainRemoteVersion", (data) => {
 });
 function startLoadingSaving(message) {
 	$("#saveText").text(message);
+	$("#waitReason").text("");
 	$("#savingDisplay").css("color", "black");
 	//$("#saveSpinner").css("visibility", "visible");
 	$("#savingDisplay").css("display", "flex").hide().fadeIn();
@@ -110,6 +111,7 @@ function startLoadingSaving(message) {
 }
 function doneLoadingSaving() {
 	$("#savingDisplay").css("color", "black");
+	$("#waitReason").text("");
 	//$("#saveSpinner").css("visibility", "hidden");
 	blockProgress = false;
 	stopShaking = true;
@@ -300,6 +302,7 @@ function loadConfiguration() {
 	window.api.send("toMain", "configPls");
 }
 window.api.receive("fromMainWaiting", (data) => {
+	$("#waitReason").text("(" + data + ")");
 	$("#savingDisplay").css("color", "#cccc00");
 });
 window.api.receive("fromMainDisconnected", (data) => {
