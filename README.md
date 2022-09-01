@@ -1,7 +1,7 @@
   While working at TechHub I noticed frustrations happening with Microsoft Access. They were using it as a database for their repair system. Every single repair that they have ever done was in that system. It had no server, just files on a network drive and forms that edited those files. I wanted to do something better, so I designed RepaDex. 
 
-  We all love PokeMon and this software is never going to be sold. So a name I thought we could all have a lot of fun with is RepaDex. Rep for repair, and Dex from PokeDex. 
+  We all love Pokemon and this software is never going to be sold. So a name I thought we could all have a lot of fun with is RepaDex. Repa for repair, and Dex from PokeDex. 
   
   I asked around and I realized that there is not going to be a way to get access to any sort of server, nor put up my own on the lan, so I had to keep using the idea of using a file on a network drive as my "database." However I'm now using this data more effectively. Instead of trying to display all the data at once, it only displays 100 at a time. The data is easy to work with as long as you dont try to create 1000's of rows in a table like access was doing. I also make it easier to input new repairs into the system, now instead of typing everything, there is buttons and dropdowns. Other new features over our old system was log files: they are attached to the repairs so you can see exactly how the repair got to the state it is in, proper work events: now instead of typing everything into one big text box, you now add events that happen to the repair, cleaning clutter and making the program look nicer.
 
-  Everything was written in HTML, CSS and Javscript. These were then loaded into an electron app. 
+  Everything was written in HTML, CSS and Javscript. All of these files were then loaded into an electron app. 
