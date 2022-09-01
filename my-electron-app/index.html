@@ -949,19 +949,19 @@
 		<div class="modal-dialog modal-lg modal-dialog-scrollable">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">EMERGENCY!!! IT BROKE!!!</h5>
+					<h5 class="modal-title">EMERGENCY!!! It broke :(</h5>
 					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 				</div>
 				<div class="modal-body">
-					<p>I see Repadex seems to be broken, you can click the Emergency Button below if you would like to
-						override the safe guards of the system, if you decide to do this ONLY ONE PERSON should click
-						this button and it will resolve the problem - Thanks, Max</p>
+					<p>Please read all, even if you have read it before: I see Repadex seems to be broken, you can click
+						the Emergency Button below if you would like to override the safe guards of the system, if you
+						decide to do this, first you have to make sure who/whatever is listed in the top right has the
+						program closed forcefully (it has the lock and isnt releasing it so we gotta close it in order
+						to make sure it doesnt change the database without having a lock), IF YOU SKIP THIS STEP THERE
+						IS A CHANCE OF DATABASE CORRUPTION (DONT SKIP IT). Once the offending program is closed you can
+						click the Emergency Button and it will resolve the problem - Thanks, Max</p>
 					<div style="text-align: center;"><img class="versionClickable" src="embUTTON.png"
 							onclick="overrideSafe()"></div>
-				</div>
-				<div class="modal-footer">
-					<button id="loanerWarningOkayButton" type="button" class="btn btn-primary"
-						data-bs-dismiss="modal">Okay</button>
 				</div>
 			</div>
 		</div>
