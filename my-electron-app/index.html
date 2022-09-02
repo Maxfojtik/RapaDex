@@ -960,8 +960,13 @@
 						to make sure it doesnt change the database without having a lock), IF YOU SKIP THIS STEP THERE
 						IS A CHANCE OF DATABASE CORRUPTION (DONT SKIP IT). Once the offending program is closed you can
 						click the Emergency Button and it will resolve the problem - Thanks, Max</p>
-					<div style="text-align: center;"><img class="versionClickable" src="embUTTON.png"
-							onclick="overrideSafe()"></div>
+					<div style="text-align: center;">
+						<map name="workmap">
+							<area shape="circle" coords="250,200,50" alt="The Button" href="javascript:void(0)"
+								onclick="overrideSafe()">
+						</map>
+						<img src="embUTTON.png" width="500" height="500" usemap="#workmap">
+					</div>
 				</div>
 			</div>
 		</div>
