@@ -1,7 +1,7 @@
 var blockProgress = false;
 var stopShaking = false;
 var building = "";
-var version = "1.0.17a";
+var version = "1.0.17b";
 var newVersion = "";
 var shownPanel = 0;//0 = main table, 1 = repairEdit, 2 = repairForm, 3 = loanerForm, 4 = repair warning, 5 = updating
 
@@ -11,6 +11,7 @@ $(document).ready(function () {
 	$("#searchInput").select();
 	document.addEventListener('keydown', keyDownHandler);
 	setTimeout(initPopovers, 500);
+	setInterval(changeReception, 200)
 	checkVersion();
 	setInterval(checkVersion, 60 * 1000);//every minute
 	$("#versionLabel").text("v" + version);
@@ -329,16 +330,30 @@ function loadConfiguration() {
 	// Send a message to the main process
 	window.api.send("toMain", "configPls");
 }
+var connectionState = 0;//-1 = disconnected, 0 = connecting, 1 = connected
+var receptionNumber = 0;
+function changeReception() {
+	$(".reception").hide();
+	receptionNumber++;
+	$("#reception-" + receptionNumber).show();
+	if (receptionNumber == 5) {
+		receptionNumber = 0;
+	}
+}
 window.api.receive("fromMainDisconnected", (data) => {
 	if (shownPanel < 4) {
 		$("#container").hide();
+		$("#connectingMessage").hide();
 		$("#disconnectedMessage").fadeIn();
+		connectionState = -1;
 	}
 });
 window.api.receive("fromMainConnected", (data) => {
 	$("#disconnectedMessage").hide();
 	if (shownPanel < 4) {
 		$("#container").show();
+		$("#connectingMessage").hide();
+		connectionState = 1;
 	}
 	else {
 		//$("#container").show();

@@ -150,3 +150,6 @@ ChangeLog:
 1.0.17a:
 	cleared up id generation and added blame
 	make it you can override the safety systems
+1.0.17b:
+	changed literature of the emergency button, also made the button a button
+	added a loading screen when trying to copy configuration

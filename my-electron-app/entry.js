@@ -47,12 +47,13 @@ function lockFile() {
 			try {
 				fs.closeSync(fs.openSync(lockedPath, 'w'));//create it
 			} catch (e) {
-				sendBack("fromMainDisconnected", "");
+				// sendBack("fromMainDisconnected", "");
 				setTimeout(lockFile, 2000);//try again in 2
 				console.log(e);
 				return;
 			}
 		}
+		// console.log("fromMainConnected");
 		sendBack("fromMainConnected", "");
 		//file exists now
 		if (saving) {
@@ -231,22 +232,23 @@ function incRefNum() {
 }
 var errorWin;
 function displayError(errorText) {
-	if (!errorWin) {
-		errorWin = new BrowserWindow(
-			{
-				minWidth: 1220,
-				width: 1600,
-				height: 900,
-				autoHideMenuBar: true,
-				icon: __dirname + '/RepaDexFin.ico',
-				webPreferences: {
-					nodeIntegration: false, // is default value after Electron v5
-					contextIsolation: true, // protect against prototype pollution
-					enableRemoteModule: false, // turn off remote
-				}
-			});
-		errorWin.loadFile("error.html");
-	}
+	sendBack("fromMainDisconnected", errorText);
+	// if (!errorWin) {
+	// 	errorWin = new BrowserWindow(
+	// 		{
+	// 			minWidth: 1220,
+	// 			width: 1600,
+	// 			height: 900,
+	// 			autoHideMenuBar: true,
+	// 			icon: __dirname + '/RepaDexFin.ico',
+	// 			webPreferences: {
+	// 				nodeIntegration: false, // is default value after Electron v5
+	// 				contextIsolation: true, // protect against prototype pollution
+	// 				enableRemoteModule: false, // turn off remote
+	// 			}
+	// 		});
+	// 	errorWin.loadFile("error.html");
+	// }
 	setTimeout(copyConfigAndStart, 1000);
 }
 function cancelError() {
@@ -255,8 +257,13 @@ function cancelError() {
 	}
 }
 function copyConfigAndStart() {
+	if (!win) {
+		createWindow();//create the window
+	}
 	fs.copyFile(configPath, configPathLocal, (err) => {
-		if (err) { displayError(); return; }//throw err};
+		if (err) {
+			displayError(); return;
+		}//throw err};
 		cancelError();
 		// console.log('File was copied to destination');
 		var txt = fs.readFileSync(configPathLocal, 'utf8');
@@ -458,6 +465,5 @@ function startup() {
 		// 	console.log('filename not provided');
 		// }
 	});
-	createWindow();
 	setTimeout(lockFile, 1000);//start the lockfile routine after copying
 }
