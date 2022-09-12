@@ -397,7 +397,7 @@ function search(wasEnter) {
 				maxRepairs = config["maxRowsAtOnce"];
 			}
 			var shownRepairs = showSimilarRepairs(caughtRepairsAndSubstitutions, 0, maxRepairs);
-			if (shownRepairs == 0) {
+			if (shownRepairs == 0 && wasEnter) {
 				$("#searchInput").select();
 			}
 			$("#similarResultsWarning").fadeIn();
@@ -409,7 +409,7 @@ function search(wasEnter) {
 				maxRepairs = config["maxRowsAtOnce"];
 			}
 			var shownRepairs = showRepairs(caughtRepairs, maxRepairs);//use the normal function when showing with no variance
-			if (shownRepairs == 0) {
+			if (shownRepairs == 0 && wasEnter) {
 				$("#searchInput").select();
 			}
 			$("#similarResultsWarning").fadeOut();
