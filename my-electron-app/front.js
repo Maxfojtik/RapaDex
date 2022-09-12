@@ -123,6 +123,7 @@ function sameDay(d1, d2) {
 		d1.getDate() === d2.getDate();
 }
 function showRepairs(repairsIn, length) {
+	var amount = 0;
 	var enableStartDateFilter = changedStatuses["Date Start"];
 	var enableEndDateFilter = changedStatuses["Date End"];
 	// console.log(start+":"+Object.keys(repairsIn).length+":"+length);
@@ -186,11 +187,13 @@ function showRepairs(repairsIn, length) {
 			row += "<td>" + dateText + "</td>";
 			row += "<td>" + repair.status + "</td>";
 			$("#dtBody").append(row);
+			amount++;
 			if (topRepair == undefined) {
 				topRepair = repair;
 			}
 		}
 	}
+	return amount;
 }
 function generateSerialHTML(og, subsitutions) {
 	var toReturn = "";
@@ -207,7 +210,7 @@ function generateSerialHTML(og, subsitutions) {
 	return toReturn;
 }
 function showSimilarRepairs(caughtRepairsAndSubstitutions, start, length) {
-	// console.log("showSimilar");
+	var amount = 0;
 	simple = false;
 	repairsToReDraw = caughtRepairsAndSubstitutions;
 	startOfReDraw = start;
@@ -238,8 +241,10 @@ function showSimilarRepairs(caughtRepairsAndSubstitutions, start, length) {
 		row += "<td>" + dateText + "</td>";
 		row += "<td>" + repair.status + "</td>";
 		$("#dtBody").prepend(row);
+		amount++;
 	}
 	// console.log(amount);
+	return amount;
 }
 var lastSearchFor = "";
 var topRepair = undefined;
@@ -388,10 +393,10 @@ function search(wasEnter) {
 				//tooMany = true;
 				maxRepairs = config["maxRowsAtOnce"];
 			}
-			if (maxRepairs == 0) {
+			var shownRepairs = showSimilarRepairs(caughtRepairsAndSubstitutions, 0, maxRepairs);
+			if (shownRepairs == 0) {
 				$("#searchInput").select();
 			}
-			showSimilarRepairs(caughtRepairsAndSubstitutions, 0, maxRepairs);
 			$("#similarResultsWarning").fadeIn();
 		}
 		else {
@@ -400,10 +405,10 @@ function search(wasEnter) {
 				tooMany = true;
 				maxRepairs = config["maxRowsAtOnce"];
 			}
-			if (maxRepairs == 0) {
+			var shownRepairs = showRepairs(caughtRepairs, maxRepairs);//use the normal function when showing with no variance
+			if (shownRepairs == 0) {
 				$("#searchInput").select();
 			}
-			showRepairs(caughtRepairs, maxRepairs);//use the normal function when showing with no variance
 			$("#similarResultsWarning").fadeOut();
 		}
 		if (tooMany) {
