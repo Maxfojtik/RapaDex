@@ -224,6 +224,9 @@ function showSimilarRepairs(caughtRepairsAndSubstitutions, start, length) {
 			continue;
 		}
 		var repair = caughtRepairsAndSubstitutions["caughtRepairs"][i];
+		if (!repair) {
+			continue;
+		}
 		var thisStatus = repair.status;
 		if (thisStatus.includes("Picked up")) {
 			thisStatus = "Picked Up";
