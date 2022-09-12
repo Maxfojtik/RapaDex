@@ -153,3 +153,5 @@ ChangeLog:
 1.0.17b:
 	changed literature of the emergency button, also made the button a button
 	added a loading screen when trying to copy configuration
+1.0.17c:
+	added steph's request

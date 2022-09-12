@@ -207,6 +207,7 @@ function generateSerialHTML(og, subsitutions) {
 	return toReturn;
 }
 function showSimilarRepairs(caughtRepairsAndSubstitutions, start, length) {
+	// console.log("showSimilar");
 	simple = false;
 	repairsToReDraw = caughtRepairsAndSubstitutions;
 	startOfReDraw = start;
@@ -238,6 +239,7 @@ function showSimilarRepairs(caughtRepairsAndSubstitutions, start, length) {
 		row += "<td>" + repair.status + "</td>";
 		$("#dtBody").prepend(row);
 	}
+	// console.log(amount);
 }
 var lastSearchFor = "";
 var topRepair = undefined;
@@ -386,6 +388,9 @@ function search(wasEnter) {
 				//tooMany = true;
 				maxRepairs = config["maxRowsAtOnce"];
 			}
+			if (maxRepairs == 0) {
+				$("#searchInput").select();
+			}
 			showSimilarRepairs(caughtRepairsAndSubstitutions, 0, maxRepairs);
 			$("#similarResultsWarning").fadeIn();
 		}
@@ -394,6 +399,9 @@ function search(wasEnter) {
 			if (maxRepairs > config["maxRowsAtOnce"]) {
 				tooMany = true;
 				maxRepairs = config["maxRowsAtOnce"];
+			}
+			if (maxRepairs == 0) {
+				$("#searchInput").select();
 			}
 			showRepairs(caughtRepairs, maxRepairs);//use the normal function when showing with no variance
 			$("#similarResultsWarning").fadeOut();

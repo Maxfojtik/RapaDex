@@ -665,6 +665,12 @@ function logOut() {
 	$("#issueLoanerButton").prop('disabled', true);
 	$("#checkInLoanerButton").prop('disabled', true);
 }
+function moveToLoanerForm() {
+	$("#loanerForm").fadeIn();
+	$("#repairEdit").hide();
+	shownPanel = 3;
+}
+
 function clearLoaner() {
 	$("#assetTagForm").val("");
 }
