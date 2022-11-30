@@ -295,8 +295,8 @@ function selectLoginPill(name) {
 	$("#addWorkButton").removeClass("btn-secondary");
 	$("#addWorkButton").addClass("btn-success");
 	$("#loggedInAsLabel").text("Logged in as: " + name);
-	$("#issueLoanerButton").prop('disabled', false);
-	$("#checkInLoanerButton").prop('disabled', false);
+	// $("#issueLoanerButton").prop('disabled', false);
+	// $("#checkInLoanerButton").prop('disabled', false);
 	loginToast.hide();
 }
 function showLoginToast() {
@@ -662,8 +662,8 @@ function logOut() {
 	$("#addWorkButton").addClass("btn-secondary");
 	$("#addWorkButton").removeClass("btn-success");
 	$("#loggedInAsLabel").text("");
-	$("#issueLoanerButton").prop('disabled', true);
-	$("#checkInLoanerButton").prop('disabled', true);
+	// $("#issueLoanerButton").prop('disabled', true);
+	// $("#checkInLoanerButton").prop('disabled', true);
 }
 function moveToLoanerForm() {
 	$("#loanerForm").fadeIn();

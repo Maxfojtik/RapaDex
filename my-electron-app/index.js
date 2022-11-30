@@ -1,7 +1,7 @@
 var blockProgress = false;
 var stopShaking = false;
 var building = "";
-var version = "1.0.17c";
+var version = "1.0.17d";
 var newVersion = "";
 var shownPanel = 0;//0 = main table, 1 = repairEdit, 2 = repairForm, 3 = loanerForm, 4 = repair warning, 5 = updating
 
@@ -244,6 +244,164 @@ function getOutlinedPill(name, id, functionSelect) {
 	var classes = 'badge rounded-pill badge-not-selected text-dark';
 	return "<span id=\"" + id + "\" employee=\"" + name + "\" style=\"" + styling + "\" class=\"" + classes + "\" onclick=\"" + functionSelect + "\">" + config.employees[name]["name"] + "</span>";
 }
+function exportDatabase() {
+	JSONToCSVConvertor(backendData["repairs"], "RepaDexDatabase")
+}
+//code from https://stackoverflow.com/questions/28892885/javascript-json-to-excel-file-download
+function JSONToCSVConvertor(JSONData, fileName) {
+	var CSV = '';
+
+	var row = "Reference Number, Name, Email, Serial Number, Phone, Warranty, Make, Model, Problem, Intake Notes, Start Date, Who Created Repair, Purchase Date, Accessories, Date Picked Up, Who Picked Up, Line Color, Current Status, iPadSN, Created Repair Form, Diagnosed, Submitted Claim, Submitted RFA, Ordered Parts, Sent Out, Parts Arrived, Waiting on DEP, Finished, Attached File, Notes";
+
+
+	//append Label row with line break
+	CSV += row + '\r\n';
+	console.log(JSONData);
+	for (var refNum in JSONData) {
+		var repair = JSONData[refNum];
+		var row = refNum + ",";
+		row += repair["name"].replaceAll(",", "") + ",";
+		row += repair["email"].replaceAll(",", "") + ',';
+		row += repair["serial"].replaceAll(",", "") + ',';
+		row += repair["phone"].replaceAll(",", "") + ',';
+		row += repair["warranty"].replaceAll(",", "") + ',';
+		row += repair["make"].replaceAll(",", "") + ',';
+		row += repair["model"].replaceAll(",", "") + ',';
+		row += repair["problem"].replaceAll(",", "") + ',';
+		row += repair["intakeNotes"].replaceAll(",", "") + ',';
+		row += repair["startDate"].replaceAll(",", "") + ',';
+		row += repair["workCompleted"][0]["who"].replaceAll(",", "") + ',';
+		row += repair["purchaseDate"].replaceAll(",", "") + ',';
+		row += repair["acc"].replaceAll(",", "") + ',';
+		if (repair["datePicked"]) {
+			row += repair["datePicked"]["when"].replaceAll(",", "") + ',';
+			row += repair["datePicked"]["who"].replaceAll(",", "") + ',';
+		}
+		else {
+			row += ",,";
+		}
+		row += repair["color"].replaceAll(",", "") + ',';
+		row += repair["status"].replaceAll(",", "") + ',';
+		row += repair["iPadSN"].replaceAll(",", "") + ',';
+
+		var workCompleted = repair["workCompleted"];
+		var createdRepairForm = '';
+		var diagnosed = '';
+		var submittedClaim = '';
+		var submittedRFA = '';
+		var orderedParts = '';
+		var sentOut = '';
+		var partsArrived = '';
+		var waitingOnDEP = '';
+		var finished = '';
+		var attachedFile = '';
+		var notes = '';
+		for (var i in workCompleted) {
+			var work = workCompleted[i];
+			if (work["what"] == "Created Repair Form") {
+				if (createdRepairForm != '') {
+					createdRepairForm += ";";
+				}
+				createdRepairForm += work["who"] + " " + work["when"] + " " + work["note"] + " ";
+			}
+			if (work["what"] == "Diagnosed") {
+				if (diagnosed != '') {
+					diagnosed += ";";
+				}
+				diagnosed += work["who"] + " " + work["when"] + " " + work["note"] + " ";
+			}
+			if (work["what"] == "Submitted Claim") {
+				if (submittedClaim != '') {
+					submittedClaim += ";";
+				}
+				submittedClaim += work["who"] + " " + work["when"] + " " + work["note"] + " ";
+			}
+			if (work["what"] == "Submitted RFA") {
+				if (submittedRFA != '') {
+					submittedRFA += ";";
+				}
+				submittedRFA += work["who"] + " " + work["when"] + " " + work["note"] + " ";
+			}
+			if (work["what"] == "Ordered Parts") {
+				if (orderedParts != '') {
+					orderedParts += ";";
+				}
+				orderedParts += work["who"] + " " + work["when"] + " " + work["note"] + " ";
+			}
+			if (work["what"] == "Sent Out") {
+				if (sentOut != '') {
+					sentOut += ";";
+				}
+				sentOut += work["who"] + " " + work["when"] + " " + work["note"] + " ";
+			}
+			if (work["what"] == "Parts Arrived") {
+				if (partsArrived != '') {
+					partsArrived += ";";
+				}
+				partsArrived += work["who"] + " " + work["when"] + " " + work["note"] + " ";
+			}
+			if (work["what"] == "Waiting on DEP") {
+				if (waitingOnDEP != '') {
+					waitingOnDEP += ";";
+				}
+				waitingOnDEP += work["who"] + " " + work["when"] + " " + work["note"] + " ";
+			}
+			if (work["what"] == "Finished") {
+				if (finished != '') {
+					finished += ";";
+				}
+				finished += work["who"] + " " + work["when"] + " " + work["note"] + " ";
+			}
+			if (work["what"] == "Attached File") {
+				if (attachedFile != '') {
+					attachedFile += ";";
+				}
+				attachedFile += work["who"] + " " + work["when"] + " " + work["note"] + " ";
+			}
+			if (work["what"] == "Note") {
+				if (notes != '') {
+					notes += ";";
+				}
+				notes += work["who"] + " " + work["when"] + " " + work["note"] + " ";
+			}
+		}
+		row = row + createdRepairForm.replaceAll(",", "") + ",";
+		row = row + diagnosed.replaceAll(",", "") + ",";
+		row = row + submittedClaim.replaceAll(",", "") + ",";
+		row = row + submittedRFA.replaceAll(",", "") + ",";
+		row = row + orderedParts.replaceAll(",", "") + ",";
+		row = row + sentOut.replaceAll(",", "") + ",";
+		row = row + partsArrived.replaceAll(",", "") + ",";
+		row = row + waitingOnDEP.replaceAll(",", "") + ",";
+		row = row + finished.replaceAll(",", "") + ",";
+		row = row + attachedFile.replaceAll(",", "") + ",";
+		row = row + notes.replaceAll(",", "") + ",";
+
+
+		CSV += row + '\r\n';
+	}
+
+	//Initialize file format you want csv or xls
+	var uri = 'data:text/csv;charset=utf-8,' + escape(CSV);
+
+	// Now the little tricky part.
+	// you can use either>> window.open(uri);
+	// but this will not work in some browsers
+	// or you will not get the correct file extension    
+
+	//this trick will generate a temp <a /> tag
+	var link = document.createElement("a");
+	link.href = uri;
+
+	//set the visibility hidden so it will not effect on your web-layout
+	link.style = "visibility:hidden";
+	link.download = fileName + ".csv";
+
+	//this part will append the anchor tag and remove it after automatic click
+	document.body.appendChild(link);
+	link.click();
+	document.body.removeChild(link);
+}
 function loadConfiguration() {
 	// Called when message received from main process
 	window.api.receive("fromMainConfig", (data) => {
@@ -286,9 +444,11 @@ function loadConfiguration() {
 				$(".workerSelect").append(
 					getOutlinedPill(employee, "selectEmployee" + employee, "selectPill('" + employee + "')")
 				);
-				$("#loanerWorkerSelector").append(
-					getOutlinedPill(employee, "selectLoanerEmployee" + employee, "selectLoanerPill('" + employee + "')")
-				);
+				if (config.employees[employee].manager || config.employees[employee].repairTeam) {
+					$("#loanerWorkerSelector").append(
+						getOutlinedPill(employee, "selectLoanerEmployee" + employee, "selectLoanerPill('" + employee + "')")
+					);
+				}
 				if (config.employees[employee].repairTeam) {
 					/*var pillStyle = 'background-color: '+config.employees[employee].color+'; '+'border-color: '+config.employees[employee].color+';';
 					var pillClasses = '';
@@ -306,6 +466,7 @@ function loadConfiguration() {
 				}
 			}
 			$("#workerSelector").css("font-size", config["workerSelectorFontSize"]);
+			$("#loanerWorkerSelector").css("font-size", config["workerSelectorFontSize"]);
 			building += "</div>";
 			buildingLogin += "</h5>";
 			$('#saveWorkAsButton').attr("data-bs-content", building);

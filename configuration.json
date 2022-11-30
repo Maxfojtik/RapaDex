@@ -135,21 +135,24 @@
 			"black-text": false,
 			"abr": "to",
 			"active": true,
-			"name": "Todd"
+			"name": "Todd",
+			"manager": true
 		},
 		"markiewicz.11": {
 			"color": "#ff87ff",
 			"black-text": true,
 			"abr": "da",
 			"active": true,
-			"name": "Dave"
+			"name": "Dave",
+			"manager": true
 		},
 		"saffle.9": {
 			"color": "#8e00b5",
 			"black-text": false,
 			"abr": "co",
 			"active": true,
-			"name": "Cory"
+			"name": "Cory",
+			"manager": true
 		},
 		"degitz.3": {
 			"color": "ffa1ca",
@@ -157,7 +160,8 @@
 			"repairTeam": true,
 			"abr": "ch",
 			"active": true,
-			"name": "Chloe"
+			"name": "Chloe",
+			"manager": true
 		},
 		"fojtik.6": {
 			"color": "#00eaff",

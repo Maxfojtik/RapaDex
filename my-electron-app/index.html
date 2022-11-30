@@ -275,13 +275,21 @@
 						<h5 class="d-inline-flex header-inline text-muted">Loaner Computer</h5>
 					</div>
 					<div class="col-4">
-						<button id="checkInLoanerButton" style="display:none;" type="button"
+						<!--<button id="checkInLoanerButton" style="display:none;" type="button"
 							class="btn btn-success repairEditButton" onclick="checkInLoaner()" disabled>Check
 							In</button>
-						<!--moveToLoanerForm()-->
+						moveToLoanerForm()
 						<button id="issueLoanerButton" type="button" onclick="clearLoaner();"
 							class="btn btn-danger repairEditButton" data-bs-toggle="modal" data-bs-target="#loanerModal"
 							disabled>Issue
+							Loaner</button>-->
+						<button id="checkInLoanerButton" style="display:none;" type="button"
+							class="btn btn-success repairEditButton" onclick="checkInLoaner()">Check
+							In</button>
+						<!--moveToLoanerForm()-->
+						<button id="issueLoanerButton" type="button" onclick="moveToLoanerForm(); clearLoaner();"
+							class="btn btn-danger repairEditButton" data-bs-toggle="modal"
+							data-bs-target="#loanerModals">Issue
 							Loaner</button>
 					</div>
 					<div class="col-2 iPadSerialNumberLabels" style="display:none;">
@@ -1082,6 +1090,8 @@
 						<h4 style="padding-left: 50px;"><a href="javascript:void(0)"
 								onclick='window.api.send("toMain", "openK:/BF/PRSM/TechHub/RepaDex/configuration.json");'>Open
 								Configuration</a></h4>
+						<h4 style="padding-left: 50px;"><a href="javascript:void(0)" onclick='exportDatabase()'>Export
+								Database</a></h4>
 					</div>
 				</div>
 			</div>
